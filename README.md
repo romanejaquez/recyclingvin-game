@@ -1,16 +1,7 @@
-# recyclingvin_web
+# Recycling Vin
 
-A new Flutter project.
+### (Global Gamers Challenge Submission)
 
-## Getting Started
+Recycling Vin is an action-packed mobile game that transforms players into eco-friendly warriors alongside the spirited kid-hero, Vin. Armed with a green thumb and a passion for sustainability, Vin takes on the nefarious 'frackingsteins,' monstrous foes threatening the environment with their pollution. Join Vin in a thrilling adventure as you battle these villains, solve eco-friendly puzzles, and make impactful choices to save the planet. With each victory, players learn about the importance of recycling, renewable energy, and conservation, turning Recycling Vin into not just a game, but a fun-filled journey towards a greener, more sustainable future!
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Recycling Vin](recyclingvin_banner.png)

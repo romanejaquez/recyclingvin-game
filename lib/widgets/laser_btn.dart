@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
 class LaserBtn extends StatefulWidget {
-  const LaserBtn({super.key});
+
+  final Function onTrigger;
+
+  const LaserBtn({
+    required this.onTrigger,
+    super.key
+  });
 
   @override
   State<LaserBtn> createState() => _LaserBtnState();
@@ -32,10 +39,21 @@ class _LaserBtnState extends State<LaserBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200,
-      height: 200,
-      child: anim
+    return GestureDetector(
+      onTap: () {
+        widget.onTrigger(VinShootingOptions.shoot);
+      },
+      onTapDown:(details) {
+        widget.onTrigger(VinShootingOptions.multishoot);
+      },
+      onTapUp: (details) {
+        widget.onTrigger(VinShootingOptions.release);
+      },
+      child: SizedBox(
+        width: 200,
+        height: 200,
+        child: anim
+      ),
     );
   }
 }

@@ -15,4 +15,13 @@ enum VinAnimationOptions {
   stand,
   walk,
   shoot,
+  shootmultiple,
+  release,
+}
+
+enum VinShootingOptions {
+  none,
+  release,
+  shoot,
+  multishoot,
 }

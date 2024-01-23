@@ -20,6 +20,7 @@ class _LaserBtnState extends State<LaserBtn> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
+  bool isLongPress = false;
 
   @override
   void initState() {
@@ -43,10 +44,12 @@ class _LaserBtnState extends State<LaserBtn> {
       onTap: () {
         widget.onTrigger(VinShootingOptions.shoot);
       },
-      onTapDown:(details) {
+      onLongPressDown:(details) {
+        isLongPress = true;
         widget.onTrigger(VinShootingOptions.multishoot);
       },
-      onTapUp: (details) {
+      onLongPressUp: () {
+        isLongPress = false;
         widget.onTrigger(VinShootingOptions.release);
       },
       child: SizedBox(

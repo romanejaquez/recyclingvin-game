@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
@@ -52,10 +53,16 @@ class _LaserBtnState extends State<LaserBtn> {
         isLongPress = false;
         widget.onTrigger(VinShootingOptions.release);
       },
-      child: SizedBox(
-        width: 200,
-        height: 200,
-        child: anim
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 150,
+            height: 150,
+            child: anim
+          ),
+          RecyclingVinStyles.smallGap,
+        ],
       ),
     );
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
-import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/widgets/game_assets_anim.dart';
 
 class SideTreesAnimation extends StatefulWidget {
@@ -13,6 +11,9 @@ class SideTreesAnimation extends StatefulWidget {
 }
 
 class _SideTreesAnimationState extends State<SideTreesAnimation> {
+
+  double treeDim = 200;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,8 +29,8 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
             },
           )
           .slide(
-            begin: Offset(0.25, (MediaQuery.sizeOf(context).height / 200)),
-            end: const Offset(0.25, -1),
+            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim)),
+            end: const Offset(-0.125, -1),
             duration: 5.seconds,
           ),
       
@@ -40,15 +41,15 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
             },
           )
           .slide(
-            begin: Offset(0.25, (MediaQuery.sizeOf(context).height / 200)),
-            end: const Offset(0.25, -1),
+            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim)),
+            end: const Offset(-0.125, -1),
             duration: 5.seconds,
           ),
       
           // right side
       
           Positioned(
-            right: 0,
+            right: -0.005,
             top: 0,
             child: const GameAssets(asset: GameAssetOptions.tree).animate(
               delay: 2.seconds,
@@ -57,8 +58,8 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
               },
             )
             .slide(
-              begin: Offset(-0.25, (MediaQuery.sizeOf(context).height / 200)),
-              end: const Offset(-0.25, -1),
+              begin: Offset(-0.005, (MediaQuery.sizeOf(context).height / treeDim)),
+              end: const Offset(-0.005, -1),
               duration: 5.seconds,
             ),
           )

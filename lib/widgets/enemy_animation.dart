@@ -14,6 +14,7 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
+  double enemyDim = 280;
 
   @override
   void initState() {
@@ -37,8 +38,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
       children: [
         SizedBox(
           child: SizedBox(
-            width: 350,
-            height: 350,
+            width: enemyDim,
+            height: enemyDim,
             child: anim,
           ).animate(
             delay: 2.5.seconds,
@@ -66,8 +67,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
 
         SizedBox(
           child: SizedBox(
-            width: 350,
-            height: 350,
+            width: enemyDim,
+            height: enemyDim,
             child: anim,
           ).animate(
             delay: 3.5.seconds,
@@ -76,7 +77,7 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(2.5, (MediaQuery.sizeOf(context).height / 350)),
+            begin: Offset(2.5, (MediaQuery.sizeOf(context).height / enemyDim)),
             end: Offset(2.5, -1),
             duration: 5.seconds,
           ),
@@ -96,8 +97,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
 
         SizedBox(
           child: SizedBox(
-            width: 350,
-            height: 350,
+            width: enemyDim,
+            height: enemyDim,
             child: anim,
           ).animate(
             delay: 5.5.seconds,
@@ -106,7 +107,7 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(1.5, (MediaQuery.sizeOf(context).height / 350)),
+            begin: Offset(1.5, (MediaQuery.sizeOf(context).height / enemyDim)),
             end: Offset(1.5, -1),
             duration: 6.seconds,
           ),

@@ -20,13 +20,14 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
   Map<VinAnimationOptions, SMITrigger> poses = {};
   late VinArtboards vinArtboard;
   bool initialized = false;
+  double vinDim = 320;
 
   @override
   void initState() {
     super.initState();
 
-    vinArtboard = VinArtboards.vinbody;
-    //vinArtboard = VinArtboards.vinboxride;
+    //vinArtboard = VinArtboards.vinbody;
+    vinArtboard = VinArtboards.vinboxride;
 
     anim = RiveAnimation.direct(Utils.mainFile!,
       artboard: vinArtboard.name,
@@ -55,7 +56,7 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
 
     final laserTrigger = ref.watch(triggerLaserProvider);
 
-    if (initialized) {
+    if (initialized && vinArtboard == VinArtboards.vinbody) {
       if(laserTrigger == VinShootingOptions.shoot) {
         poses[VinAnimationOptions.shoot]!.fire();
       }
@@ -70,17 +71,10 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
       }
     }
 
-    return GestureDetector(
-      onTap: () {
-        if (vinArtboard == VinArtboards.vinbody) {
-          poses[VinAnimationOptions.shoot]!.fire();
-        }
-      },
-      child: SizedBox(
-        width: 350,
-        height: 350,
-        child: anim
-      ),
+    return SizedBox(
+      width: vinDim,
+      height: vinDim,
+      child: anim
     );
   }
 }

@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 
-class MoveSlider extends StatefulWidget {
+class MoveSlider extends ConsumerStatefulWidget {
   const MoveSlider({super.key});
 
   @override
-  State<MoveSlider> createState() => _MoveSliderState();
+  ConsumerState<MoveSlider> createState() => _MoveSliderState();
 }
 
-class _MoveSliderState extends State<MoveSlider> {
+class _MoveSliderState extends ConsumerState<MoveSlider> {
 
   double xValue = 0;
   double maxXValue = 140;
+  double greenBtnWidth = 100;
+
+  @override
+  void initState() {
+    super.initState();
+
+    xValue = (maxXValue / 2); // - (greenBtnWidth / 2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +57,13 @@ class _MoveSliderState extends State<MoveSlider> {
                         xValue -= details.delta.distance;
                       }
                     }
+
+                    ref.read(vinPositionProvider.notifier).state = (xValue * 4) + 280;
                   });
                 },
                 child: SvgPicture.asset('./assets/imgs/greenbottlecap.svg',
-                  width: 100, height: 100,
+                  width: greenBtnWidth, 
+                  height: greenBtnWidth,
                   fit: BoxFit.contain,
                 ),
               ),

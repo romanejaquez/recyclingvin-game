@@ -9,6 +9,7 @@ import 'package:recyclingvin_web/widgets/enemy_animation.dart';
 import 'package:recyclingvin_web/widgets/game_assets_anim.dart';
 import 'package:recyclingvin_web/widgets/ground_animation.dart';
 import 'package:recyclingvin_web/widgets/side_trees_animation.dart';
+import 'package:recyclingvin_web/widgets/top_counter_bar.dart';
 import 'package:recyclingvin_web/widgets/trash_animation.dart';
 import 'package:recyclingvin_web/widgets/vin_animation.dart';
 
@@ -24,8 +25,8 @@ class GamePage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF757575),
-                  Colors.black,
+                  Color(0xFF398F00),
+                  Color(0xFF193F00),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -45,44 +46,56 @@ class GamePage extends StatelessWidget {
 
           TrashAnimation(),
 
-          Center(
-            child: Stack(
-              children: [
-                Center(child: VinAnimation()),
-                Consumer(
-                  builder:(context, ref, child) {
-
-                    final shootLaser = ref.watch(triggerLaserProvider);
-
-                    return Center(
-                      key: ValueKey(shootLaser),
-                      child: Container(
-                        width: 15,
-                        height: 100,
-                        margin: EdgeInsets.only(top: 200, right: 55),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0xFFEFFF3B).withOpacity(0.75),
-                        ),
-                      ).animate()
-                      .slideY(
-                        begin: 0,
-                        end: 3,
-                        curve: Curves.linear,
-                        duration: 1.seconds,
-                      ),
-                    );
-                  }
-                )
-              ],
-            ),
+          Consumer(
+            builder: (context, ref, child) {
+              return Positioned(
+                top: MediaQuery.sizeOf(context).height / 3,
+                left: ref.watch(vinPositionProvider) ?? (MediaQuery.sizeOf(context).width / 2) - 160,
+                child: Stack(
+                  children: [
+                    Center(child: VinAnimation()),
+                    Consumer(
+                      builder:(context, ref, child) {
+                                
+                        final shootLaser = ref.watch(triggerLaserProvider);
+                                
+                        return Center(
+                          key: ValueKey(shootLaser),
+                          child: Container(
+                            width: 15,
+                            height: 100,
+                            margin: EdgeInsets.only(top: 200, right: 55),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Color(0xFFEFFF3B).withOpacity(0.75),
+                            ),
+                          ).animate()
+                          .slideY(
+                            begin: 0,
+                            end: 3,
+                            curve: Curves.linear,
+                            duration: 1.seconds,
+                          ),
+                        );
+                      }
+                    )
+                  ],
+                ),
+              );
+            }
           ),
 
           EnemyAnimation(),
 
           Align(
             alignment: Alignment.bottomCenter,
-            child: ControlBottomBar()),
+            child: ControlBottomBar()
+          ),
+
+          Align(
+            alignment: Alignment.topRight,
+            child: TopCounterBar(),
+          )
         ],
       ),
     );

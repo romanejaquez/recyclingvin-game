@@ -74,7 +74,22 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
     return SizedBox(
       width: vinDim,
       height: vinDim,
-      child: anim
+      child: Stack(
+        children: [
+          anim,
+          Center(
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(
+                top: 20, bottom: 40,
+                left: 20, right: 20,
+              ),
+              key: Utils.vin1,
+              color: Colors.transparent,
+            ),
+          )
+        ],
+      )
     );
   }
 }

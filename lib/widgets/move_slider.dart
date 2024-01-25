@@ -14,6 +14,7 @@ class MoveSlider extends ConsumerStatefulWidget {
 class _MoveSliderState extends ConsumerState<MoveSlider> {
 
   double xValue = 0;
+  double calcXValue = 0;
   double maxXValue = 140;
   double greenBtnWidth = 100;
 
@@ -58,7 +59,8 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
                       }
                     }
 
-                    ref.read(vinPositionProvider.notifier).state = (xValue * 4) + 280;
+                    calcXValue = xValue * 4;
+                    ref.read(vinPositionProvider.notifier).state = calcXValue + 260;
                   });
                 },
                 child: SvgPicture.asset('./assets/imgs/greenbottlecap.svg',

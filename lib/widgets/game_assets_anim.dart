@@ -5,8 +5,10 @@ import 'package:rive/rive.dart';
 
 class GameAssets extends StatefulWidget {
 
+  final GlobalKey uniqueKey;
   final GameAssetOptions asset;
   const GameAssets({
+    required this.uniqueKey,
     required this.asset,
     super.key
   });
@@ -39,10 +41,26 @@ class _GameAssetsState extends State<GameAssets> {
   Widget build(BuildContext context) {
 
     final dim = Utils.getDimensionFromAsset(widget.asset);
+
     return SizedBox(
+      
       width: dim.width,
       height: dim.height,
-      child: anim
+      child: Stack(
+        children: [
+          anim,
+          Center(
+            child: Container(
+              key: widget.uniqueKey,
+              alignment: Alignment.center,
+              width: dim.width / 2,
+              height: dim.height / 2,
+              margin: const EdgeInsets.only(bottom: 40),
+              color: Colors.transparent,
+            ),
+          )
+        ],
+      )
     );
   }
 }

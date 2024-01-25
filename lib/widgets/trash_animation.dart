@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/game_assets_anim.dart';
 
-class TrashAnimation extends StatefulWidget {
+class TrashAnimation extends ConsumerStatefulWidget {
   const TrashAnimation({super.key});
 
   @override
-  State<TrashAnimation> createState() => _TrashAnimationState();
+  ConsumerState<TrashAnimation> createState() => _TrashAnimationState();
 }
 
-class _TrashAnimationState extends State<TrashAnimation> {
+class _TrashAnimationState extends ConsumerState<TrashAnimation> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,20 +22,31 @@ class _TrashAnimationState extends State<TrashAnimation> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          const GameAssets(asset: GameAssetOptions.cardboardbox).animate(
-            delay: 3.seconds,
-            onComplete: (controller) {
-              controller.repeat();
-            },
-          )
-          .slide(
-            begin: Offset(1, (MediaQuery.sizeOf(context).height / 150)),
-            end: const Offset(1, -1),
-            duration: 3.5.seconds,
-          ),
+          GameAssets(
+            uniqueKey: Utils.cardboard,
+            asset: GameAssetOptions.cardboardbox)
+            .animate(
+              delay: 3.seconds,
+              onInit:(controller) {
+                Utils.controllerMap[Utils.cardboard] = controller;
+              },
+              onComplete: (controller) {
+                controller.repeat();
+              },
+            )
+            .slide(
+              begin: Offset(1, (MediaQuery.sizeOf(context).height / 150)),
+              end: const Offset(1, -1),
+              duration: 3.5.seconds,
+            ),
       
-          const GameAssets(asset: GameAssetOptions.sodacan).animate(
+          GameAssets(
+            uniqueKey: Utils.sodaCan,
+            asset: GameAssetOptions.sodacan).animate(
             delay: 4.seconds,
+            onInit:(controller) {
+              Utils.controllerMap[Utils.sodaCan] = controller;
+            },
             onComplete: (controller) {
               controller.repeat();
             },
@@ -48,8 +62,13 @@ class _TrashAnimationState extends State<TrashAnimation> {
           Positioned(
             right: 0,
             top: 0,
-            child: const GameAssets(asset: GameAssetOptions.waterbottle).animate(
+            child: GameAssets(
+              uniqueKey: Utils.waterBottle,
+              asset: GameAssetOptions.waterbottle).animate(
               delay: 2.seconds,
+              onInit:(controller) {
+                Utils.controllerMap[Utils.waterBottle] = controller;
+              },
               onComplete: (controller) {
                 controller.repeat();
               },

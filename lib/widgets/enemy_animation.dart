@@ -40,38 +40,26 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
           child: SizedBox(
             width: enemyDim,
             height: enemyDim,
-            child: anim,
-          ).animate(
-            delay: 2.5.seconds,
-            onComplete: (controller) {
-              controller.repeat();
-            },
-          )
-          .slide(
-            begin: Offset(2, (MediaQuery.sizeOf(context).height / 350)),
-            end: Offset(2, -1),
-            duration: 4.seconds,
-          ),
-        ).animate(
-          onComplete: (controller) {
-            controller.repeat(reverse: true);
-          },
-        )
-        .slide(
-          begin: Offset(0.25, 0),
-          end: Offset(-0.25, 0),
-          duration: 3.seconds,
-          curve: Curves.easeInOut,
-        ),
-
-
-        SizedBox(
-          child: SizedBox(
-            width: enemyDim,
-            height: enemyDim,
-            child: anim,
+            child: Stack(
+              children: [
+                anim,
+                Center(
+                  child: Container(
+                    key: Utils.enemy1,
+                    alignment: Alignment.center,
+                    width: enemyDim / 3,
+                    height: enemyDim / 3,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    color: Colors.transparent,
+                  ),
+                )
+              ],
+            )
           ).animate(
             delay: 3.5.seconds,
+            onInit:(controller) {
+              Utils.controllerMap[Utils.enemy1] = controller;
+            },
             onComplete: (controller) {
               controller.repeat();
             },
@@ -99,9 +87,26 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
           child: SizedBox(
             width: enemyDim,
             height: enemyDim,
-            child: anim,
+            child: Stack(
+              children: [
+                anim,
+                Center(
+                  child: Container(
+                    key: Utils.enemy2,
+                    alignment: Alignment.center,
+                    width: enemyDim / 3,
+                    height: enemyDim / 3,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    color: Colors.transparent,
+                  ),
+                )
+              ],
+            )
           ).animate(
             delay: 5.5.seconds,
+            onInit:(controller) {
+              Utils.controllerMap[Utils.enemy2] = controller;
+            },
             onComplete: (controller) {
               controller.repeat();
             },

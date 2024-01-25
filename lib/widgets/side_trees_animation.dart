@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/widgets/game_assets_anim.dart';
 
 class SideTreesAnimation extends StatefulWidget {
@@ -22,7 +23,9 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          const GameAssets(asset: GameAssetOptions.tree).animate(
+          GameAssets(
+            uniqueKey: Utils.tree1,
+            asset: GameAssetOptions.tree).animate(
             delay: 3.seconds,
             onComplete: (controller) {
               controller.repeat();
@@ -34,7 +37,9 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
             duration: 5.seconds,
           ),
       
-          const GameAssets(asset: GameAssetOptions.tree).animate(
+          GameAssets(
+            uniqueKey: Utils.tree2,
+            asset: GameAssetOptions.tree).animate(
             delay: 3.seconds,
             onComplete: (controller) {
               controller.repeat();
@@ -51,7 +56,9 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
           Positioned(
             right: -0.005,
             top: 0,
-            child: const GameAssets(asset: GameAssetOptions.tree).animate(
+            child: GameAssets(
+              uniqueKey: Utils.tree3,
+              asset: GameAssetOptions.tree).animate(
               delay: 2.seconds,
               onComplete: (controller) {
                 controller.repeat();

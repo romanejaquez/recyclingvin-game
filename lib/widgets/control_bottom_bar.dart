@@ -24,7 +24,7 @@ class ControlBottomBar extends ConsumerWidget {
               heightFactor: 0.8,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(RecyclingVinStyles.largeSize),
+                  borderRadius: BorderRadius.circular(RecyclingVinStyles.x3largeSize),
                   color: Colors.black.withOpacity(0.35),
                 ),
               ),
@@ -99,7 +99,6 @@ class ControlBottomBar extends ConsumerWidget {
                   ref.read(triggerLaserProvider.notifier).state = option;
                 }
               ),
-          
             ],
           ),
         ],

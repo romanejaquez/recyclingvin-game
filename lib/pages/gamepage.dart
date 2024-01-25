@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/control_bottom_bar.dart';
 import 'package:recyclingvin_web/widgets/enemy_animation.dart';
@@ -13,8 +18,43 @@ import 'package:recyclingvin_web/widgets/top_counter_bar.dart';
 import 'package:recyclingvin_web/widgets/trash_animation.dart';
 import 'package:recyclingvin_web/widgets/vin_animation.dart';
 
-class GamePage extends StatelessWidget {
+class GamePage extends ConsumerStatefulWidget {
   const GamePage({super.key});
+
+  @override
+  ConsumerState<GamePage> createState() => _GamePageState();
+}
+
+class _GamePageState extends ConsumerState<GamePage> {
+
+  Timer loopTimer = Timer(0.seconds, () {});
+
+  @override
+  void initState() {
+    super.initState();
+
+    loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
+        
+      });
+
+      Utils.checkForCollision(Utils.vin1, Utils.waterBottle, () {
+        ref.read(waterBottleCount.notifier).state += 1;
+      });
+
+      Utils.checkForCollision(Utils.vin1, Utils.sodaCan, () {
+        ref.read(sodaCanCount.notifier).state += 1;
+      });
+
+      Utils.checkForCollision(Utils.vin1, Utils.enemy1, () {
+        
+      });
+
+      Utils.checkForCollision(Utils.vin1, Utils.enemy2, () {
+        
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

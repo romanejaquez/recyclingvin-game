@@ -105,10 +105,9 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
               alignment: Alignment.bottomCenter,
               margin: const EdgeInsets.only(
                 top: 140,
-                left: 20,
-                right: 20,
               ),
               height: vinDim / 3.5,
+              width: vinDim / 1.5,
               key: Utils.vin1,
               color: Colors.transparent,
             ),

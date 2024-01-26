@@ -60,4 +60,44 @@ class Utils {
       return;
     }
   }
+
+  static bool isMobile() {
+    return false;
+  }
+
+  static void showUIModal(
+    BuildContext context, 
+    Widget child,
+    { bool dismissible = false, Function? onDismissed, }) {
+   
+    if (isMobile()) {
+      showModalBottomSheet(
+        isDismissible: dismissible,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (ctxt) {
+          return child;
+        }
+      ).whenComplete(() {
+        onDismissed!();
+      });
+    }
+    else {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (ctxt) {
+          return FractionallySizedBox(
+            widthFactor: 0.7,
+            heightFactor: 0.8,
+            child: child
+          );
+        }
+      ).whenComplete(() {
+        onDismissed!();
+      });
+    }
+    
+  }
 }

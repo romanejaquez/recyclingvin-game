@@ -12,6 +12,7 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/control_bottom_bar.dart';
 import 'package:recyclingvin_web/widgets/enemy_animation.dart';
 import 'package:recyclingvin_web/widgets/ground_animation.dart';
+import 'package:recyclingvin_web/widgets/onboarding_panel.dart';
 import 'package:recyclingvin_web/widgets/side_trees_animation.dart';
 import 'package:recyclingvin_web/widgets/top_counter_bar.dart';
 import 'package:recyclingvin_web/widgets/trash_animation.dart';
@@ -65,6 +66,11 @@ class _GamePageState extends ConsumerState<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    Future.delayed(Duration.zero, () {
+      Utils.showUIModal(context, OnboardingPanel());
+    });
+
     return Scaffold(
       body: Stack(
         children: [

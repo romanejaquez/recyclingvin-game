@@ -25,3 +25,10 @@ enum VinShootingOptions {
   shoot,
   multishoot,
 }
+
+enum OnboardingBadgeOptions {
+  vinbadge,
+  frackensteinbadge,
+  seedgunbadge,
+  recyclingbadge,
+}

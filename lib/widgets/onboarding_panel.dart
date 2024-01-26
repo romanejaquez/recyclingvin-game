@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:recyclingvin_web/helpers/colors.dart';
-import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/onboarding_badge.dart';
 
-class OnboardingPanel extends ConsumerWidget {
+class OnboardingPanel extends ConsumerStatefulWidget {
   const OnboardingPanel({super.key});
+  
+  @override
+  OnboardingPanelState createState() => OnboardingPanelState();
+}
+
+class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
+
+  late AnimationController controller;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
 
     final onboardingSteps = ref.read(onboardingStepsProvider).onboardingSteps();
     final currentStep = ref.watch(onboardStepIndex);
@@ -35,7 +41,13 @@ class OnboardingPanel extends ConsumerWidget {
                   key: ValueKey(currentStep),
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    OnboardingBadge(option: currentStepContent.badge),
+                    OnboardingBadge(option: currentStepContent.badge)
+                    .animate()
+                    .scaleXY(
+                      begin: 0.5, end: 1,
+                      curve: Curves.easeInOut,
+                      duration: 0.25.seconds,
+                    ),
                     RecyclingVinStyles.xlargeGap,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +59,16 @@ class OnboardingPanel extends ConsumerWidget {
                         Text(currentStepContent.content,
                           style: RecyclingVinStyles.heading5
                         ),
-                      ],
+                      ].animate(
+                        interval: 100.ms,
+                      ).slideX(
+                        begin: 0.25, end: 0,
+                        curve: Curves.easeInOut,
+                        duration: 0.25.seconds,
+                      ).fadeIn(
+                        curve: Curves.easeInOut,
+                        duration: 0.25.seconds,
+                      ),
                     )
                   ],
                 ),
@@ -76,7 +97,9 @@ class OnboardingPanel extends ConsumerWidget {
                   ),
                   onPressed: () {
                     if (isLastStep) {
-                      Navigator.of(context).pop();
+                      controller.reverse().whenComplete(() {
+                        Navigator.of(context).pop();
+                      });
                     }
                     else {
                       ref.read(onboardStepIndex.notifier).state += 1;
@@ -95,8 +118,18 @@ class OnboardingPanel extends ConsumerWidget {
               ),
             )
           ],
-        ),
-
+        ).animate(
+          onInit: (ctrl) {
+            controller = ctrl;
+          },
+        ).scaleXY(
+          begin: 0.8, end: 1,
+          curve: Curves.easeInOut,
+          duration: 0.25.seconds,
+        ).fadeIn(
+          curve: Curves.easeInOut,
+          duration: 0.25.seconds,
+        )
       ),
     );
   }

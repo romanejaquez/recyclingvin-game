@@ -12,6 +12,7 @@ class Utils {
   static final GlobalKey sodaCan = GlobalKey();
   static final GlobalKey trashBag = GlobalKey();
   static final GlobalKey cardboard = GlobalKey();
+  static final GlobalKey laser = GlobalKey();
 
   static final GlobalKey tree1 = GlobalKey();
   static final GlobalKey tree2 = GlobalKey();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:rive/rive.dart';
 
@@ -99,5 +100,27 @@ class Utils {
       });
     }
     
+  }
+
+  static Color colorFromBadge(RecyclingBadgeOptions option) {
+    switch(option) {
+      case RecyclingBadgeOptions.bagBuster:
+        return RecyclingVinColors.bagBusterColor;
+      case RecyclingBadgeOptions.plasticPioneer:
+        return RecyclingVinColors.plasticPioneerColor;
+      case RecyclingBadgeOptions.canCrusher:
+        return RecyclingVinColors.canCrusherColor;
+    }
+  }
+
+  static String labelFromBadge(RecyclingBadgeOptions option) {
+    switch(option) {
+      case RecyclingBadgeOptions.bagBuster:
+        return 'Bag Buster';
+      case RecyclingBadgeOptions.plasticPioneer:
+        return 'Plastic Pioneer';
+      case RecyclingBadgeOptions.canCrusher:
+        return 'Can Crusher';
+    }
   }
 }

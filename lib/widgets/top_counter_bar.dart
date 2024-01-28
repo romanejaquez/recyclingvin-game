@@ -1,61 +1,95 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:recyclingvin_web/widgets/badge_notification_list.dart';
+import 'package:recyclingvin_web/widgets/newbadge_banner.dart';
 
-class TopCounterBar extends StatelessWidget {
+class TopCounterBar extends StatefulWidget {
   const TopCounterBar({super.key});
 
   @override
+  State<TopCounterBar> createState() => _TopCounterBarState();
+}
+
+class _TopCounterBarState extends State<TopCounterBar> {
+
+  List<GlobalKey> items = [GlobalKey(),GlobalKey(),GlobalKey(),];
+
+  @override
   Widget build(BuildContext context) {
+
+    // Timer.periodic(2.seconds, (t) {
+    //   setState(() {
+    //     items.add(GlobalKey());
+    //   });
+    // });
+
     return SafeArea(
-      child: Container(
-        margin: RecyclingVinStyles.mediumMargin,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(RecyclingVinStyles.x2largeSize),
-          color: Colors.black.withOpacity(0.2),
-        ),
-        width: MediaQuery.sizeOf(context).width / 2,
-        height: 80,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SvgPicture.asset('./assets/imgs/bar_waterbottle.svg',
-              width: 100, height: 80, fit: BoxFit.contain,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            margin: RecyclingVinStyles.mediumMargin,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(RecyclingVinStyles.x2largeSize),
+              color: Colors.black.withOpacity(0.2),
             ),
-            Consumer(
-              builder: (context, ref, child) {
-                return Transform.translate(
-                  offset: const Offset(-40, 0),
-                  child: Text(ref.watch(waterBottleCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
-                );
-              }
-            ),
-            SvgPicture.asset('./assets/imgs/bar_can.svg',
-              width: 100, height: 80, fit: BoxFit.contain,
-            ),
-            Consumer(
-              builder: (context, ref, child) {
-                return Transform.translate(
-                  offset: const Offset(-40, 0),
-                  child: Text(ref.watch(sodaCanCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
-                );
-              }
-            ),
-            SvgPicture.asset('./assets/imgs/bar_bag.svg',
-              width: 100, height: 80, fit: BoxFit.contain,
-            ),
-            Consumer(
-              builder: (context, ref, child) {
-                return Transform.translate(
-                  offset: const Offset(-40, 0),
-                  child: Text(ref.watch(trashBagCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
-                );
-              }
-            ),
-          ],
-        )
+            width: MediaQuery.sizeOf(context).width / 2,
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SvgPicture.asset('./assets/imgs/bar_waterbottle.svg',
+                  width: 100, height: 80, fit: BoxFit.contain,
+                ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    return Transform.translate(
+                      offset: const Offset(-40, 0),
+                      child: Text(ref.watch(waterBottleCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
+                    );
+                  }
+                ),
+                SvgPicture.asset('./assets/imgs/bar_can.svg',
+                  width: 100, height: 80, fit: BoxFit.contain,
+                ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    return Transform.translate(
+                      offset: const Offset(-40, 0),
+                      child: Text(ref.watch(sodaCanCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
+                    );
+                  }
+                ),
+                SvgPicture.asset('./assets/imgs/bar_bag.svg',
+                  width: 100, height: 80, fit: BoxFit.contain,
+                ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    return Transform.translate(
+                      offset: const Offset(-40, 0),
+                      child: Text(ref.watch(trashBagCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
+                    );
+                  }
+                ),
+              ],
+            )
+          ),
+
+          RecyclingVinStyles.smallGap,
+
+          SizedBox(
+            width: 300,
+            height: 300,
+            child: BadgeNotificationList()
+          ),
+        ],
       ),
     );
   }

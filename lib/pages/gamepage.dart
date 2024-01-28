@@ -33,6 +33,10 @@ class _GamePageState extends ConsumerState<GamePage> {
   void initState() {
     super.initState();
 
+    Future.delayed(Duration.zero, () {
+      Utils.showUIModal(context, OnboardingPanel());
+    });
+
     loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
         ref.read(cardboardCount.notifier).state += 1;
@@ -66,10 +70,6 @@ class _GamePageState extends ConsumerState<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    Future.delayed(Duration.zero, () {
-      Utils.showUIModal(context, OnboardingPanel());
-    });
 
     return Scaffold(
       body: Stack(

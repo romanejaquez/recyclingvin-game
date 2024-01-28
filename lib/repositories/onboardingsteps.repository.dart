@@ -13,8 +13,8 @@ class OnboardingStepsRepository {
         badge: OnboardingBadgeOptions.vinbadge,
       ),
       OnboardingStepModel(
-        title: 'Frackensteins', 
-        content: "Destroy frackensteins as you\nadvance, a crop of evil monsters\nthat contaminate the earth.\nDon’t let them touch you!", 
+        title: 'Frackingsteins', 
+        content: "Destroy frackingsteins as you\nadvance, a crop of evil monsters\nthat contaminate the earth.\nDon’t let them touch you!", 
         titleColor: RecyclingVinColors.frackensteinPurple,
         badge: OnboardingBadgeOptions.frackensteinbadge,
       ),

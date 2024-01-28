@@ -15,4 +15,26 @@ final sodaCanCount = StateProvider<int>((ref) => 0);
 final trashBagCount = StateProvider<int>((ref) => 0);
 final cardboardCount = StateProvider<int>((ref) => 0);
 
+final gameStartedFlagProvider = StateProvider<bool>((ref) => false);
+
 final onboardStepIndex = StateProvider<int>((ref) => 0);
+
+final badgeListenerProvider = Provider((ref) {
+  var badgeOption = RecyclingBadgeOptions.none;
+
+  if (ref.watch(waterBottleCount) == 40) {
+    badgeOption = RecyclingBadgeOptions.plasticPioneer;
+  }
+
+  if (ref.watch(sodaCanCount) == 60) {
+    badgeOption = RecyclingBadgeOptions.canCrusher;
+  }
+
+  if (ref.watch(cardboardCount) == 80) {
+    badgeOption = RecyclingBadgeOptions.bagBuster;
+  }
+
+  return badgeOption;
+});
+
+final badgeProvider = StateProvider.autoDispose<RecyclingBadgeOptions>((ref) => RecyclingBadgeOptions.none);

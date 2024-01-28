@@ -110,6 +110,8 @@ class Utils {
         return RecyclingVinColors.plasticPioneerColor;
       case RecyclingBadgeOptions.canCrusher:
         return RecyclingVinColors.canCrusherColor;
+      default:
+        return Colors.transparent;
     }
   }
 
@@ -121,6 +123,8 @@ class Utils {
         return 'Plastic Pioneer';
       case RecyclingBadgeOptions.canCrusher:
         return 'Can Crusher';
+      default:
+        return '';
     }
   }
 }

@@ -34,6 +34,7 @@ enum OnboardingBadgeOptions {
 }
 
 enum RecyclingBadgeOptions {
+  none,
   canCrusher,
   bagBuster,
   plasticPioneer;

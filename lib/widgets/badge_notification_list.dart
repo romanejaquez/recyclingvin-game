@@ -2,20 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/models/recycling_badge.model.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 
-class BadgeNotificationList extends StatefulWidget {
+class BadgeNotificationList extends ConsumerStatefulWidget {
   const BadgeNotificationList({super.key});
 
   @override
-  State<BadgeNotificationList> createState() => _BadgeNotificationListState();
+  ConsumerState<BadgeNotificationList> createState() => _BadgeNotificationListState();
 }
 
-class _BadgeNotificationListState extends State<BadgeNotificationList> {
+class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
   List<RecyclingBadgeModel> badges = [];
 
   Timer inserTimer = Timer(0.seconds, () {});
@@ -24,14 +26,19 @@ class _BadgeNotificationListState extends State<BadgeNotificationList> {
   @override
   void initState() {
     super.initState();
-
-    inserTimer = Timer(3.seconds, () {
-      _addTask(RecyclingBadgeOptions.bagBuster);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    ref.listen(badgeListenerProvider, (previous, next) {
+      if (next == RecyclingBadgeOptions.none) {
+        return;
+      }
+
+      _addTask(next);
+    });
+
     return AnimatedList(
       key: _animatedListKey,
       initialItemCount: badges.length,
@@ -43,68 +50,63 @@ class _BadgeNotificationListState extends State<BadgeNotificationList> {
 
   Widget buildBadgeItem(
     RecyclingBadgeModel badgeModel, Animation<double> anim, int index, { bool isAdding = false }) {
-    return GestureDetector(
-      onTap: () {
-        //_removeTask(badgeModel);
-      },
-      child: Stack(
-        alignment: Alignment.centerRight,
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+    return Stack(
+      alignment: Alignment.centerRight,
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            ),
+          ),
+          padding: const EdgeInsets.only(
+            left: 40, top: 20, bottom: 20, right: 40,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("You've unlocked the", style: RecyclingVinStyles.heading5),
+              Text(Utils.labelFromBadge(badgeModel.option), 
+                style: RecyclingVinStyles.heading4.copyWith(
+                  color: Utils.colorFromBadge(badgeModel.option),
+                )
               ),
-            ),
-            padding: const EdgeInsets.only(
-              left: 40, top: 20, bottom: 20, right: 40,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("You've unlocked the", style: RecyclingVinStyles.heading5),
-                Text(Utils.labelFromBadge(badgeModel.option), 
-                  style: RecyclingVinStyles.heading3.copyWith(
-                    color: Utils.colorFromBadge(badgeModel.option),
-                  )
-                ),
-                Text("Badge", style: RecyclingVinStyles.heading5),
-              ],
-            ),
+              Text("Badge", style: RecyclingVinStyles.heading5),
+            ],
           ),
-          Positioned(
-            left: -50,
-            child: SvgPicture.asset('./assets/imgs/${badgeModel.option.name}.svg',
-              width: 100, height: 100,
-            ).animate(
-              onComplete: (controller) {
-                controller.repeat(reverse: true);
-              },
-            ).scaleXY(
-              begin: 1, end: 1.25,
-              curve: Curves.easeInOut,
-              duration: 0.5.seconds
-            ),
-          )
-        ],
-      ).animate(
+        ),
+        Positioned(
+          left: -50,
+          child: SvgPicture.asset('./assets/imgs/${badgeModel.option.name}.svg',
+            width: 100, height: 100,
+          ).animate(
             onComplete: (controller) {
-              // Future.delayed((index + 1).seconds, () {
-              //   controller.reverse().whenComplete(() {
-              //     //_removeTask(badgeModel);
-              //   });
-              // });
+              controller.repeat(reverse: true);
             },
-          )
-          .slideX(
-            begin: 1, end: 0,
+          ).scaleXY(
+            begin: 1, end: 1.25,
             curve: Curves.easeInOut,
-            duration: 0.5.seconds,
+            duration: 0.5.seconds
           ),
+        )
+      ],
+    ).animate(
+      onComplete: (controller) {
+        Future.delayed(3.seconds, () {
+          controller.reverse().whenComplete(() {
+            _removeTask(badgeModel);
+          });
+        });
+      },
+    )
+    .slideX(
+      begin: 1, end: 0,
+      curve: Curves.easeInOut,
+      duration: 0.5.seconds,
     );
   }
 

@@ -98,6 +98,7 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
                   onPressed: () {
                     if (isLastStep) {
                       controller.reverse().whenComplete(() {
+                        ref.read(gameStartedFlagProvider.notifier).state = true;
                         Navigator.of(context).pop();
                       });
                     }

@@ -18,15 +18,15 @@ class _SplashLogoState extends State<SplashLogo> {
   void initState() {
     super.initState();
 
-    anim = RiveAnimation.direct(Utils.mainFile!,
-      artboard: 'recyclingvinbanner',
+    anim = RiveAnimation.direct(Utils.introFile!,
+      artboard: 'recyclingvinintro',
       onInit: onRiveInit,
       fit: BoxFit.contain,
     );
   }
 
   void onRiveInit(Artboard ab) {
-    ctrl = StateMachineController.fromArtboard(ab, 'recyclingvinbanner')!;
+    ctrl = StateMachineController.fromArtboard(ab, 'recyclingvinintro')!;
     ab.addController(ctrl);
   }
 

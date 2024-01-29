@@ -5,6 +5,7 @@ import 'package:rive/rive.dart';
 
 class Utils {
 
+  static RiveFile? introFile;
   static RiveFile? mainFile;
   static RiveFile? gameAssetsFile;
   static RiveFile? duuprGameStudioFile;

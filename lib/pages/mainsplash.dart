@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/pages/splashpage.dart';
+import 'package:recyclingvin_web/widgets/duuprgameslogo.dart';
 import 'package:rive/rive.dart';
 
 class MainSplash extends StatefulWidget {
@@ -17,22 +18,27 @@ class MainSplash extends StatefulWidget {
 
 class _MainSplashState extends State<MainSplash> {
 
+  bool isCoreLogoLoaded = false;
   Timer mainSplashTimer = Timer(0.seconds, () {});
 
   @override
   void initState() {
     super.initState();
-
     preloadFile();
   }
 
   Future<void> preloadFile() async {
+    Utils.duuprGameStudioFile = RiveFile.import(await rootBundle.load('./assets/anims/duuprgamestudio.riv'));
+     
+    setState(() {
+      isCoreLogoLoaded = true;
+    });
 
     Utils.mainFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvin.riv'));
     Utils.gameAssetsFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvin_game_assets.riv'));
-    Utils.duuprGameStudioFile = RiveFile.import(await rootBundle.load('./assets/anims/duuprgamestudio.riv'));
-    
-    mainSplashTimer = Timer(3.seconds, () {
+    Utils.introFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvinintro.riv'));
+   
+    mainSplashTimer = Timer(4.seconds, () {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const SplashPage())
       );
@@ -44,9 +50,7 @@ class _MainSplashState extends State<MainSplash> {
     return Scaffold(
       backgroundColor: const Color(0xFF2D2D2D),
       body: Center(
-        child: SvgPicture.asset('./assets/imgs/duupr_game_studio.svg',
-          width: 300, height: 150, fit: BoxFit.contain,
-        ),
+        child: isCoreLogoLoaded ? DuuprGamesLogo(defaultLogo: true) : const SizedBox.shrink(),
       )
     );
   }

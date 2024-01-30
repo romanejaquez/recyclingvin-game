@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
-import 'package:recyclingvin_web/widgets/onboarding_badge.dart';
+import 'package:recyclingvin_web/widgets/panels/onboarding_badge.dart';
 
 class OnboardingPanel extends ConsumerStatefulWidget {
   const OnboardingPanel({super.key});

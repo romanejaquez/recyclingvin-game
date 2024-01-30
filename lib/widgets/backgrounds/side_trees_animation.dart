@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
-import 'package:recyclingvin_web/widgets/game_assets_anim.dart';
+import 'package:recyclingvin_web/widgets/animations/game_assets_anim.dart';
 
 class SideTreesAnimation extends StatefulWidget {
   const SideTreesAnimation({super.key});

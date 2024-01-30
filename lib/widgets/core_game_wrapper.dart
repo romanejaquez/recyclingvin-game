@@ -4,21 +4,21 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
-import 'package:recyclingvin_web/widgets/control_bottom_bar.dart';
-import 'package:recyclingvin_web/widgets/enemy_animation.dart';
-import 'package:recyclingvin_web/widgets/laser_shots.dart';
-import 'package:recyclingvin_web/widgets/top_counter_bar.dart';
-import 'package:recyclingvin_web/widgets/trash_animation.dart';
-import 'package:recyclingvin_web/widgets/vin_animation.dart';
+import 'package:recyclingvin_web/widgets/animations/trash_animation.dart';
+import 'package:recyclingvin_web/widgets/characters/enemy_animation.dart';
+import 'package:recyclingvin_web/widgets/animations/laser_shots.dart';
+import 'package:recyclingvin_web/widgets/characters/vin_animation.dart';
+import 'package:recyclingvin_web/widgets/controls/control_bottom_bar.dart';
+import 'package:recyclingvin_web/widgets/panels/top_counter_bar.dart';
 
-class CoreGameLogic extends ConsumerStatefulWidget {
-  const CoreGameLogic({super.key});
+class CoreGameWrapper extends ConsumerStatefulWidget {
+  const CoreGameWrapper({super.key});
 
   @override
-  ConsumerState<CoreGameLogic> createState() => _CoreGameLogicState();
+  ConsumerState<CoreGameWrapper> createState() => _CoreGameLogicState();
 }
 
-class _CoreGameLogicState extends ConsumerState<CoreGameLogic> {
+class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
 
   Timer loopTimer = Timer(0.seconds, () {});
 
@@ -71,7 +71,7 @@ class _CoreGameLogicState extends ConsumerState<CoreGameLogic> {
           }
         ),
 
-        Center(
+        const Center(
           child: LaserShots()
         ),
 

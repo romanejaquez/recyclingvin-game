@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/pages/gamepage.dart';
-import 'package:recyclingvin_web/widgets/duuprgameslogo.dart';
-import 'package:recyclingvin_web/widgets/splashbg.dart';
-import 'package:recyclingvin_web/widgets/splashlogo.dart';
-import 'package:recyclingvin_web/widgets/start_btn.dart';
+import 'package:recyclingvin_web/widgets/backgrounds/splashbg.dart';
+import 'package:recyclingvin_web/widgets/controls/start_btn.dart';
+import 'package:recyclingvin_web/widgets/logos/duuprgameslogo.dart';
+import 'package:recyclingvin_web/widgets/logos/splashlogo.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -29,14 +29,14 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Stack(
         children: [
-          SplashBg(),
+          const SplashBg(),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SplashLogo(),
+                const SplashLogo(),
                 StartButton(
                   onStart: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GamePage()));
@@ -54,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
               ],
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: RecyclingVinStyles.largePadding,

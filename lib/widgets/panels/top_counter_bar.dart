@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
-import 'package:recyclingvin_web/widgets/badge_notification_list.dart';
+import 'package:recyclingvin_web/widgets/lists/badge_notification_list.dart';
 
 class TopCounterBar extends StatefulWidget {
   const TopCounterBar({super.key});

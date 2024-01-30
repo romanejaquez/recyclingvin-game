@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/pages/splashpage.dart';
-import 'package:recyclingvin_web/widgets/duuprgameslogo.dart';
+import 'package:recyclingvin_web/widgets/logos/duuprgameslogo.dart';
 import 'package:rive/rive.dart';
 
 class MainSplash extends StatefulWidget {
@@ -48,7 +48,9 @@ class _MainSplashState extends State<MainSplash> {
     return Scaffold(
       backgroundColor: const Color(0xFF2D2D2D),
       body: Center(
-        child: isCoreLogoLoaded ? DuuprGamesLogo(defaultLogo: true) : const SizedBox.shrink(),
+        child: isCoreLogoLoaded ? 
+          const DuuprGamesLogo(defaultLogo: true) : 
+        const SizedBox.shrink(),
       )
     );
   }

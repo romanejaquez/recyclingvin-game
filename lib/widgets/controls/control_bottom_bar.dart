@@ -6,8 +6,8 @@ import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
-import 'package:recyclingvin_web/widgets/laser_btn.dart';
-import 'package:recyclingvin_web/widgets/move_slider.dart';
+import 'package:recyclingvin_web/widgets/controls/laser_btn.dart';
+import 'package:recyclingvin_web/widgets/controls/move_slider.dart';
 
 class ControlBottomBar extends ConsumerWidget {
   const ControlBottomBar({super.key});
@@ -33,7 +33,7 @@ class ControlBottomBar extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MoveSlider(),
+              const MoveSlider(),
               Expanded(
                 child: Center(
                   child: Stack(

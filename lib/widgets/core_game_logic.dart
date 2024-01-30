@@ -7,6 +7,7 @@ import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/control_bottom_bar.dart';
 import 'package:recyclingvin_web/widgets/enemy_animation.dart';
+import 'package:recyclingvin_web/widgets/laser_shots.dart';
 import 'package:recyclingvin_web/widgets/top_counter_bar.dart';
 import 'package:recyclingvin_web/widgets/trash_animation.dart';
 import 'package:recyclingvin_web/widgets/vin_animation.dart';
@@ -47,13 +48,13 @@ class _CoreGameLogicState extends ConsumerState<CoreGameLogic> {
         
       });
 
-      Utils.checkForCollision(Utils.laser, Utils.enemy1, () {
+      // Utils.checkForCollision(Utils.laser, Utils.enemy1, () {
         
-      });
+      // });
 
-      Utils.checkForCollision(Utils.laser, Utils.enemy2, () {
+      // Utils.checkForCollision(Utils.laser, Utils.enemy2, () {
         
-      });
+      // });
     });
   }
 
@@ -70,44 +71,17 @@ class _CoreGameLogicState extends ConsumerState<CoreGameLogic> {
             return Positioned(
               top: MediaQuery.sizeOf(context).height / 3,
               left: ref.watch(vinPositionProvider) ?? (MediaQuery.sizeOf(context).width / 2) - 160,
-              child: Stack(
+              child: const Stack(
                 children: [
-                  const Center(child: VinAnimation()),
-                  
-                  Consumer(
-                    builder:(context, ref, child) {
-                              
-                      final shootLaser = ref.watch(triggerLaserProvider);
-                              
-                      return Align(
-                        alignment: Alignment.bottomCenter,
-                        key: ValueKey(shootLaser),
-                        child: Container(
-                          key: Utils.laser,
-                          width: 15,
-                          height: 100,
-                          margin: const EdgeInsets.only(
-                            left: 127,
-                            top: 210, right: 55
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: RecyclingVinColors.laserLightColor,
-                          ),
-                        ).animate()
-                        .slideY(
-                          begin: 0,
-                          end: 3,
-                          curve: Curves.linear,
-                          duration: 1.seconds,
-                        ),
-                      );
-                    }
-                  )
+                  Center(child: VinAnimation()),
                 ],
               ),
             );
           }
+        ),
+
+        Center(
+          child: LaserShots()
         ),
 
         const EnemyAnimation(),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:recyclingvin_web/helpers/styles.dart';
 
 class GroundAnimation extends StatefulWidget {
   const GroundAnimation({super.key});

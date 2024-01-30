@@ -1,16 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
-import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/pages/gamepage.dart';
 import 'package:recyclingvin_web/widgets/duuprgameslogo.dart';
 import 'package:recyclingvin_web/widgets/splashbg.dart';
 import 'package:recyclingvin_web/widgets/splashlogo.dart';
 import 'package:recyclingvin_web/widgets/start_btn.dart';
-import 'package:rive/rive.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

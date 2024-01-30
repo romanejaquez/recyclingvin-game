@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
-import 'package:recyclingvin_web/main.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:rive/rive.dart';
 
@@ -54,14 +53,19 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
 
     poses[VinAnimationOptions.walk]!.fire();
 
-    bodyInitialized = true;
+    setState(() {
+      bodyInitialized = true;
+    });
   }
 
   void onRiveRideInit(Artboard ab) {
 
     rideCtrl = StateMachineController.fromArtboard(ab, VinArtboards.vinboxride.name)!;
     ab.addController(rideCtrl);
-    rideInitialized = true;
+    
+    setState(() {
+      rideInitialized = true;
+    });
   }
 
   @override
@@ -79,7 +83,7 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
       mainAnim = anim;
     }
 
-    if ((bodyInitialized && rideInitialized) && vinArtboard == VinArtboards.vinbody) {
+    if (bodyInitialized && vinArtboard == VinArtboards.vinbody) {
       if(laserTrigger == VinShootingOptions.shoot) {
         poses[VinAnimationOptions.shoot]!.fire();
       }

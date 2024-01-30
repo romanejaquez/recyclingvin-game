@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/badge_notification_list.dart';
-import 'package:recyclingvin_web/widgets/newbadge_banner.dart';
 
 class TopCounterBar extends StatefulWidget {
   const TopCounterBar({super.key});
@@ -23,12 +18,6 @@ class _TopCounterBarState extends State<TopCounterBar> {
 
   @override
   Widget build(BuildContext context) {
-
-    // Timer.periodic(2.seconds, (t) {
-    //   setState(() {
-    //     items.add(GlobalKey());
-    //   });
-    // });
 
     return SafeArea(
       child: Column(

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/control_bottom_bar.dart';
@@ -47,14 +46,6 @@ class _CoreGameLogicState extends ConsumerState<CoreGameLogic> {
       Utils.checkForCollision(Utils.vin1, Utils.enemy2, () {
         
       });
-
-      // Utils.checkForCollision(Utils.laser, Utils.enemy1, () {
-        
-      // });
-
-      // Utils.checkForCollision(Utils.laser, Utils.enemy2, () {
-        
-      // });
     });
   }
 

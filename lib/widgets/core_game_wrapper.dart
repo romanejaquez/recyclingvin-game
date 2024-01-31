@@ -62,17 +62,14 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
             return Positioned(
               top: MediaQuery.sizeOf(context).height / 3,
               left: ref.watch(vinPositionProvider) ?? (MediaQuery.sizeOf(context).width / 2) - 160,
-              child: const Stack(
-                children: [
-                  Center(child: VinAnimation()),
-                ],
-              ),
+              child: const VinAnimation()
             );
           }
         ),
 
-        const Center(
-          child: LaserShots()
+        Positioned(
+          top: (MediaQuery.sizeOf(context).height / 3) - 25,
+          child: const LaserShots(),
         ),
 
         const EnemyAnimation(),

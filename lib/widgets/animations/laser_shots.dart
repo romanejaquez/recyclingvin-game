@@ -26,9 +26,11 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
     ref.listen(triggerLaserProvider, (previous, latest) {
         debugPrint(latest.name);
 
+        final laserOffset = 160;
+
         if (latest == VinShootingOptions.shoot) {
           var vinPosition = ref.read(vinPositionProvider);
-          vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - 160;
+          vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
         
           laserTimer.cancel();
           var laserKey = GlobalKey();
@@ -36,14 +38,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           setState(() {
             laserShotsWidget.add(
               Positioned(
-                left: (vinPosition! - 395).toDouble(),
+                left: vinPosition! + 125,
                 child: Container(
                   key: laserKey,
                   width: 15,
                   height: 100,
                   margin: const EdgeInsets.only(
-                    left: 0,
-                    top: 225, 
+                    left: 3,
+                    top: 235, 
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -72,23 +74,23 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
         }
         else if (latest == VinShootingOptions.multishoot) {
           
-          laserTimer = Timer.periodic(100.ms, (timer) {
+            laserTimer = Timer.periodic(100.ms, (timer) {
             var vinPosition = ref.read(vinPositionProvider);
-            vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - 160;
+            vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
             
             setState(() {
               var laserKey = GlobalKey();
               laserShotsWidget.add(
                 Positioned(
                   key: GlobalKey(),
-                  left: (vinPosition! - 395).toDouble(),
+                  left: (vinPosition! + 125).toDouble(),
                   child: Container(
                     key: laserKey,
                     width: 15,
                     height: 100,
                     margin: const EdgeInsets.only(
-                      left: 0,
-                      top: 225, 
+                      left: 3,
+                      top: 235,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
@@ -122,8 +124,8 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
     });
                 
     return SizedBox(
-      width: 320,
-      height: 320,
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
       child: Stack(
         clipBehavior: Clip.none,
         children: laserShotsWidget,

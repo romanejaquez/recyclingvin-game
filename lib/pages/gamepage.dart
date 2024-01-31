@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +8,7 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/ground_animation.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/side_trees_animation.dart';
 import 'package:recyclingvin_web/widgets/core_game_wrapper.dart';
-import 'package:recyclingvin_web/widgets/panels/onboarding_panel.dart';
+import 'package:recyclingvin_web/widgets/onboarding/onboarding_panel.dart';
 
 class GamePage extends ConsumerStatefulWidget {
   const GamePage({super.key});

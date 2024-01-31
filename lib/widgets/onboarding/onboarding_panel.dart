@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
-import 'package:recyclingvin_web/widgets/panels/onboarding_badge.dart';
+import 'package:recyclingvin_web/widgets/onboarding/onboarding_badge.dart';
 
 class OnboardingPanel extends ConsumerStatefulWidget {
   const OnboardingPanel({super.key});
@@ -49,25 +49,27 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
                       duration: 0.25.seconds,
                     ),
                     RecyclingVinStyles.xlargeGap,
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(currentStepContent.title, style: RecyclingVinStyles.heading1.copyWith(
-                          color: currentStepContent.titleColor,
-                        )),
-                        Text(currentStepContent.content,
-                          style: RecyclingVinStyles.heading5
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(currentStepContent.title, style: RecyclingVinStyles.heading1.copyWith(
+                            color: currentStepContent.titleColor,
+                          )),
+                          Text(currentStepContent.content,
+                            style: RecyclingVinStyles.heading5
+                          ),
+                        ].animate(
+                          interval: 100.ms,
+                        ).slideX(
+                          begin: 0.25, end: 0,
+                          curve: Curves.easeInOut,
+                          duration: 0.25.seconds,
+                        ).fadeIn(
+                          curve: Curves.easeInOut,
+                          duration: 0.25.seconds,
                         ),
-                      ].animate(
-                        interval: 100.ms,
-                      ).slideX(
-                        begin: 0.25, end: 0,
-                        curve: Curves.easeInOut,
-                        duration: 0.25.seconds,
-                      ).fadeIn(
-                        curve: Curves.easeInOut,
-                        duration: 0.25.seconds,
                       ),
                     )
                   ],

@@ -19,6 +19,12 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
   List<Widget> laserShotsWidget = [];
   Timer laserTimer = Timer(0.seconds, () {});
+
+  @override
+  void dispose() {
+    laserTimer.cancel();
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
     ref.listen(triggerLaserProvider, (previous, latest) {
         debugPrint(latest.name);
 
-        final laserOffset = 160;
+        const laserOffset = 160;
 
         if (latest == VinShootingOptions.shoot) {
           var vinPosition = ref.read(vinPositionProvider);

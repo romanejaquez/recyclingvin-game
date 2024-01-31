@@ -1,9 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:recyclingvin_web/models/badge_display.model.dart';
+import 'package:recyclingvin_web/repositories/badges.repository.dart';
 import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
+import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
 
 final onboardingStepsProvider = Provider((ref) {
   return OnboardingStepsRepository();
+});
+
+final badgeRepositoryProvider = Provider((ref) {
+  return BadgesRepository();
+});
+
+final badgesVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<BadgeDisplayModel>>((ref) {
+  final badges = ref.read(badgeRepositoryProvider).getBadges();
+  return BadgeDisplayViewModel(badges, ref);
 });
 
 final triggerLaserProvider = StateProvider.autoDispose<VinShootingOptions>((ref) => VinShootingOptions.none);

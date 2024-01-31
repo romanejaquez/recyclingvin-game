@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_wallet/generated/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/pages/mainsplash.dart';
 
@@ -12,6 +13,9 @@ class RecyclingVinApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+      I18nGoogleWallet.delegate,
+    ],
       theme: ThemeData(
         fontFamily: 'Mabook'
       ),

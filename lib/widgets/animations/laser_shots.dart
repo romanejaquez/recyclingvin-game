@@ -19,10 +19,12 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
   List<Widget> laserShotsWidget = [];
   Timer laserTimer = Timer(0.seconds, () {});
+  Timer shootingTimer = Timer(0.seconds, () {});
 
   @override
   void dispose() {
     laserTimer.cancel();
+    shootingTimer.cancel();
     super.dispose();
   }
   
@@ -35,6 +37,11 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
         const laserOffset = 160;
 
         if (latest == VinShootingOptions.shoot) {
+
+          shootingTimer = Timer(const Duration(milliseconds: 500), () {
+            shootingTimer.cancel();
+          });
+
           var vinPosition = ref.read(vinPositionProvider);
           vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
         
@@ -79,8 +86,11 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           });
         }
         else if (latest == VinShootingOptions.multishoot) {
+          if (shootingTimer.isActive) {
+            return;
+          }
           
-            laserTimer = Timer.periodic(100.ms, (timer) {
+          laserTimer = Timer.periodic(100.ms, (timer) {
             var vinPosition = ref.read(vinPositionProvider);
             vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
             
@@ -126,6 +136,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
         }
         else {
           laserTimer.cancel();
+          shootingTimer.cancel();
         }
     });
                 

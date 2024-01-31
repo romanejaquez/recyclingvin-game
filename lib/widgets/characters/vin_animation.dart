@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
@@ -25,6 +28,8 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
   bool bodyInitialized = false;
   bool rideInitialized = false;
   double vinDim = 320;
+
+  Timer shootingTimer = Timer(0.seconds, () {});
 
   @override
   void initState() {
@@ -69,6 +74,12 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
   }
 
   @override
+  void dispose() {
+    shootingTimer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final laserTrigger = ref.watch(triggerLaserProvider);
@@ -86,9 +97,15 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
     if (bodyInitialized && vinArtboard == VinArtboards.vinbody) {
       if(laserTrigger == VinShootingOptions.shoot) {
         poses[VinAnimationOptions.shoot]!.fire();
+        
+        shootingTimer = Timer(const Duration(milliseconds: 500), () {
+          shootingTimer.cancel();
+        });
       }
       else if (laserTrigger == VinShootingOptions.multishoot) {
-        poses[VinAnimationOptions.shootmultiple]!.fire();
+        if (!shootingTimer.isActive) {
+          poses[VinAnimationOptions.shootmultiple]!.fire();
+        }
       }
       else if (laserTrigger == VinShootingOptions.release) {
         poses[VinAnimationOptions.release]!.fire();

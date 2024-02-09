@@ -120,6 +120,7 @@ class RecyclingVinStyles {
   static const Gap mediumGap = Gap(RecyclingVinStyles.mediumSize);
   static const Gap smallGap = Gap(RecyclingVinStyles.smallSize);
   static const Gap xsmallGap = Gap(RecyclingVinStyles.xsmallSize);
+  static const Gap x2smallGap = Gap(RecyclingVinStyles.x2smallSize);
 
   static const EdgeInsets smallButtonPadding = EdgeInsets.symmetric(vertical: 4, horizontal: 8);
   static const EdgeInsets mediumButtonPadding = EdgeInsets.symmetric(vertical: 8, horizontal: 16);

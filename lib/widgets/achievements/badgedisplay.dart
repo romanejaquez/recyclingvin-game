@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_google_wallet/widget/add_to_google_wallet_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
-import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
 
 class BadgeDisplay extends StatelessWidget {
 
   final BadgeDisplayModel badgeModel;
+  final Function onAddBadge;
   const BadgeDisplay({
     required this.badgeModel,
+    required this.onAddBadge,
     super.key
   });
 
@@ -30,7 +31,15 @@ class BadgeDisplay extends StatelessWidget {
               RecyclingVinStyles.smallGap,
               Opacity(
                 opacity: badgeModel.isLocked ? 0.5 : 1,
-                child: Text(badgeModel.label, textAlign: TextAlign.center, style: RecyclingVinStyles.heading3))
+                child: Text(badgeModel.label, textAlign: TextAlign.center, style: RecyclingVinStyles.heading3)
+              ),
+              RecyclingVinStyles.smallGap,
+              AddToGoogleWalletButton(
+                locale: const Locale('en', 'US'),
+                onPress: () {
+                  onAddBadge();
+                }
+              )
             ]
           ),
         ),

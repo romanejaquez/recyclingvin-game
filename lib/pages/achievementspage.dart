@@ -51,7 +51,18 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       for (var badge in badges)
-                        BadgeDisplay(badgeModel: badge)
+                        BadgeDisplay(
+                          badgeModel: badge,
+                          onAddBadge: () {
+                            var payload = badge.metadata.walletPayload();
+                            debugPrint(payload);
+
+                            flutterGoogleWalletPlugin.savePasses(
+                              jsonPass: payload,
+                              addToGoogleWalletRequestCode: 2
+                            );
+                          }  
+                        )
                     ]
                   ),
                 ],

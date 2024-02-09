@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
+import 'package:recyclingvin_web/repositories/badgeachievements.repository.dart';
 import 'package:recyclingvin_web/repositories/badges.repository.dart';
 import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
 import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
@@ -9,8 +10,12 @@ final onboardingStepsProvider = Provider((ref) {
   return OnboardingStepsRepository();
 });
 
+final badgeAchievementsRepositoryProvider = Provider((ref) {
+  return BadgeAchievementsRepository();
+});
+
 final badgeRepositoryProvider = Provider((ref) {
-  return BadgesRepository();
+  return BadgesRepository(ref);
 });
 
 final badgesVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<BadgeDisplayModel>>((ref) {
@@ -50,3 +55,15 @@ final badgeListenerProvider = Provider((ref) {
 });
 
 final badgeProvider = StateProvider.autoDispose<RecyclingBadgeOptions>((ref) => RecyclingBadgeOptions.none);
+
+final laserEnergyLevelProvider = StateProvider<double>((ref) {
+  return 0.0;
+});
+
+final laserCalculationProvider = Provider((ref) {
+  var laserValue = ref.watch(laserEnergyLevelProvider);
+  if (laserValue <= 1.0) {
+    return laserValue;
+  }
+  return 1.0;
+});

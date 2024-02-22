@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
@@ -34,12 +35,15 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
 
   @override
   Widget build(BuildContext context) {
+
+    final enemyDim = Utils.getDimensionFromAsset(context, GameAssetOptions.frackingstein)!;
+    
     return Stack(
       children: [
         SizedBox(
           child: SizedBox(
-            width: enemyDim,
-            height: enemyDim,
+            width: enemyDim.width,
+            height: enemyDim.height,
             child: Stack(
               children: [
                 anim,
@@ -47,8 +51,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
                   child: Container(
                     key: Utils.enemy1,
                     alignment: Alignment.center,
-                    width: enemyDim / 3,
-                    height: enemyDim / 3,
+                    width: enemyDim.width / 3,
+                    height: enemyDim.height / 3,
                     margin: const EdgeInsets.only(bottom: 20),
                     color: Colors.transparent,
                   ),
@@ -65,7 +69,7 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(2.5, (MediaQuery.sizeOf(context).height / enemyDim)),
+            begin: Offset(2.5, (MediaQuery.sizeOf(context).height / enemyDim.height)),
             end: Offset(2.5, -1),
             duration: 5.seconds,
           ),
@@ -85,8 +89,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
 
         SizedBox(
           child: SizedBox(
-            width: enemyDim,
-            height: enemyDim,
+            width: enemyDim.width,
+            height: enemyDim.height,
             child: Stack(
               children: [
                 anim,
@@ -94,8 +98,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
                   child: Container(
                     key: Utils.enemy2,
                     alignment: Alignment.center,
-                    width: enemyDim / 3,
-                    height: enemyDim / 3,
+                    width: enemyDim.width / 3,
+                    height: enemyDim.height / 3,
                     margin: const EdgeInsets.only(bottom: 20),
                     color: Colors.transparent,
                   ),
@@ -112,7 +116,7 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(1.5, (MediaQuery.sizeOf(context).height / enemyDim)),
+            begin: Offset(1.5, (MediaQuery.sizeOf(context).height / enemyDim.height)),
             end: Offset(1.5, -1),
             duration: 6.seconds,
           ),

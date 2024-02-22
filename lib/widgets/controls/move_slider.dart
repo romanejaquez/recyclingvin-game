@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class MoveSlider extends ConsumerStatefulWidget {
   const MoveSlider({super.key});
@@ -27,6 +28,13 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
 
   @override
   Widget build(BuildContext context) {
+
+    var moveLeftOffset = getValueForScreenType(
+      context: context, 
+      mobile: 130,
+      tablet: 260,
+    );
+
     return Container(
       margin: RecyclingVinStyles.largeMargin.copyWith(
         bottom: 0,
@@ -60,7 +68,7 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
                     }
 
                     calcXValue = xValue * 4;
-                    ref.read(vinPositionProvider.notifier).state = calcXValue + 260;
+                    ref.read(vinPositionProvider.notifier).state = calcXValue + moveLeftOffset;
                   });
                 },
                 child: SvgPicture.asset('./assets/imgs/greenbottlecap.svg',

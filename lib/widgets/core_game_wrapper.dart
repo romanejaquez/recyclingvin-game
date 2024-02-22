@@ -8,6 +8,7 @@ import 'package:recyclingvin_web/widgets/animations/trash_animation.dart';
 import 'package:recyclingvin_web/widgets/characters/enemy_animation.dart';
 import 'package:recyclingvin_web/widgets/animations/laser_shots.dart';
 import 'package:recyclingvin_web/widgets/characters/vin_animation.dart';
+import 'package:recyclingvin_web/widgets/characters/vin_movement_wrapper.dart';
 import 'package:recyclingvin_web/widgets/controls/control_bottom_bar.dart';
 import 'package:recyclingvin_web/widgets/panels/top_counter_bar.dart';
 
@@ -35,15 +36,7 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
 
         const TrashAnimation(),
 
-        Consumer(
-          builder: (context, ref, child) {
-            return Positioned(
-              top: MediaQuery.sizeOf(context).height / 3,
-              left: ref.watch(vinPositionProvider) ?? (MediaQuery.sizeOf(context).width / 2) - 160,
-              child: const VinAnimation()
-            );
-          }
-        ),
+        const VinMovementWrapper(),
 
         Positioned(
           top: (MediaQuery.sizeOf(context).height / 3) - 25,

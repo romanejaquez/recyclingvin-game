@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class Utils {
@@ -27,13 +28,30 @@ class Utils {
   static final GlobalKey vin1 = GlobalKey();
   static final GlobalKey vin2 = GlobalKey();
 
-  static Size getDimensionFromAsset(GameAssetOptions asset) {
-    switch(asset) {
-      case GameAssetOptions.tree:
-        return const Size(300, 200);
-      default: 
-        return const Size(250, 150);
-    }
+  static Size? getDimensionFromAsset(BuildContext ctxt, GameAssetOptions asset) {
+    return 
+        getValueForScreenType(context: ctxt, 
+          mobile: switch(asset) {
+            GameAssetOptions.tree => const Size(150, 100),
+            GameAssetOptions.waterbottle ||
+              GameAssetOptions.cardboardbox || 
+                GameAssetOptions.plasticbag ||
+                  GameAssetOptions.sodacan => const Size(125, 125),
+
+            GameAssetOptions.vin => const Size(160, 160),
+            GameAssetOptions.frackingstein => const Size(140, 140),
+          },
+        tablet: switch(asset) {
+            GameAssetOptions.tree => const Size(300, 200),
+            GameAssetOptions.waterbottle ||
+              GameAssetOptions.cardboardbox || 
+                GameAssetOptions.plasticbag ||
+                  GameAssetOptions.sodacan => const Size(250, 150),
+
+            GameAssetOptions.vin => const Size(320, 320),
+            GameAssetOptions.frackingstein => const Size(280, 280),
+          },
+      );
   }
 
   static Map<GlobalKey, AnimationController> controllerMap = {};

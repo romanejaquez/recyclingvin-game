@@ -40,7 +40,7 @@ class _GameAssetsState extends State<GameAssets> {
   @override
   Widget build(BuildContext context) {
 
-    final dim = Utils.getDimensionFromAsset(widget.asset);
+    final dim = Utils.getDimensionFromAsset(context, widget.asset)!;
 
     return SizedBox(
       width: dim.width,

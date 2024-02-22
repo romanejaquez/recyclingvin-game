@@ -43,6 +43,7 @@ dependencies:
   flutter_google_wallet: ^0.1.2
   uuid: ^4.3.3
   icons_launcher: ^2.1.7
+  responsive_builder: ^0.7.0
 
 dev_dependencies:
   flutter_test:

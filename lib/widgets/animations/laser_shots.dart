@@ -7,6 +7,7 @@ import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class LaserShots extends ConsumerStatefulWidget {
   const LaserShots({super.key});
@@ -31,10 +32,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
   @override
   Widget build(BuildContext context) {
 
-    ref.listen(triggerLaserProvider, (previous, latest) {
-        debugPrint(latest.name);
+    final vinDim = Utils.getDimensionFromAsset(context, GameAssetOptions.vin)!;
+    final laserLeftPos = getValueForScreenType(context: context, 
+      mobile: 62.5,
+      tablet: 125.0,
+    );
 
-        const laserOffset = 160;
+    ref.listen(triggerLaserProvider, (previous, latest) {
+        var laserOffset = vinDim.width / 2;
 
         if (latest == VinShootingOptions.shoot) {
 
@@ -51,7 +56,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           setState(() {
             laserShotsWidget.add(
               Positioned(
-                left: vinPosition! + 125,
+                left: vinPosition! + laserLeftPos,
                 child: Container(
                   key: laserKey,
                   width: 15,
@@ -99,7 +104,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
               laserShotsWidget.add(
                 Positioned(
                   key: GlobalKey(),
-                  left: (vinPosition! + 125).toDouble(),
+                  left: (vinPosition! + laserLeftPos).toDouble(),
                   child: Container(
                     key: laserKey,
                     width: 15,

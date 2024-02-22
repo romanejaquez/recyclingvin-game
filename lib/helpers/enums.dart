@@ -4,6 +4,8 @@ enum GameAssetOptions {
   cardboardbox,
   plasticbag,
   sodacan,
+  vin,
+  frackingstein
 }
 
 enum VinArtboards {

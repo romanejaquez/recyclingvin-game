@@ -9,7 +9,7 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:rive/rive.dart';
 
 class VinAnimation extends ConsumerStatefulWidget {
-
+  
   const VinAnimation({super.key});
 
   @override
@@ -27,7 +27,6 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
   late VinArtboards vinArtboard;
   bool bodyInitialized = false;
   bool rideInitialized = false;
-  double vinDim = 320;
 
   Timer shootingTimer = Timer(0.seconds, () {});
 
@@ -82,6 +81,7 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
   @override
   Widget build(BuildContext context) {
 
+    final dim = Utils.getDimensionFromAsset(context, GameAssetOptions.vin)!;
     final laserTrigger = ref.watch(triggerLaserProvider);
     final cardboardCheck = ref.watch(cardboardCount);
 
@@ -116,8 +116,8 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
     }
 
     return SizedBox(
-      width: vinDim,
-      height: vinDim,
+      width: dim.width,
+      height: dim.height,
       child: Stack(
         children: [
           mainAnim,
@@ -127,8 +127,8 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
               margin: const EdgeInsets.only(
                 top: 140,
               ),
-              height: vinDim / 3.5,
-              width: vinDim / 1.5,
+              height: dim.height / 3.5,
+              width: dim.width / 1.5,
               key: Utils.vin1,
               color: Colors.transparent,
             ),

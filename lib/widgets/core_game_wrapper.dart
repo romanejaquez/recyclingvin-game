@@ -20,33 +20,11 @@ class CoreGameWrapper extends ConsumerStatefulWidget {
 
 class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
 
-  Timer loopTimer = Timer(0.seconds, () {});
-
   @override
   void initState() {
     super.initState();
 
-    loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
-        ref.read(cardboardCount.notifier).state += 1;
-      });
-
-      Utils.checkForCollision(Utils.vin1, Utils.waterBottle, () {
-        ref.read(waterBottleCount.notifier).state += 1;
-      });
-
-      Utils.checkForCollision(Utils.vin1, Utils.sodaCan, () {
-        ref.read(sodaCanCount.notifier).state += 1;
-      });
-
-      Utils.checkForCollision(Utils.vin1, Utils.enemy1, () {
-        
-      });
-
-      Utils.checkForCollision(Utils.vin1, Utils.enemy2, () {
-        
-      });
-    });
+    ref.read(gameLoopProvider).startGameLoop();
   }
 
   @override
@@ -85,5 +63,11 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    ref.read(gameLoopProvider).stopGameLoop();
+    super.dispose();
   }
 }

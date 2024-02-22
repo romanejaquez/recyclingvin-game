@@ -43,7 +43,6 @@ class _GameAssetsState extends State<GameAssets> {
     final dim = Utils.getDimensionFromAsset(widget.asset);
 
     return SizedBox(
-      
       width: dim.width,
       height: dim.height,
       child: Stack(

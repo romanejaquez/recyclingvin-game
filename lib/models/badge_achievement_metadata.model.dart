@@ -1,6 +1,5 @@
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
-import 'package:uuid/uuid.dart';
 
 class BadgeAchievementMetadata {
 

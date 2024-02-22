@@ -1,5 +1,5 @@
 name: recyclingvin_web
-description: "A new Flutter project."
+description: "Recycling Vin"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -42,6 +42,7 @@ dependencies:
   flutter_svg: ^2.0.9
   flutter_google_wallet: ^0.1.2
   uuid: ^4.3.3
+  icons_launcher: ^2.1.7
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -70,7 +72,7 @@ flutter:
     - assets/anims/
     - assets/imgs/
     - packages/flutter_google_wallet/assets/svg/button/enUS_add_to_google_wallet_wallet-button.svg
-  #   - images/a_dot_ham.jpeg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -95,3 +97,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+icons_launcher:
+  image_path: 'assets/icons/app_icon.png'
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true

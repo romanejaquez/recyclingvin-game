@@ -4,7 +4,12 @@ import 'package:recyclingvin_web/models/badge_display.model.dart';
 import 'package:recyclingvin_web/repositories/badgeachievements.repository.dart';
 import 'package:recyclingvin_web/repositories/badges.repository.dart';
 import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
+import 'package:recyclingvin_web/services/game_loop_service.dart';
 import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
+
+final gameLoopProvider = Provider((ref) {
+  return GameLoopService(ref);
+});
 
 final onboardingStepsProvider = Provider((ref) {
   return OnboardingStepsRepository();
@@ -57,7 +62,7 @@ final badgeListenerProvider = Provider((ref) {
 final badgeProvider = StateProvider.autoDispose<RecyclingBadgeOptions>((ref) => RecyclingBadgeOptions.none);
 
 final laserEnergyLevelProvider = StateProvider<double>((ref) {
-  return 0.0;
+  return 25.0;
 });
 
 final laserCalculationProvider = Provider((ref) {

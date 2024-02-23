@@ -30,10 +30,16 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
     final sliderDim = getValueForScreenType(
       context: context, 
       mobile: const Size(100, 60),
+      tablet: const Size(230, 180),
+    );
+
+    final sliderMaxValue = getValueForScreenType(
+      context: context, 
+      mobile: const Size(100, 60),
       tablet: const Size(260, 180),
     );
 
-    maxXValue = sliderDim.width / 2;
+    maxXValue = sliderMaxValue.width / 2;
 
     if (!isInitialized) {
       xValue = (maxXValue / 2); 
@@ -50,7 +56,7 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
     double sliderTrackWidth = getValueForScreenType(
       context: context, 
       mobile: 120,
-      tablet: 260,
+      tablet: 200,
     );
 
     double sliderThumbWidth = getValueForScreenType(

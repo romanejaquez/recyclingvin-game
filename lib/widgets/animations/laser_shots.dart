@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -33,9 +34,19 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
   Widget build(BuildContext context) {
 
     final vinDim = Utils.getDimensionFromAsset(context, GameAssetOptions.vin)!;
-    final laserLeftPos = getValueForScreenType(context: context, 
-      mobile: 62.5,
+    final laserLeftOffset = getValueForScreenType(context: context, 
+      mobile: 60,
       tablet: 125.0,
+    );
+
+    final laserPoint = getValueForScreenType(context: context, 
+      mobile: const Offset(0, 125),
+      tablet: const Offset(3, 235)
+    );
+
+    final laserDim = getValueForScreenType(context: context, 
+      tablet: const Size(15, 100),
+      mobile: const Size(7, 50),
     );
 
     ref.listen(triggerLaserProvider, (previous, latest) {
@@ -56,14 +67,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           setState(() {
             laserShotsWidget.add(
               Positioned(
-                left: vinPosition! + laserLeftPos,
+                left: vinPosition! + laserLeftOffset,
                 child: Container(
                   key: laserKey,
-                  width: 15,
-                  height: 100,
-                  margin: const EdgeInsets.only(
-                    left: 3,
-                    top: 235, 
+                  width: laserDim.width,
+                  height: laserDim.height,
+                  margin: EdgeInsets.only(
+                    left: laserPoint.dx,
+                    top: laserPoint.dy, 
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -104,14 +115,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
               laserShotsWidget.add(
                 Positioned(
                   key: GlobalKey(),
-                  left: (vinPosition! + laserLeftPos).toDouble(),
+                  left: (vinPosition! + laserLeftOffset).toDouble(),
                   child: Container(
                     key: laserKey,
-                    width: 15,
-                    height: 100,
-                    margin: const EdgeInsets.only(
-                      left: 3,
-                      top: 235,
+                    width: laserDim.width,
+                    height: laserDim.height,
+                    margin: EdgeInsets.only(
+                      left: laserPoint.dx,
+                      top: laserPoint.dy,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),

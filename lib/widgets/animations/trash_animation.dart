@@ -18,7 +18,7 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
 
     var trashWidgetOffset = ((MediaQuery.sizeOf(context).width - 250) / 250);
     var centerTrashWidgetOffset = trashWidgetOffset / 2;
-
+    var trashDim = Utils.getDimensionFromAsset(context, GameAssetOptions.cardboardbox);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -36,7 +36,7 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
             },
           )
           .slide(
-            begin: Offset(1, (MediaQuery.sizeOf(context).height / 150)),
+            begin: Offset(1, (MediaQuery.sizeOf(context).height / trashDim!.height)),
             end: const Offset(1, -1),
             duration: 3.5.seconds,
           ),
@@ -53,7 +53,7 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
           },
         )
         .slide(
-          begin: Offset(centerTrashWidgetOffset, (MediaQuery.sizeOf(context).height / 150)),
+          begin: Offset(centerTrashWidgetOffset, (MediaQuery.sizeOf(context).height / trashDim.height)),
           end: Offset(centerTrashWidgetOffset, -1),
           duration: 4.5.seconds,
         ),
@@ -72,7 +72,7 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
           },
         )
         .slide(
-          begin: Offset(trashWidgetOffset - 1, (MediaQuery.sizeOf(context).height / 150)),
+          begin: Offset(trashWidgetOffset - 1, (MediaQuery.sizeOf(context).height / trashDim.height)),
           end: Offset(trashWidgetOffset - 1, -1),
           duration: 5.5.seconds,
         )

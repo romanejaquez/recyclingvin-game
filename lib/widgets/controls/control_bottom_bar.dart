@@ -9,14 +9,26 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/controls/laser_btn.dart';
 import 'package:recyclingvin_web/widgets/controls/laser_energy_level.dart';
 import 'package:recyclingvin_web/widgets/controls/move_slider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class ControlBottomBar extends ConsumerWidget {
   const ControlBottomBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    double controlBarHeight = getValueForScreenType(context: context, 
+      mobile: 90,
+      tablet: 160,  
+    );
+
+    bool laserLevelVisible = getValueForScreenType(context: context, 
+      mobile: false,
+      tablet: true,
+    );
+
     return SizedBox(
-      height: 160,
+      height: controlBarHeight,
       child: Stack(
         children: [
           Align(
@@ -38,8 +50,12 @@ class ControlBottomBar extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const MoveSlider(),
-              const Expanded(
-                child: LaserEnergyLevel(),
+              Visibility(
+                replacement: const Spacer(),
+                visible: laserLevelVisible,
+                child: const Expanded(
+                  child: LaserEnergyLevel(),
+                ),
               ),
               LaserBtn(
                 onTrigger: (VinShootingOptions option) {

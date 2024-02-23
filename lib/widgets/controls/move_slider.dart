@@ -16,23 +16,47 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
 
   double xValue = 0;
   double calcXValue = 0;
-  double maxXValue = 140;
-  double greenBtnWidth = 100;
+  double maxXValue = 0;
+  bool isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-
-    xValue = (maxXValue / 2); // - (greenBtnWidth / 2);
   }
 
   @override
   Widget build(BuildContext context) {
 
+    final sliderDim = getValueForScreenType(
+      context: context, 
+      mobile: const Size(100, 60),
+      tablet: const Size(260, 180),
+    );
+
+    maxXValue = sliderDim.width / 2;
+
+    if (!isInitialized) {
+      xValue = (maxXValue / 2); 
+      isInitialized = true;
+      setState(() {});
+    }
+
     var moveLeftOffset = getValueForScreenType(
       context: context, 
-      mobile: 130,
+      mobile: 20,
       tablet: 260,
+    );
+
+    double sliderTrackWidth = getValueForScreenType(
+      context: context, 
+      mobile: 120,
+      tablet: 260,
+    );
+
+    double sliderThumbWidth = getValueForScreenType(
+      context: context, 
+      mobile: 50,
+      tablet: 100,
     );
 
     return Container(
@@ -40,13 +64,15 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
         bottom: 0,
       ),
       child: SizedBox(
-        width: 250,
+        width: sliderDim.width,
+        height: sliderDim.height,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             
             SvgPicture.asset('./assets/imgs/greenbtn_slider.svg',
-              width: 200, height: 100,
+              width: sliderTrackWidth, 
+              height: sliderTrackWidth,
               fit: BoxFit.contain,
             ),
         
@@ -72,8 +98,8 @@ class _MoveSliderState extends ConsumerState<MoveSlider> {
                   });
                 },
                 child: SvgPicture.asset('./assets/imgs/greenbottlecap.svg',
-                  width: greenBtnWidth, 
-                  height: greenBtnWidth,
+                  width: sliderThumbWidth, 
+                  height: sliderThumbWidth,
                   fit: BoxFit.contain,
                 ),
               ),

@@ -13,10 +13,11 @@ class SideTreesAnimation extends StatefulWidget {
 
 class _SideTreesAnimationState extends State<SideTreesAnimation> {
 
-  double treeDim = 200;
-
   @override
   Widget build(BuildContext context) {
+
+    final treeDim = Utils.getDimensionFromAsset(context, GameAssetOptions.tree);
+
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height,
@@ -32,7 +33,7 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
             },
           )
           .slide(
-            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim)),
+            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim!.height)),
             end: const Offset(-0.125, -1),
             duration: 5.seconds,
           ),
@@ -46,7 +47,7 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
             },
           )
           .slide(
-            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim)),
+            begin: Offset(-0.125, (MediaQuery.sizeOf(context).height / treeDim.height)),
             end: const Offset(-0.125, -1),
             duration: 5.seconds,
           ),
@@ -65,7 +66,7 @@ class _SideTreesAnimationState extends State<SideTreesAnimation> {
               },
             )
             .slide(
-              begin: Offset(-0.005, (MediaQuery.sizeOf(context).height / treeDim)),
+              begin: Offset(-0.005, (MediaQuery.sizeOf(context).height / treeDim.height)),
               end: const Offset(-0.005, -1),
               duration: 5.seconds,
             ),

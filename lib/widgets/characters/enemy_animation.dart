@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class EnemyAnimation extends StatefulWidget {
@@ -37,6 +38,13 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
   Widget build(BuildContext context) {
 
     final enemyDim = Utils.getDimensionFromAsset(context, GameAssetOptions.frackingstein)!;
+    final enemyWidthOffset = (MediaQuery.sizeOf(context).width - enemyDim.width) / enemyDim.width;
+
+    double enemyEdgeOffset = getValueForScreenType(
+      context: context, 
+      mobile: 0.25,
+      tablet: 1.5
+    );
     
     return Stack(
       children: [
@@ -69,8 +77,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(2.5, (MediaQuery.sizeOf(context).height / enemyDim.height)),
-            end: Offset(2.5, -1),
+            begin: Offset(enemyEdgeOffset, (MediaQuery.sizeOf(context).height / enemyDim.height)),
+            end: Offset(enemyEdgeOffset, -1),
             duration: 5.seconds,
           ),
         ).animate(
@@ -116,8 +124,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
             },
           )
           .slide(
-            begin: Offset(1.5, (MediaQuery.sizeOf(context).height / enemyDim.height)),
-            end: Offset(1.5, -1),
+            begin: Offset(enemyWidthOffset - enemyEdgeOffset, (MediaQuery.sizeOf(context).height / enemyDim.height)),
+            end: Offset(enemyWidthOffset - enemyEdgeOffset, -1),
             duration: 6.seconds,
           ),
         ).animate(

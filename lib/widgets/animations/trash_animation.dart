@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/widgets/animations/game_assets_anim.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class TrashAnimation extends ConsumerStatefulWidget {
   const TrashAnimation({super.key});
@@ -16,9 +17,15 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
   @override
   Widget build(BuildContext context) {
 
-    var trashWidgetOffset = ((MediaQuery.sizeOf(context).width - 250) / 250);
-    var centerTrashWidgetOffset = trashWidgetOffset / 2;
     var trashDim = Utils.getDimensionFromAsset(context, GameAssetOptions.cardboardbox);
+    var trashWidgetOffset = ((MediaQuery.sizeOf(context).width - trashDim!.width) / trashDim.width);
+    var centerTrashWidgetOffset = trashWidgetOffset / 2;
+
+    double edgeTrashPos = getValueForScreenType(
+      context: context, 
+      mobile: 0.25,
+      tablet: 1,
+    );
 
     return Stack(
       clipBehavior: Clip.none,
@@ -36,8 +43,8 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
             },
           )
           .slide(
-            begin: Offset(1, (MediaQuery.sizeOf(context).height / trashDim!.height)),
-            end: const Offset(1, -1),
+            begin: Offset(edgeTrashPos, (MediaQuery.sizeOf(context).height / trashDim.height)),
+            end: Offset(edgeTrashPos, -1),
             duration: 3.5.seconds,
           ),
     
@@ -72,8 +79,8 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
           },
         )
         .slide(
-          begin: Offset(trashWidgetOffset - 1, (MediaQuery.sizeOf(context).height / trashDim.height)),
-          end: Offset(trashWidgetOffset - 1, -1),
+          begin: Offset(trashWidgetOffset - edgeTrashPos, (MediaQuery.sizeOf(context).height / trashDim.height)),
+          end: Offset(trashWidgetOffset - edgeTrashPos, -1),
           duration: 5.5.seconds,
         )
       ],

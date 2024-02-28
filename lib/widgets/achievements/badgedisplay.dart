@@ -34,11 +34,15 @@ class BadgeDisplay extends StatelessWidget {
                 child: Text(badgeModel.label, textAlign: TextAlign.center, style: RecyclingVinStyles.heading3)
               ),
               RecyclingVinStyles.smallGap,
-              AddToGoogleWalletButton(
-                locale: const Locale('en', 'US'),
-                onPress: () {
-                  onAddBadge();
-                }
+              Opacity(
+                opacity: badgeModel.isLocked ? 0.0 : 1.0,
+                child: AddToGoogleWalletButton(
+                  buttonType: GoogleWalletButtonType.primary,
+                  locale: const Locale('en', 'US'),
+                  onPress: !badgeModel.isLocked ? () {
+                    onAddBadge();
+                  } : null
+                ),
               )
             ]
           ),

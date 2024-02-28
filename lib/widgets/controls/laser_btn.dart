@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
-class LaserBtn extends StatefulWidget {
+class LaserBtn extends ConsumerStatefulWidget {
 
   final Function onTrigger;
 
@@ -15,10 +17,10 @@ class LaserBtn extends StatefulWidget {
   });
 
   @override
-  State<LaserBtn> createState() => _LaserBtnState();
+  ConsumerState<LaserBtn> createState() => _LaserBtnState();
 }
 
-class _LaserBtnState extends State<LaserBtn> {
+class _LaserBtnState extends ConsumerState<LaserBtn> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -43,17 +45,31 @@ class _LaserBtnState extends State<LaserBtn> {
   @override
   Widget build(BuildContext context) {
 
+    final canShoot = ref.watch(shootingCapabilityProvider);
+    
     double btnDim = getValueForScreenType(
       context: context, 
       mobile: 95,
       tablet: 150,
     );
+
+    final btnWidget = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: btnDim,
+          height: btnDim,
+          child: anim
+        ),
+        RecyclingVinStyles.smallGap,
+      ],
+    );
     
-    return GestureDetector(
+    return canShoot ? GestureDetector(
       onTap: () {
         widget.onTrigger(VinShootingOptions.shoot);
       },
-      onLongPressDown:(details) {
+      onLongPressDown: (details) {
         isLongPress = true;
         widget.onTrigger(VinShootingOptions.multishoot);
       },
@@ -61,17 +77,11 @@ class _LaserBtnState extends State<LaserBtn> {
         isLongPress = false;
         widget.onTrigger(VinShootingOptions.release);
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: btnDim,
-            height: btnDim,
-            child: anim
-          ),
-          RecyclingVinStyles.smallGap,
-        ],
-      ),
+      child: btnWidget,
+    ) : 
+    Opacity(
+      opacity: 0.5,
+      child: IgnorePointer(child: btnWidget),  
     );
   }
 }

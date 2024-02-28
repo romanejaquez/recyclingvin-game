@@ -22,14 +22,11 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
   @override
   void initState() {
     super.initState();
-
-    // laserLevelTimer = Timer.periodic(1.seconds, (timer) {
-    //   ref.read(laserEnergyLevelProvider.notifier).state += 0.1;
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Center(
       child: Stack(
         children: [
@@ -38,7 +35,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
             child: Consumer(
               builder: (context, ref, child) {
 
-                final laserLevel = ref.watch(laserCalculationProvider)!;
+                final laserLevel = ref.watch(laserCalculationProvider);
                 final laserLabelValue = (laserLevel * 100).round();
 
                 return Column(

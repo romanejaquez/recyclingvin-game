@@ -14,6 +14,7 @@ class Utils {
   static final GlobalKey waterBottle = GlobalKey();
   static final GlobalKey sodaCan = GlobalKey();
   static final GlobalKey trashBag = GlobalKey();
+  static final GlobalKey plasticbag= GlobalKey();
   static final GlobalKey cardboard = GlobalKey();
 
   static final GlobalKey tree1 = GlobalKey();
@@ -56,7 +57,7 @@ class Utils {
 
   static Map<GlobalKey, AnimationController> controllerMap = {};
 
-  static void checkForCollision(GlobalKey firstItem, GlobalKey secondItem, Function onCollideCallback) {
+  static void checkForCollision(GlobalKey firstItem, GlobalKey secondItem, Function onCollideCallback, { bool repeat = true }) {
 
     RenderBox? box1 = firstItem.currentContext!.findRenderObject() as RenderBox;
     RenderBox? box2 = secondItem.currentContext!.findRenderObject() as RenderBox;
@@ -74,7 +75,10 @@ class Utils {
 
     if (collide) {
       Utils.controllerMap[secondItem]!.reset();
-      Utils.controllerMap[secondItem]!.forward();
+
+      if (repeat) {
+        Utils.controllerMap[secondItem]!.forward();
+      }
       onCollideCallback();
       return;
     }

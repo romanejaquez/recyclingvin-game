@@ -18,19 +18,19 @@ class BadgesRepository {
 
     return [
       BadgeDisplayModel(
-        isLocked: false,
+        isLocked: true,
         badge: RecyclingBadgeOptions.bagBuster,
         label: Utils.labelFromBadge(RecyclingBadgeOptions.bagBuster),
         metadata: achievementsMapping[RecyclingBadgeOptions.bagBuster]!,
       ),
       BadgeDisplayModel(
-        isLocked: false,
+        isLocked: true,
         badge: RecyclingBadgeOptions.canCrusher,
         label: Utils.labelFromBadge(RecyclingBadgeOptions.canCrusher),
         metadata: achievementsMapping[RecyclingBadgeOptions.canCrusher]!,
       ),
       BadgeDisplayModel(
-        isLocked: false,
+        isLocked: true,
         badge: RecyclingBadgeOptions.plasticPioneer,
         label: Utils.labelFromBadge(RecyclingBadgeOptions.plasticPioneer),
         metadata: achievementsMapping[RecyclingBadgeOptions.plasticPioneer]!,

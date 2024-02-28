@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +32,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
   Widget build(BuildContext context) {
 
     final vinDim = Utils.getDimensionFromAsset(context, GameAssetOptions.vin)!;
+
     final laserLeftOffset = getValueForScreenType(context: context, 
       mobile: 60,
       tablet: 125.0,
@@ -49,10 +48,22 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
       mobile: const Size(7, 50),
     );
 
+    final canShoot = ref.watch(shootingCapabilityProvider);
+
     ref.listen(triggerLaserProvider, (previous, latest) {
+
+        if (!canShoot) {
+          laserTimer.cancel();
+          shootingTimer.cancel();
+          return;
+        }
+
         var laserOffset = vinDim.width / 2;
 
         if (latest == VinShootingOptions.shoot) {
+
+          // reduce the lasershot energy level
+          ref.read(laserEnergyLevelProvider.notifier).state = ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
 
           shootingTimer = Timer(const Duration(milliseconds: 500), () {
             shootingTimer.cancel();
@@ -105,10 +116,13 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           if (shootingTimer.isActive) {
             return;
           }
+
           
           laserTimer = Timer.periodic(100.ms, (timer) {
             var vinPosition = ref.read(vinPositionProvider);
             vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
+            
+            ref.read(laserEnergyLevelProvider.notifier).state = ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
             
             setState(() {
               var laserKey = GlobalKey();

@@ -36,6 +36,7 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
         return;
       }
 
+      ref.read(badgesVMProvider.notifier).unlockBadge(next);
       _addTask(next);
     });
 
@@ -69,13 +70,13 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("You've unlocked the", style: RecyclingVinStyles.heading5),
+              const Text("You've unlocked the", style: RecyclingVinStyles.heading5),
               Text(Utils.labelFromBadge(badgeModel.option), 
                 style: RecyclingVinStyles.heading4.copyWith(
                   color: Utils.colorFromBadge(badgeModel.option),
                 )
               ),
-              Text("Badge", style: RecyclingVinStyles.heading5),
+              const Text("Badge", style: RecyclingVinStyles.heading5),
             ],
           ),
         ),

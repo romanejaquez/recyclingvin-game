@@ -34,9 +34,24 @@ class _TrashAnimationState extends ConsumerState<TrashAnimation> {
           uniqueKey: Utils.cardboard,
           asset: GameAssetOptions.cardboardbox)
           .animate(
-            delay: 3.seconds,
+            delay: 5.seconds,
             onInit:(controller) {
               Utils.controllerMap[Utils.cardboard] = controller;
+            },
+          )
+          .slide(
+            begin: Offset(edgeTrashPos, (MediaQuery.sizeOf(context).height / trashDim.height)),
+            end: Offset(edgeTrashPos, -1),
+            duration: 6.5.seconds,
+          ),
+
+        GameAssets(
+          uniqueKey: Utils.plasticbag,
+          asset: GameAssetOptions.plasticbag)
+          .animate(
+            delay: 3.seconds,
+            onInit:(controller) {
+              Utils.controllerMap[Utils.plasticbag] = controller;
             },
             onComplete: (controller) {
               controller.repeat();

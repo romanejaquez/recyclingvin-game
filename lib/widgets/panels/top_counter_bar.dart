@@ -63,7 +63,7 @@ class _TopCounterBarState extends State<TopCounterBar> {
                   builder: (context, ref, child) {
                     return Transform.translate(
                       offset: const Offset(-40, 0),
-                      child: Text(ref.watch(trashBagCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
+                      child: Text(ref.watch(plasticBagCount).toString(), style: RecyclingVinStyles.heading3.copyWith(color: Colors.white))
                     );
                   }
                 ),

@@ -33,8 +33,8 @@ final triggerLaserProvider = StateProvider.autoDispose<VinShootingOptions>((ref)
 final vinPositionProvider = StateProvider<double?>((ref) => null);
 
 final waterBottleCount = StateProvider<int>((ref) => 0);
+final plasticBagCount = StateProvider<int>((ref) => 0);
 final sodaCanCount = StateProvider<int>((ref) => 0);
-final trashBagCount = StateProvider<int>((ref) => 0);
 final cardboardCount = StateProvider<int>((ref) => 0);
 
 final gameStartedFlagProvider = StateProvider<bool>((ref) => false);
@@ -44,15 +44,15 @@ final onboardStepIndex = StateProvider<int>((ref) => 0);
 final badgeListenerProvider = Provider((ref) {
   var badgeOption = RecyclingBadgeOptions.none;
 
-  if (ref.watch(waterBottleCount) == 40) {
+  if (ref.watch(waterBottleCount) == 20) {
     badgeOption = RecyclingBadgeOptions.plasticPioneer;
   }
 
-  if (ref.watch(sodaCanCount) == 60) {
+  if (ref.watch(sodaCanCount) == 20) {
     badgeOption = RecyclingBadgeOptions.canCrusher;
   }
 
-  if (ref.watch(cardboardCount) == 80) {
+  if (ref.watch(plasticBagCount) == 20) {
     badgeOption = RecyclingBadgeOptions.bagBuster;
   }
 
@@ -62,13 +62,25 @@ final badgeListenerProvider = Provider((ref) {
 final badgeProvider = StateProvider.autoDispose<RecyclingBadgeOptions>((ref) => RecyclingBadgeOptions.none);
 
 final laserEnergyLevelProvider = StateProvider<double>((ref) {
-  return 25.0;
+  return 1;
 });
 
 final laserCalculationProvider = Provider((ref) {
   var laserValue = ref.watch(laserEnergyLevelProvider);
-  if (laserValue <= 1.0) {
+
+  if (laserValue > 1.0) {
+    laserValue = 1.0;
+  }
+  else if (laserValue < 0.0) {
+    laserValue = 0.0;
+  }
+  else if (laserValue >= 0.0 && laserValue <= 1.0) {
     return laserValue;
   }
-  return 1.0;
+
+  return laserValue;
+});
+
+final shootingCapabilityProvider = Provider((ref) {
+  return ref.watch(laserCalculationProvider) > 0.0;
 });

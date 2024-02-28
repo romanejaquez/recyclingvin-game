@@ -15,27 +15,60 @@ class GameLoopService {
   startGameLoop() {
     loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
-        ref.read(cardboardCount.notifier).state += 1;
+        increaseTrashCount(cardboardCount);
+      }, repeat: false);
+
+      Utils.checkForCollision(Utils.vin1, Utils.plasticbag, () {
+        increaseTrashCount(plasticBagCount);
+        increaseLaserEnergyLevel(plasticBagCount);
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.waterBottle, () {
-        ref.read(waterBottleCount.notifier).state += 1;
+        increaseTrashCount(waterBottleCount);
+        increaseLaserEnergyLevel(waterBottleCount);
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.sodaCan, () {
-        ref.read(sodaCanCount.notifier).state += 1;
+        increaseTrashCount(sodaCanCount);
+        increaseLaserEnergyLevel(sodaCanCount);
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.enemy1, () {
-        
+        decreaseLives();
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.enemy2, () {
-        
+        decreaseLives();
       });
     });
   }
 
+  increaseTrashCount(StateProvider prov) {
+    ref.read(prov.notifier).state += 1;
+  }
+
+  increaseLaserEnergyLevel(StateProvider prov) {
+
+    var laserLevel = ref.read(laserEnergyLevelProvider.notifier).state;
+
+    if (laserLevel >= 1.0) {
+      return;
+    }
+
+    var laserLevelIncrease = 0.0;
+
+    var trashCount = ref.read(prov.notifier).state;
+    if (trashCount % 5 == 0) {
+      laserLevelIncrease += 0.05;
+    }
+
+    ref.read(laserEnergyLevelProvider.notifier).state = ref.read(laserEnergyLevelProvider.notifier).state + laserLevelIncrease;
+  }
+
+  decreaseLives() {
+    // TODO: decrease lives
+  }
+  
   stopGameLoop() {
     loopTimer.cancel();
   }

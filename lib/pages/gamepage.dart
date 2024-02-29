@@ -8,6 +8,7 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/ground_animation.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/side_trees_animation.dart';
 import 'package:recyclingvin_web/widgets/core_game_wrapper.dart';
+import 'package:recyclingvin_web/widgets/dialogs/playerlost.dart';
 import 'package:recyclingvin_web/widgets/onboarding/onboarding_panel.dart';
 
 class GamePage extends ConsumerStatefulWidget {
@@ -24,7 +25,8 @@ class _GamePageState extends ConsumerState<GamePage> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      Utils.showUIModal(context, const OnboardingPanel());
+      //Utils.showUIModal(context, const OnboardingPanel());
+      Utils.showUIModal(context, const PlayerLostDialog());
     });
   }
 

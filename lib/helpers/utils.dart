@@ -21,7 +21,6 @@ class Utils {
   static final GlobalKey tree2 = GlobalKey();
   static final GlobalKey tree3 = GlobalKey();
   
-
   static final GlobalKey enemy1 = GlobalKey();
   static final GlobalKey enemy2 = GlobalKey();
   static final GlobalKey enemy3 = GlobalKey();

@@ -20,8 +20,6 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
   @override
   void initState() {
     super.initState();
-
-    ref.read(gameLoopProvider).startGameLoop();
   }
 
   @override
@@ -62,7 +60,6 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
 
   @override
   void dispose() {
-    ref.read(gameLoopProvider).stopGameLoop();
     super.dispose();
   }
 }

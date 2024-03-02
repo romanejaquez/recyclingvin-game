@@ -7,7 +7,12 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/onboarding/onboarding_badge.dart';
 
 class OnboardingPanel extends ConsumerStatefulWidget {
-  const OnboardingPanel({super.key});
+
+  final Function onboardingComplete;
+  const OnboardingPanel({
+    required this.onboardingComplete,
+    super.key
+  });
   
   @override
   OnboardingPanelState createState() => OnboardingPanelState();
@@ -100,8 +105,7 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
                   onPressed: () {
                     if (isLastStep) {
                       controller.reverse().whenComplete(() {
-                        ref.read(gameStartedFlagProvider.notifier).state = true;
-                        Navigator.of(context).pop();
+                        widget.onboardingComplete();
                       });
                     }
                     else {

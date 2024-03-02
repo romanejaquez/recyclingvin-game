@@ -1,11 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
 class PlayerLostDialog extends StatefulWidget {
-  const PlayerLostDialog({super.key});
+
+  final Function onSelection;
+  const PlayerLostDialog({
+    required this.onSelection,
+    super.key
+  });
 
   @override
   State<PlayerLostDialog> createState() => _PlayerLostDialogState();
@@ -56,12 +64,22 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset('./assets/imgs/yesbtn.svg',
-                  width: 150,
+                GestureDetector(
+                  onTap: () {
+                    widget.onSelection(PlayerLostDialogSelection.yes);
+                  },
+                  child: SvgPicture.asset('./assets/imgs/yesbtn.svg',
+                    width: 150,
+                  ),
                 ),
                 RecyclingVinStyles.smallGap,
-                SvgPicture.asset('./assets/imgs/nobtn.svg',
-                  width: 150,
+                GestureDetector(
+                  onTap: () {
+                    widget.onSelection(PlayerLostDialogSelection.no);
+                  },
+                  child: SvgPicture.asset('./assets/imgs/nobtn.svg',
+                    width: 150,
+                  ),
                 ),
               ],
             )

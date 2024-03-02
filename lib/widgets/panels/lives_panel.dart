@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:rive/rive.dart';
 
-class LivesPanel extends StatefulWidget {
+class LivesPanel extends ConsumerStatefulWidget {
 
   const LivesPanel({
     super.key
   });
 
   @override
-  State<LivesPanel> createState() => _LivesPanelState();
+  ConsumerState<LivesPanel> createState() => _LivesPanelState();
 }
 
-class _LivesPanelState extends State<LivesPanel> {
+class _LivesPanelState extends ConsumerState<LivesPanel> {
   late StateMachineController ctrl;
   late RiveAnimation anim;
 
@@ -39,11 +41,12 @@ class _LivesPanelState extends State<LivesPanel> {
   Widget build(BuildContext context) {
 
     final dim = Utils.getDimensionFromAsset(context, GameAssetOptions.vinheart)!;
+    final livesCount = ref.watch(livesCountProvider);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('3', style: RecyclingVinStyles.heading1.copyWith(
+        Text('$livesCount', style: RecyclingVinStyles.heading1.copyWith(
           color: RecyclingVinColors.topGreenGradient
         )),
         SizedBox(

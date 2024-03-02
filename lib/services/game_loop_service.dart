@@ -13,6 +13,8 @@ class GameLoopService {
   GameLoopService(this.ref);
   
   startGameLoop() {
+    ref.read(gameStartedFlagProvider.notifier).state = true;
+
     loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
         increaseTrashCount(cardboardCount);
@@ -66,10 +68,15 @@ class GameLoopService {
   }
 
   decreaseLives() {
-    // TODO: decrease lives
+    ref.read(livesCountProvider.notifier).state -= 1;
+
+    if (ref.read(livesCountProvider.notifier).state == 0) {
+      stopGameLoop();
+    }
   }
   
   stopGameLoop() {
+    ref.read(gameStartedFlagProvider.notifier).state = false;
     loopTimer.cancel();
   }
 }

@@ -42,3 +42,7 @@ enum RecyclingBadgeOptions {
   bagBuster,
   plasticPioneer;
 }
+
+enum PlayerLostDialogSelection {
+  yes, no
+}

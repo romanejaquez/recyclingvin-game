@@ -84,3 +84,5 @@ final laserCalculationProvider = Provider((ref) {
 final shootingCapabilityProvider = Provider((ref) {
   return ref.watch(laserCalculationProvider) > 0.0;
 });
+
+final livesCountProvider = StateProvider((ref) => 3);

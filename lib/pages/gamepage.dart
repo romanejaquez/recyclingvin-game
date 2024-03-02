@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
@@ -20,14 +21,22 @@ class GamePage extends ConsumerStatefulWidget {
 
 class _GamePageState extends ConsumerState<GamePage> {
 
+  Timer dialogTimer = Timer(0.seconds, () {});
+
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, () {
-      //Utils.showUIModal(context, const OnboardingPanel());
-      Utils.showUIModal(context, const PlayerLostDialog());
+   dialogTimer = Timer(0.seconds, () {
+      Utils.showUIModal(context, const OnboardingPanel());
+      //Utils.showUIModal(context, const PlayerLostDialog());
     });
+  }
+
+  @override
+  void dispose() {
+    dialogTimer.cancel();
+    super.dispose();
   }
 
   @override

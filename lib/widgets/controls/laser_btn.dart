@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
@@ -46,6 +47,11 @@ class _LaserBtnState extends ConsumerState<LaserBtn> {
   Widget build(BuildContext context) {
 
     final canShoot = ref.watch(shootingCapabilityProvider);
+    if (!canShoot) {
+      Future.microtask(() {
+        ref.read(triggerLaserProvider.notifier).state = VinShootingOptions.none;
+      });
+    }
     
     double btnDim = getValueForScreenType(
       context: context, 
@@ -65,23 +71,24 @@ class _LaserBtnState extends ConsumerState<LaserBtn> {
       ],
     );
     
-    return canShoot ? GestureDetector(
-      onTap: () {
+    return GestureDetector(
+      onTap: canShoot ? () {
         widget.onTrigger(VinShootingOptions.shoot);
-      },
-      onLongPressDown: (details) {
+      } : null,
+      onLongPressDown: canShoot ? (details) {
         isLongPress = true;
         widget.onTrigger(VinShootingOptions.multishoot);
-      },
-      onLongPressUp: () {
+      } : null,
+      onLongPressUp: canShoot ? () {
         isLongPress = false;
         widget.onTrigger(VinShootingOptions.release);
-      },
-      child: btnWidget,
-    ) : 
-    Opacity(
-      opacity: 0.5,
-      child: IgnorePointer(child: btnWidget),  
+      } : null,
+      child: IgnorePointer(
+        ignoring: !canShoot,
+        child: Opacity(
+          opacity: canShoot ? 1 : 0.5,
+          child: btnWidget)
+      ),
     );
   }
 }

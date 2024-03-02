@@ -156,6 +156,8 @@ class _VinAnimationState extends ConsumerState<VinAnimation> {
       if (rideInitialized) {
         ridingPoses[VinAnimationOptions.walk]!.fire();
       }
+
+      shootingTimer.cancel();
     }
 
     return SizedBox(

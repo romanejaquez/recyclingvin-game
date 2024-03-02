@@ -18,12 +18,17 @@ class AchievementsPage extends ConsumerStatefulWidget {
 class _AchievementsPageState extends ConsumerState<AchievementsPage> {
 
   final flutterGoogleWalletPlugin = FlutterGoogleWalletPlugin();
-  late Future<bool> _isWalletAvailable;
+  late bool _isWalletAvailable;
 
   @override
   void initState() {
     super.initState();
-    _isWalletAvailable = Future(() async {
+    
+    checkForWalletAvailability();
+  }
+
+  void checkForWalletAvailability() async {
+    _isWalletAvailable = await Future(() async {
       await flutterGoogleWalletPlugin.initWalletClient();
       return flutterGoogleWalletPlugin.getWalletApiAvailabilityStatus();
     });

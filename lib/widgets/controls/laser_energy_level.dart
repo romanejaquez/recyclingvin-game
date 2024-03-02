@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
+import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 
 class LaserEnergyLevel extends ConsumerStatefulWidget {
@@ -37,6 +38,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
 
                 final laserLevel = ref.watch(laserCalculationProvider);
                 final laserLabelValue = (laserLevel * 100).round();
+                final laserLevelColor = Utils.getColorPerLaserLevel(laserLevel);
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -51,7 +53,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
                       ),
                       height: 50,
                       decoration: BoxDecoration(
-                        color: RecyclingVinColors.laserGunGreen.withOpacity(0.5),
+                        color: laserLevelColor.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(RecyclingVinStyles.mediumSize)
                       ),
                       child: Container(
@@ -68,7 +70,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
                               height: 10,
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
-                                color: RecyclingVinColors.laserGunGreen,
+                                color: laserLevelColor,
                                 borderRadius: BorderRadius.circular(RecyclingVinStyles.mediumSize)
                               ),
                             ),
@@ -80,7 +82,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
                     Container(
                       margin: const EdgeInsets.only(right: RecyclingVinStyles.xlargeSize * 2),
                       child: Text('$laserLabelValue% Level', style: RecyclingVinStyles.subHeading4.copyWith(
-                        color: RecyclingVinColors.laserGunGreen,
+                        color: laserLevelColor,
                       ))
                     )
                   ],

@@ -19,12 +19,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
   List<Widget> laserShotsWidget = [];
   Timer laserTimer = Timer(0.seconds, () {});
+  Timer innerLaserTimer = Timer(0.seconds, () {});
   Timer shootingTimer = Timer(0.seconds, () {});
 
   @override
   void dispose() {
     laserTimer.cancel();
     shootingTimer.cancel();
+    innerLaserTimer.cancel();
     super.dispose();
   }
   
@@ -55,6 +57,8 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
         if (!canShoot) {
           laserTimer.cancel();
           shootingTimer.cancel();
+          innerLaserTimer.cancel();
+          laserShotsWidget.clear();
           return;
         }
 
@@ -62,8 +66,11 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
         if (latest == VinShootingOptions.shoot) {
 
+          laserTimer.cancel();
+          
           // reduce the lasershot energy level
-          ref.read(laserEnergyLevelProvider.notifier).state = ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
+          ref.read(laserEnergyLevelProvider.notifier).state = 
+            ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
 
           shootingTimer = Timer(const Duration(milliseconds: 500), () {
             shootingTimer.cancel();
@@ -116,13 +123,14 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           if (shootingTimer.isActive) {
             return;
           }
-
           
           laserTimer = Timer.periodic(100.ms, (timer) {
+
             var vinPosition = ref.read(vinPositionProvider);
             vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
             
-            ref.read(laserEnergyLevelProvider.notifier).state = ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
+            ref.read(laserEnergyLevelProvider.notifier).state = 
+              ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
             
             setState(() {
               var laserKey = GlobalKey();
@@ -167,6 +175,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
         else {
           laserTimer.cancel();
           shootingTimer.cancel();
+          innerLaserTimer.cancel();
         }
     });
                 

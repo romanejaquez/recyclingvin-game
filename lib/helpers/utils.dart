@@ -32,7 +32,8 @@ class Utils {
     return 
         getValueForScreenType(context: ctxt, 
           mobile: switch(asset) {
-            GameAssetOptions.tree => const Size(80, 80),
+            GameAssetOptions.tree => const Size(50, 50),
+            GameAssetOptions.vinheart => const Size(80, 80),
             GameAssetOptions.waterbottle ||
               GameAssetOptions.cardboardbox || 
                 GameAssetOptions.plasticbag ||
@@ -43,6 +44,7 @@ class Utils {
           },
         tablet: switch(asset) {
             GameAssetOptions.tree => const Size(300, 200),
+            GameAssetOptions.vinheart => const Size(50, 50),
             GameAssetOptions.waterbottle ||
               GameAssetOptions.cardboardbox || 
                 GameAssetOptions.plasticbag ||
@@ -102,7 +104,7 @@ class Utils {
           return child;
         }
       ).whenComplete(() {
-        onDismissed!();
+        //onDismissed!();
       });
     }
     else {
@@ -117,7 +119,7 @@ class Utils {
           );
         }
       ).whenComplete(() {
-        onDismissed!();
+       // onDismissed!();
       });
     }
     
@@ -147,5 +149,18 @@ class Utils {
       default:
         return '';
     }
+  }
+
+  static Color getColorPerLaserLevel(double laserLevel) {
+
+    if (laserLevel < 0.25) {
+      return RecyclingVinColors.laserGunRed;
+    }
+
+    if (laserLevel < 0.65) {
+      return Colors.orange;
+    }
+
+    return RecyclingVinColors.laserGunGreen;
   }
 }

@@ -5,6 +5,7 @@ enum GameAssetOptions {
   plasticbag,
   sodacan,
   vin,
+  vinheart,
   frackingstein
 }
 

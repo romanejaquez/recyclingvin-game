@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 
 class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
 
@@ -16,5 +17,7 @@ class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
         else
           badge
     ];
+
+    ref.read(badgeStorageProvider).storeBadgesAchievedConfig(option.name);
   }
 }

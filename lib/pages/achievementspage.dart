@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_google_wallet/flutter_google_wallet_plugin.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
@@ -6,9 +7,12 @@ import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/achievements/achievements_header.dart';
 import 'package:recyclingvin_web/widgets/achievements/badgedisplay.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/splashbg.dart';
+import 'package:recyclingvin_web/widgets/controls/back_btn.dart';
 import 'package:uuid/uuid.dart';
 
 class AchievementsPage extends ConsumerStatefulWidget {
+
+  static const String route = '/achievements';
   const AchievementsPage({super.key});
 
   @override
@@ -73,6 +77,26 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
                 ],
               ),
             ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: RecyclingVinStyles.largePadding.copyWith(
+                  top: RecyclingVinStyles.largePadding.top / 2,
+                ),
+                child: GameBackButton(
+                  onBack: () {
+                    Navigator.of(context).pop();
+                  },
+                ).animate(
+                  onComplete: (controller) => controller.repeat(reverse: true),
+                )
+                .slideY(
+                  begin: 0.125, end: 0,
+                  curve: Curves.easeInOut,
+                  duration: 1.5.seconds,
+                ),
+              ),
+            )
           ],
         ),
       ),

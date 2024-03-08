@@ -111,6 +111,7 @@ class Utils {
       showDialog(
         barrierDismissible: false,
         context: context,
+        barrierColor: Colors.black.withOpacity(0.75),
         builder: (ctxt) {
           return FractionallySizedBox(
             widthFactor: 0.7,

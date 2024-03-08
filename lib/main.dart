@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_wallet/generated/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recyclingvin_web/pages/achievementspage.dart';
+import 'package:recyclingvin_web/pages/gamepage.dart';
 import 'package:recyclingvin_web/pages/mainsplash.dart';
+import 'package:recyclingvin_web/pages/splashpage.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 void main() {
@@ -17,7 +20,7 @@ class RecyclingVinApp extends StatelessWidget {
 
     final deviceOrientations = getValueForScreenType(context: context, 
       mobile: [
-        DeviceOrientation.portraitDown,
+        DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ],
       tablet: [
@@ -36,7 +39,13 @@ class RecyclingVinApp extends StatelessWidget {
         fontFamily: 'Mabook'
       ),
       debugShowCheckedModeBanner: false,
-      home: const MainSplash()
+      initialRoute: MainSplashPage.route,
+      routes: {
+        SplashPage.route: (context) => const SplashPage(),
+        MainSplashPage.route: (context) => const MainSplashPage(),
+        AchievementsPage.route: (context) => const AchievementsPage(),
+        GamePage.route: (context) => const GamePage(),
+      }
     );
   }
 }

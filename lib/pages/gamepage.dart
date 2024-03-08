@@ -11,6 +11,8 @@ import 'package:recyclingvin_web/widgets/core_game_wrapper.dart';
 import 'package:recyclingvin_web/widgets/panels/gamepanels.dart';
 
 class GamePage extends ConsumerStatefulWidget {
+
+  static const String route = '/game';
   const GamePage({super.key});
 
   @override

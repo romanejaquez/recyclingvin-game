@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recyclingvin_web/helpers/constants.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 
@@ -9,6 +11,7 @@ class GameLoopService {
 
   Timer loopTimer = Timer(0.seconds, () {});
   final Ref ref;
+  int defaultLives = 3;
 
   GameLoopService(this.ref);
   
@@ -78,5 +81,17 @@ class GameLoopService {
   stopGameLoop() {
     ref.read(gameStartedFlagProvider.notifier).state = false;
     loopTimer.cancel();
+  }
+
+  resetGame() {
+    ref.read(livesCountProvider.notifier).state = Constants.defaultLives;
+    ref.read(cardboardCount.notifier).state = 0;
+    ref.read(plasticBagCount.notifier).state = 0;
+    ref.read(sodaCanCount.notifier).state = 0;
+    ref.read(waterBottleCount.notifier).state = 0;
+    ref.read(laserEnergyLevelProvider.notifier).state = 1;
+    ref.read(onboardStepIndex.notifier).state = 0;
+    ref.read(triggerLaserProvider.notifier).state = VinShootingOptions.none;
+    ref.read(vinPositionProvider.notifier).state = null;
   }
 }

@@ -1,11 +1,15 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recyclingvin_web/helpers/constants.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
 import 'package:recyclingvin_web/repositories/badgeachievements.repository.dart';
 import 'package:recyclingvin_web/repositories/badges.repository.dart';
 import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
+import 'package:recyclingvin_web/services/badgepersistence_service.dart';
 import 'package:recyclingvin_web/services/game_loop_service.dart';
 import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final gameLoopProvider = Provider((ref) {
   return GameLoopService(ref);
@@ -24,7 +28,24 @@ final badgeRepositoryProvider = Provider((ref) {
 });
 
 final badgesVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<BadgeDisplayModel>>((ref) {
-  final badges = ref.read(badgeRepositoryProvider).getBadges();
+  var badges = ref.read(badgeRepositoryProvider).getBadges();
+  final storedBadgesMetadata = ref.read(badgeStorageProvider).getBadgesAchievedConfig();
+  List<RecyclingBadgeOptions> storedBadges = [];
+  
+  if (storedBadgesMetadata.isNotEmpty) {
+    var storedBadgeTokens = storedBadgesMetadata.split(',');
+    
+    storedBadges = storedBadgeTokens.where((s) => s.isNotEmpty).map(
+      (s) => RecyclingBadgeOptions.values.firstWhere((element) => element.name == s.trim())
+    ).toList();
+  }
+
+  if (storedBadges.isNotEmpty) {
+    badges = badges.map((b) => b.copyWith(
+      isLocked: !storedBadges.contains(b.badge),
+    )).toList();
+  }
+
   return BadgeDisplayViewModel(badges, ref);
 });
 
@@ -85,4 +106,17 @@ final shootingCapabilityProvider = Provider((ref) {
   return ref.watch(laserCalculationProvider) > 0.0;
 });
 
-final livesCountProvider = StateProvider((ref) => 3);
+final livesCountProvider = StateProvider((ref) => Constants.defaultLives);
+
+final sharedPrefsInstanceProvider = Provider((ref) {
+  return SharedPreferences.getInstance();
+});
+
+final sharedPrefsLoaderProvider = FutureProvider<SharedPreferences>((ref) async {
+  final prefs = await ref.read(sharedPrefsInstanceProvider);
+  return prefs;
+});
+
+final badgeStorageProvider = Provider((ref) {
+  return BadgePersistenceService(ref);
+});

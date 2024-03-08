@@ -2,22 +2,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/pages/splashpage.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/logos/duuprgameslogo.dart';
 import 'package:rive/rive.dart';
 
-class MainSplash extends StatefulWidget {
-  const MainSplash({super.key});
+class MainSplashPage extends ConsumerStatefulWidget {
+
+  static const String route = '/mainsplash';
+  const MainSplashPage({super.key});
 
   @override
-  State<MainSplash> createState() => _MainSplashState();
+  ConsumerState<MainSplashPage> createState() => _MainSplashPageState();
 }
 
-class _MainSplashState extends State<MainSplash> {
+class _MainSplashPageState extends ConsumerState<MainSplashPage> {
 
   bool isCoreLogoLoaded = false;
-  Timer mainSplashTimer = Timer(0.seconds, () {});
+  Timer splashPageTimer = Timer(0.seconds, () {});
 
   @override
   void initState() {
@@ -35,12 +39,17 @@ class _MainSplashState extends State<MainSplash> {
     Utils.mainFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvin.riv'));
     Utils.gameAssetsFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvin_game_assets.riv'));
     Utils.introFile = RiveFile.import(await rootBundle.load('./assets/anims/recyclingvinintro.riv'));
-   
-    mainSplashTimer = Timer(4.seconds, () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const SplashPage())
-      );
-    });
+
+    final badgeStorage = ref.read(badgeStorageProvider);
+    final storageInit = await badgeStorage.initLocalStorage();
+    
+    if (storageInit) {
+      splashPageTimer = Timer(2.seconds, () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const SplashPage())
+        );
+      });
+    }
   }
 
   @override

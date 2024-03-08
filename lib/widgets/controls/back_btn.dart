@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
-class StartButton extends StatefulWidget {
+class GameBackButton extends StatefulWidget {
 
-  final VoidCallback onStart;
-  const StartButton({
-    required this.onStart,
+  final VoidCallback onBack;
+  const GameBackButton({
+    required this.onBack,
     super.key});
 
   @override
-  State<StartButton> createState() => _StartButtonState();
+  State<GameBackButton> createState() => _GameBackButtonState();
 }
 
-class _StartButtonState extends State<StartButton> {
+class _GameBackButtonState extends State<GameBackButton> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -23,21 +23,21 @@ class _StartButtonState extends State<StartButton> {
     super.initState();
 
     anim = RiveAnimation.direct(Utils.gameAssetsFile!,
-      artboard: 'startbtn',
+      artboard: 'backbtn',
       onInit: onRiveInit,
       fit: BoxFit.fitWidth,
     );
   }
 
   void onRiveInit(Artboard ab) {
-    ctrl = StateMachineController.fromArtboard(ab, 'startbtn')!;
+    ctrl = StateMachineController.fromArtboard(ab, 'backbtn')!;
     ab.addController(ctrl);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onStart,
+      onTap: widget.onBack,
       child: SizedBox(
         width: 200,
         height: 100,

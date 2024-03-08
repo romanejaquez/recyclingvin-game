@@ -8,8 +8,11 @@ import 'package:recyclingvin_web/widgets/backgrounds/splashbg.dart';
 import 'package:recyclingvin_web/widgets/achievements/achievements_btn.dart';
 import 'package:recyclingvin_web/widgets/controls/start_btn.dart';
 import 'package:recyclingvin_web/widgets/logos/splashlogo.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class SplashPage extends StatefulWidget {
+
+  static const String route = '/splash';
   const SplashPage({super.key});
 
   @override
@@ -27,6 +30,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final splashLogo = getValueForScreenType(
+      context: context,
+      mobile: 'recyclingvinintrovert',
+      tablet: 'recyclingvinintro'
+    );
+
     return Scaffold(
       body: Stack(
         children: [
@@ -38,7 +48,9 @@ class _SplashPageState extends State<SplashPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RecyclingVinStyles.mediumGap,
-                const SplashLogo(),
+                SplashLogo(
+                  logo: splashLogo,
+                ),
                 StartButton(
                   onStart: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GamePage()));

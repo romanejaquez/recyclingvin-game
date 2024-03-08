@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/widgets/controls/yesno_btn.dart';
 import 'package:rive/rive.dart';
 
-class PlayerLostDialog extends StatefulWidget {
+class PlayerWinDialog extends StatefulWidget {
 
   final Function onSelection;
-  const PlayerLostDialog({
+  const PlayerWinDialog({
     required this.onSelection,
     super.key
   });
 
   @override
-  State<PlayerLostDialog> createState() => _PlayerLostDialogState();
+  State<PlayerWinDialog> createState() => _PlayerWinDialogState();
 }
 
-class _PlayerLostDialogState extends State<PlayerLostDialog> {
+class _PlayerWinDialogState extends State<PlayerWinDialog> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -28,14 +30,14 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
     super.initState();
 
     anim = RiveAnimation.direct(Utils.gameAssetsFile!,
-      artboard: 'cryingvinbadge',
+      artboard: 'vinbadge',
       onInit: onRiveInit,
       fit: BoxFit.contain,
     );
   }
 
   void onRiveInit(Artboard ab) {
-    ctrl = StateMachineController.fromArtboard(ab, 'cryingvinbadge')!;
+    ctrl = StateMachineController.fromArtboard(ab, 'vinbadge')!;
     ab.addController(ctrl);
   }
 
@@ -48,8 +50,8 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 400,
-              height: 400,
+              width: 300,
+              height: 300,
               child: anim,
             ).animate(
               delay: 0.125.seconds
@@ -62,16 +64,42 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
               curve: Curves.easeInOut,
               duration: 0.25.seconds,
             ),
-            Text('YOU LOST!', style: RecyclingVinStyles.heading1.copyWith(
-              color: Colors.white
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset('./assets/imgs/bagBuster.svg',
+                  width: 80, height: 80, fit: BoxFit.contain,
+                ),
+                const SizedBox(width: RecyclingVinStyles.smallSize),
+                SvgPicture.asset('./assets/imgs/canCrusher.svg',
+                  width: 80, height: 80, fit: BoxFit.contain,
+                ),
+                const SizedBox(width: RecyclingVinStyles.smallSize),
+                SvgPicture.asset('./assets/imgs/plasticPioneer.svg',
+                  width: 80, height: 80, fit: BoxFit.contain,
+                )
+              ].animate(
+                delay: 0.75.seconds,
+                interval: 100.ms,
+              ).scaleXY(
+                begin: 0.5, end: 1,
+                curve: Curves.easeInOut,
+                duration: 0.25.seconds,
+              ).fadeIn(
+                curve: Curves.easeInOut,
+                duration: 0.25.seconds,
+              ),
+            ),
+            RecyclingVinStyles.smallGap,
+            Text('YOU WIN!', style: RecyclingVinStyles.heading1.copyWith(
+              color: RecyclingVinColors.vinGreen,
             )),
             RecyclingVinStyles.smallGap,
-            Text('Try again?', style: RecyclingVinStyles.heading4.copyWith(
+            Text('Play again?', style: RecyclingVinStyles.heading4.copyWith(
               color: Colors.white
             )),
             RecyclingVinStyles.smallGap,
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 YesNoBtn(

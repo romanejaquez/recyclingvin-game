@@ -43,6 +43,11 @@ enum RecyclingBadgeOptions {
   plasticPioneer;
 }
 
-enum PlayerLostDialogSelection {
+enum PlayerDialogSelection {
   yes, no
+}
+
+enum YesNoButtonOptions {
+  yesbtn,
+  nobtn,
 }

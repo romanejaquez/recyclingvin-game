@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:rive/rive.dart';
 
-class StartButton extends StatefulWidget {
+class YesNoBtn extends StatefulWidget {
 
-  final VoidCallback onStart;
-  const StartButton({
-    required this.onStart,
+  final YesNoButtonOptions buttonOption;
+  final VoidCallback onTap;
+
+  const YesNoBtn({
+    required this.buttonOption,
+    required this.onTap,
     super.key});
 
   @override
-  State<StartButton> createState() => _StartButtonState();
+  State<YesNoBtn> createState() => _YesNoButtonState();
 }
 
-class _StartButtonState extends State<StartButton> {
+class _YesNoButtonState extends State<YesNoBtn> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -23,24 +27,24 @@ class _StartButtonState extends State<StartButton> {
     super.initState();
 
     anim = RiveAnimation.direct(Utils.gameAssetsFile!,
-      artboard: 'startbtn',
+      artboard: widget.buttonOption.name,
       onInit: onRiveInit,
       fit: BoxFit.fitWidth,
     );
   }
 
   void onRiveInit(Artboard ab) {
-    ctrl = StateMachineController.fromArtboard(ab, 'startbtn')!;
+    ctrl = StateMachineController.fromArtboard(ab, widget.buttonOption.name)!;
     ab.addController(ctrl);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onStart,
+      onTap: widget.onTap,
       child: SizedBox(
-        width: 200,
-        height: 100,
+        width: 140,
+        height: 80,
         child: anim
       ),
     );

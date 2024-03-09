@@ -113,10 +113,13 @@ class Utils {
         context: context,
         barrierColor: Colors.black.withOpacity(0.75),
         builder: (ctxt) {
-          return FractionallySizedBox(
-            widthFactor: 0.7,
-            heightFactor: 0.8,
-            child: child
+          return PopScope(
+            canPop: false,
+            child: FractionallySizedBox(
+              widthFactor: 0.7,
+              heightFactor: 0.8,
+              child: child
+            ),
           );
         }
       ).whenComplete(() {

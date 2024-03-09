@@ -11,7 +11,7 @@ class GameLoopService {
 
   Timer loopTimer = Timer(0.seconds, () {});
   final Ref ref;
-  int defaultLives = 3;
+  bool gameStopped = false;
 
   GameLoopService(this.ref);
   
@@ -19,6 +19,11 @@ class GameLoopService {
     ref.read(gameStartedFlagProvider.notifier).state = true;
 
     loopTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (gameStopped) {
+        timer.cancel();
+        return;
+      }
+
       Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
         increaseTrashCount(cardboardCount);
       }, repeat: false);
@@ -79,11 +84,13 @@ class GameLoopService {
   }
   
   stopGameLoop() {
-    ref.read(gameStartedFlagProvider.notifier).state = false;
+    gameStopped = true;
     loopTimer.cancel();
+    ref.read(gameStartedFlagProvider.notifier).state = false;
   }
 
   resetGame() {
+    gameStopped = false;
     ref.read(livesCountProvider.notifier).state = Constants.defaultLives;
     ref.read(cardboardCount.notifier).state = 0;
     ref.read(plasticBagCount.notifier).state = 0;
@@ -93,5 +100,22 @@ class GameLoopService {
     ref.read(onboardStepIndex.notifier).state = 0;
     ref.read(triggerLaserProvider.notifier).state = VinShootingOptions.none;
     ref.read(vinPositionProvider.notifier).state = null;
+    ref.read(gameWonProvider.notifier).state = false;
+  }
+
+  void setGameAsWon() {
+    ref.read(gameWonProvider.notifier).state = true;
+    stopGameLoop();
+  }
+
+  void exitGame() {
+    gameStopped = true;
+    stopGameLoop();
+    resetGame();
+  }
+
+  void restartGame() {
+    resetGame();
+    startGameLoop();
   }
 }

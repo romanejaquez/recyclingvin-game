@@ -24,6 +24,7 @@ class GamePanelsState extends ConsumerState<GamePanels> {
     super.initState();
 
     Future.microtask(() => Utils.showUIModal(context,
+      dismissible: false,
       OnboardingPanel(
         onboardingComplete: () {
           ref.read(gameLoopProvider).startGameLoop();
@@ -37,9 +38,32 @@ class GamePanelsState extends ConsumerState<GamePanels> {
   Widget build(BuildContext context) {
     
     final lives = ref.watch(livesCountProvider);
+    final gameWon = ref.watch(gameWonProvider);
 
     if (lives == 0) {
       Future.microtask(() => Utils.showUIModal(context,
+        dismissible: false,
+        PlayerLostDialog(
+          onSelection: (PlayerDialogSelection selection) {
+            if (selection == PlayerDialogSelection.yes) {
+              // restart game
+              Navigator.of(context).pop();
+              ref.read(gameLoopProvider).restartGame();
+            }
+            else {
+              ref.read(gameLoopProvider).resetGame();
+              // pop twice to get to the menu
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
+          }
+        )
+      ));
+    }
+
+    if (gameWon) {
+      Future.microtask(() => Utils.showUIModal(context,
+        dismissible: false,
         PlayerWinDialog(
           onSelection: (PlayerDialogSelection selection) {
             if (selection == PlayerDialogSelection.yes) {

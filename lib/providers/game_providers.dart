@@ -65,15 +65,15 @@ final onboardStepIndex = StateProvider<int>((ref) => 0);
 final badgeListenerProvider = Provider((ref) {
   var badgeOption = RecyclingBadgeOptions.none;
 
-  if (ref.watch(waterBottleCount) == 20) {
+  if (ref.watch(waterBottleCount) == Constants.waterBottleGoal) {
     badgeOption = RecyclingBadgeOptions.plasticPioneer;
   }
 
-  if (ref.watch(sodaCanCount) == 20) {
+  if (ref.watch(sodaCanCount) == Constants.sodaCanGoal) {
     badgeOption = RecyclingBadgeOptions.canCrusher;
   }
 
-  if (ref.watch(plasticBagCount) == 20) {
+  if (ref.watch(plasticBagCount) == Constants.plasticBagGoal) {
     badgeOption = RecyclingBadgeOptions.bagBuster;
   }
 
@@ -120,3 +120,5 @@ final sharedPrefsLoaderProvider = FutureProvider<SharedPreferences>((ref) async 
 final badgeStorageProvider = Provider((ref) {
   return BadgePersistenceService(ref);
 });
+
+final gameWonProvider = StateProvider((ref) => false);

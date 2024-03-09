@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
+import 'package:recyclingvin_web/pages/splashpage.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/ground_animation.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/side_trees_animation.dart';
@@ -37,44 +38,57 @@ class _GamePageState extends ConsumerState<GamePage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  RecyclingVinColors.topGreenGradient,
-                  RecyclingVinColors.bottomGreenGradient,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              )
-            ),
-          ),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
 
-          Positioned.fill(
-            child: SvgPicture.asset('./assets/imgs/roadbg.svg',
-              fit: BoxFit.fill,
-            ),
-          ),
+        ref.read(gameLoopProvider).exitGame();
 
-          const GroundAnimation(),
+        if (didPop) {
+          return;
+        }
 
-          const SideTreesAnimation(),
-
-          Consumer(
-            builder: (context, ref, child) {
-              return ref.watch(gameStartedFlagProvider) ? 
-                const Positioned.fill(
-                  child: CoreGameWrapper()
+        Navigator.of(context).pop();
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    RecyclingVinColors.topGreenGradient,
+                    RecyclingVinColors.bottomGreenGradient,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 )
-              : const SizedBox.shrink();
-            },
-          ),
-
-          const GamePanels(),
-        ],
+              ),
+            ),
+      
+            Positioned.fill(
+              child: SvgPicture.asset('./assets/imgs/roadbg.svg',
+                fit: BoxFit.fill,
+              ),
+            ),
+      
+            const GroundAnimation(),
+      
+            const SideTreesAnimation(),
+      
+            Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(gameStartedFlagProvider) ? 
+                  const Positioned.fill(
+                    child: CoreGameWrapper()
+                  )
+                : const SizedBox.shrink();
+              },
+            ),
+      
+            const GamePanels(),
+          ],
+        ),
       ),
     );
   }

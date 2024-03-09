@@ -29,6 +29,12 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
   }
 
   @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     ref.listen(badgeListenerProvider, (previous, next) {
@@ -50,7 +56,9 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
   }
 
   Widget buildBadgeItem(
-    RecyclingBadgeModel badgeModel, Animation<double> anim, int index, { bool isAdding = false }) {
+    RecyclingBadgeModel badgeModel, 
+    Animation<double> anim, int index, { bool isAdding = false }
+  ) {
     return Stack(
       alignment: Alignment.centerRight,
       clipBehavior: Clip.none,
@@ -86,7 +94,9 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
             width: 100, height: 100,
           ).animate(
             onComplete: (controller) {
-              controller.repeat(reverse: true);
+              if (mounted) {
+                controller.repeat(reverse: true);
+              }
             },
           ).scaleXY(
             begin: 1, end: 1.25,
@@ -98,9 +108,13 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
     ).animate(
       onComplete: (controller) {
         Future.delayed(3.seconds, () {
-          controller.reverse().whenComplete(() {
-            _removeTask(badgeModel);
-          });
+          if (mounted) {
+            controller.reverse().whenComplete(() {
+              _removeTask(badgeModel);
+            
+              ref.read(badgesVMProvider.notifier).checkIfAllBadgesObtained();
+            });
+          }
         });
       },
     )

@@ -37,52 +37,55 @@ class _SplashPageState extends State<SplashPage> {
       tablet: 'recyclingvinintro'
     );
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          const SplashBg(),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RecyclingVinStyles.mediumGap,
-                SplashLogo(
-                  logo: splashLogo,
-                ),
-                StartButton(
-                  onStart: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GamePage()));
-                  },
-                ).animate(
-                  onComplete: (controller) {
-                    controller.repeat(reverse: true);
-                  },
-                ).slideY(
-                  begin: 0.05, end: -0.05,
-                  curve: Curves.easeInOut,
-                  duration: 1.seconds,
-                ),
-
-                AchievementsButton(
-                  onStart: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AchievementsPage()));
-                  },
-                ).animate(
-                  onComplete: (controller) {
-                    controller.repeat(reverse: true);
-                  },
-                ).slideY(
-                  begin: -0.05, end: 0.05,
-                  curve: Curves.easeInOut,
-                  duration: 0.8.seconds,
-                ),
-              ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            const SplashBg(),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RecyclingVinStyles.mediumGap,
+                  SplashLogo(
+                    logo: splashLogo,
+                  ),
+                  StartButton(
+                    onStart: () {
+                      Navigator.of(context).pushNamed(GamePage.route);
+                    },
+                  ).animate(
+                    onComplete: (controller) {
+                      controller.repeat(reverse: true);
+                    },
+                  ).slideY(
+                    begin: 0.05, end: -0.05,
+                    curve: Curves.easeInOut,
+                    duration: 1.seconds,
+                  ),
+      
+                  AchievementsButton(
+                    onStart: () {
+                      Navigator.of(context).pushNamed(AchievementsPage.route);
+                    },
+                  ).animate(
+                    onComplete: (controller) {
+                      controller.repeat(reverse: true);
+                    },
+                  ).slideY(
+                    begin: -0.05, end: 0.05,
+                    curve: Curves.easeInOut,
+                    duration: 0.8.seconds,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      )
+          ],
+        )
+      ),
     );
   }
 }

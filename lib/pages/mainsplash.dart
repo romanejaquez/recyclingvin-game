@@ -45,9 +45,7 @@ class _MainSplashPageState extends ConsumerState<MainSplashPage> {
     
     if (storageInit) {
       splashPageTimer = Timer(2.seconds, () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const SplashPage())
-        );
+        Navigator.of(context).pushNamed(SplashPage.route);
       });
     }
   }

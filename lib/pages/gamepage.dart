@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
-import 'package:recyclingvin_web/pages/splashpage.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/ground_animation.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/side_trees_animation.dart';

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
@@ -74,6 +72,7 @@ class _TopCounterBarState extends State<TopCounterBar> {
     return SafeArea(
       child: Column(
         crossAxisAlignment: trashColumnAlign,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -136,22 +135,31 @@ class _TopCounterBarState extends State<TopCounterBar> {
             ],
           ),
 
-          Visibility(
-            visible: !showLivesPanel,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                LivesPanel(),
-              ],
-            ),
-          ),
-
-          RecyclingVinStyles.smallGap,
-
-          const SizedBox(
-            width: 300,
-            height: 300,
-            child: BadgeNotificationList()
+          Stack(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Visibility(
+                  visible: !showLivesPanel,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      LivesPanel(),
+                    ],
+                  ),
+                ),
+              ),
+              
+              
+              const Align(
+                alignment: Alignment.topRight,
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: BadgeNotificationList()
+                ),
+              ),
+            ],
           ),
         ],
       ),

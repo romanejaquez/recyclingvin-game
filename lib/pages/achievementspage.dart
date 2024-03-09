@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_google_wallet/flutter_google_wallet_plugin.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +44,7 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
   @override
   Widget build(BuildContext context) {
 
-    final badges = ref.watch(badgesVMProvider);
+    final badges = ref.watch(badgesCollectedVMProvider);
     final badgeList = [
       for (var badge in badges)
         BadgeDisplay(

@@ -3,11 +3,11 @@ import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 
-class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
+class BadgesCollectedViewModel extends StateNotifier<List<BadgeDisplayModel>> {
 
   final Ref ref;
 
-  BadgeDisplayViewModel(super.state, this.ref);
+  BadgesCollectedViewModel(super.state, this.ref);
 
   void unlockBadge(RecyclingBadgeOptions option) {
     state = [
@@ -18,12 +18,6 @@ class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
           badge
     ];
 
-    ref.read(badgesCollectedVMProvider.notifier).unlockBadge(option);
-  }
-
-  void checkIfAllBadgesObtained() {
-    if (state.every((element) => !element.isLocked)) {
-      ref.read(gameLoopProvider).setGameAsWon();
-    }
+    ref.read(badgeStorageProvider).storeBadgesAchievedConfig(option.name);
   }
 }

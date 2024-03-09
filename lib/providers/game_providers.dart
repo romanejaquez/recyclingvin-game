@@ -1,4 +1,3 @@
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/constants.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
@@ -9,6 +8,7 @@ import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
 import 'package:recyclingvin_web/services/badgepersistence_service.dart';
 import 'package:recyclingvin_web/services/game_loop_service.dart';
 import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
+import 'package:recyclingvin_web/viewmodels/badgescollected.viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final gameLoopProvider = Provider((ref) {
@@ -27,7 +27,7 @@ final badgeRepositoryProvider = Provider((ref) {
   return BadgesRepository(ref);
 });
 
-final badgesVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<BadgeDisplayModel>>((ref) {
+final badgesCollectedVMProvider = StateNotifierProvider<BadgesCollectedViewModel, List<BadgeDisplayModel>>((ref) {
   var badges = ref.read(badgeRepositoryProvider).getBadges();
   final storedBadgesMetadata = ref.read(badgeStorageProvider).getBadgesAchievedConfig();
   List<RecyclingBadgeOptions> storedBadges = [];
@@ -45,6 +45,12 @@ final badgesVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<Badge
       isLocked: !storedBadges.contains(b.badge),
     )).toList();
   }
+
+  return BadgesCollectedViewModel(badges, ref);
+});
+
+final badgesInGameVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List<BadgeDisplayModel>>((ref) {
+  var badges = ref.read(badgeRepositoryProvider).getBadges();
 
   return BadgeDisplayViewModel(badges, ref);
 });

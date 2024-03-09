@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +8,7 @@ import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/models/recycling_badge.model.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class BadgeNotificationList extends ConsumerStatefulWidget {
   const BadgeNotificationList({super.key});
@@ -42,7 +42,7 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
         return;
       }
 
-      ref.read(badgesVMProvider.notifier).unlockBadge(next);
+      ref.read(badgesInGameVMProvider.notifier).unlockBadge(next);
       _addTask(next);
     });
 
@@ -50,15 +50,63 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
       key: _animatedListKey,
       initialItemCount: badges.length,
       itemBuilder: ((context, index, animation) {
-        return buildBadgeItem(badges[index], animation, index, isAdding: true);
+        return buildBadgeItem(context, badges[index], animation, index, isAdding: true);
       })
     );
   }
 
   Widget buildBadgeItem(
+    BuildContext context,
     RecyclingBadgeModel badgeModel, 
     Animation<double> anim, int index, { bool isAdding = false }
   ) {
+
+    final badgeNotifLabel = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.heading6,
+      tablet: RecyclingVinStyles.heading5,
+    );
+
+    final badgeNotifContent = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.heading5,
+      tablet: RecyclingVinStyles.heading4,
+    );
+
+    final badgeNotifBottomContent = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.heading6,
+      tablet: RecyclingVinStyles.heading5,
+    );
+
+    final badgeNotifPadding = getValueForScreenType(
+      context: context, 
+      mobile: const EdgeInsets.symmetric(
+        horizontal: 20, vertical: 10
+      ),
+      tablet: const EdgeInsets.symmetric(
+        horizontal: 40, vertical: 20
+      ),
+    );
+
+    double badgeNotifLeftOffset = getValueForScreenType(
+      context: context, 
+      mobile: -80,
+      tablet: -300,
+    );
+
+    double? badgeNotifRightOffset = getValueForScreenType(
+      context: context, 
+      mobile: 0,
+      tablet: 0,
+    );
+
+    double badgeNotifDimension = getValueForScreenType(
+      context: context, 
+      mobile: 50,
+      tablet: 100,
+    );
+
     return Stack(
       alignment: Alignment.centerRight,
       clipBehavior: Clip.none,
@@ -71,27 +119,26 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
               bottomLeft: Radius.circular(20),
             ),
           ),
-          padding: const EdgeInsets.only(
-            left: 40, top: 20, bottom: 20, right: 40,
-          ),
+          padding: badgeNotifPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("You've unlocked the", style: RecyclingVinStyles.heading5),
+              Text("You've unlocked the", style: badgeNotifLabel),
               Text(Utils.labelFromBadge(badgeModel.option), 
-                style: RecyclingVinStyles.heading4.copyWith(
+                style: badgeNotifContent.copyWith(
                   color: Utils.colorFromBadge(badgeModel.option),
                 )
               ),
-              const Text("Badge", style: RecyclingVinStyles.heading5),
+              Text("Badge", style: badgeNotifBottomContent),
             ],
           ),
         ),
         Positioned(
-          left: -50,
+          left: badgeNotifLeftOffset,
+          right: badgeNotifRightOffset,
           child: SvgPicture.asset('./assets/imgs/${badgeModel.option.name}.svg',
-            width: 100, height: 100,
+            width: badgeNotifDimension, height: badgeNotifDimension,
           ).animate(
             onComplete: (controller) {
               if (mounted) {
@@ -112,7 +159,7 @@ class _BadgeNotificationListState extends ConsumerState<BadgeNotificationList> {
             controller.reverse().whenComplete(() {
               _removeTask(badgeModel);
             
-              ref.read(badgesVMProvider.notifier).checkIfAllBadgesObtained();
+              ref.read(badgesInGameVMProvider.notifier).checkIfAllBadgesObtained();
             });
           }
         });

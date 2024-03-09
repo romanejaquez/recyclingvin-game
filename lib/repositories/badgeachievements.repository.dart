@@ -1,6 +1,5 @@
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/models/badge_achievement_metadata.model.dart';
-import 'package:uuid/uuid.dart';
 
 class BadgeAchievementsRepository {
 
@@ -12,7 +11,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.bagBuster: BadgeAchievementMetadata(
         badgeColorHex: '#F9BC15',
         badgeOption: RecyclingBadgeOptions.bagBuster,
-        id: 'bag-buster-badge', //const Uuid().v4(),
+        id: 'bag-buster-badge',
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'bag-buster-badge',
@@ -21,7 +20,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.canCrusher: BadgeAchievementMetadata(
         badgeColorHex: '#920000',
         badgeOption: RecyclingBadgeOptions.canCrusher,
-        id: 'can-crusher-badge', //const Uuid().v4(),
+        id: 'can-crusher-badge',
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'can-crusher-badge',
@@ -30,7 +29,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.plasticPioneer: BadgeAchievementMetadata(
         badgeColorHex: '#015466',
         badgeOption: RecyclingBadgeOptions.plasticPioneer,
-        id: 'plastic-pioneer-badge', // const Uuid().v4(),
+        id: 'plastic-pioneer-badge',
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'plastic-pioneer-badge',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
@@ -24,45 +25,53 @@ class ControlBottomBar extends ConsumerWidget {
       tablet: true,
     );
 
-    return SizedBox(
-      height: controlBarHeight,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FractionallySizedBox(
-              heightFactor: 0.8,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(RecyclingVinStyles.x3largeSize),
-                    topRight: Radius.circular(RecyclingVinStyles.x3largeSize),
-                  ),
-                  color: Colors.black.withOpacity(0.35),
-                ),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Visibility(
+          visible: !laserLevelVisible,
+          child: const LaserEnergyLevel()),
+        SizedBox(
+          height: controlBarHeight,
+          child: Stack(
             children: [
-              const MoveSlider(),
-              Visibility(
-                replacement: const Spacer(),
-                visible: laserLevelVisible,
-                child: const Expanded(
-                  child: LaserEnergyLevel(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(RecyclingVinStyles.x3largeSize),
+                        topRight: Radius.circular(RecyclingVinStyles.x3largeSize),
+                      ),
+                      color: Colors.black.withOpacity(0.35),
+                    ),
+                  ),
                 ),
               ),
-              LaserBtn(
-                onTrigger: (VinShootingOptions option) {
-                  ref.read(triggerLaserProvider.notifier).state = option;
-                }
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const MoveSlider(),
+                  Visibility(
+                    replacement: const Spacer(),
+                    visible: laserLevelVisible,
+                    child: const Expanded(
+                      child: LaserEnergyLevel(),
+                    ),
+                  ),
+                  LaserBtn(
+                    onTrigger: (VinShootingOptions option) {
+                      ref.read(triggerLaserProvider.notifier).state = option;
+                    }
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class LaserEnergyLevel extends ConsumerStatefulWidget {
   const LaserEnergyLevel({super.key});
@@ -27,6 +28,24 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
 
   @override
   Widget build(BuildContext context) {
+
+    double laserGunDim = getValueForScreenType(
+      context: context, 
+      mobile: 60,
+      tablet: 90,
+    );
+
+    final laserGunMargin = getValueForScreenType(
+      context: context, 
+      mobile: const EdgeInsets.only(left: 40),
+      tablet: EdgeInsets.zero,
+    );
+
+    final laserGunLabelStyle = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.subHeading5,
+      tablet: RecyclingVinStyles.subHeading4,
+    );
 
     return Center(
       child: Stack(
@@ -81,7 +100,7 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
                     RecyclingVinStyles.x2smallGap,
                     Container(
                       margin: const EdgeInsets.only(right: RecyclingVinStyles.xlargeSize * 2),
-                      child: Text('$laserLabelValue% Level', style: RecyclingVinStyles.subHeading4.copyWith(
+                      child: Text('$laserLabelValue% Level', style: laserGunLabelStyle.copyWith(
                         color: laserLevelColor,
                       ))
                     )
@@ -93,16 +112,19 @@ class _LaserEnergyLevelState extends ConsumerState<LaserEnergyLevel> {
 
           Align(
             alignment: Alignment.centerLeft,
-            child: SvgPicture.asset('./assets/imgs/lasergun_sm.svg',
-              width: 90, height: 90, fit: BoxFit.contain
-            ).animate(
-              onComplete: (controller) {
-                controller.repeat(reverse: true);
-              },
-            ).slideY(
-              begin: -0.15, end: 0.15,
-              curve: Curves.easeInOut,
-              duration: 2.seconds,
+            child: Container(
+              margin: laserGunMargin,
+              child: SvgPicture.asset('./assets/imgs/lasergun_sm.svg',
+                width: laserGunDim, height: laserGunDim, fit: BoxFit.contain
+              ).animate(
+                onComplete: (controller) {
+                  controller.repeat(reverse: true);
+                },
+              ).slideY(
+                begin: -0.15, end: 0.15,
+                curve: Curves.easeInOut,
+                duration: 2.seconds,
+              ),
             ),
           ),
         ],

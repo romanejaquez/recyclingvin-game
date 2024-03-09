@@ -5,6 +5,7 @@ import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class LivesPanel extends ConsumerStatefulWidget {
@@ -43,18 +44,35 @@ class _LivesPanelState extends ConsumerState<LivesPanel> {
     final dim = Utils.getDimensionFromAsset(context, GameAssetOptions.vinheart)!;
     final livesCount = ref.watch(livesCountProvider);
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('$livesCount', style: RecyclingVinStyles.heading1.copyWith(
-          color: RecyclingVinColors.topGreenGradient
-        )),
-        SizedBox(
-          width: dim.width,
-          height: dim.height,
-          child: anim
-        ),
-      ],
+    final livesLabelStyle = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.heading4,
+      tablet: RecyclingVinStyles.heading1,
+    );
+
+    final livesMargin = getValueForScreenType(
+      context: context,
+      mobile: RecyclingVinStyles.xLargeMargin.copyWith(
+        top: 0,
+      ),
+      tablet: EdgeInsets.zero,
+    );
+
+    return Container(
+      margin: livesMargin,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('$livesCount', style: livesLabelStyle.copyWith(
+            color: RecyclingVinColors.topGreenGradient
+          )),
+          SizedBox(
+            width: dim.width,
+            height: dim.height,
+            child: anim
+          ),
+        ],
+      ),
     );
   }
 }

@@ -33,7 +33,7 @@ class Utils {
         getValueForScreenType(context: ctxt, 
           mobile: switch(asset) {
             GameAssetOptions.tree => const Size(50, 50),
-            GameAssetOptions.vinheart => const Size(80, 80),
+            GameAssetOptions.vinheart => const Size(40, 40),
             GameAssetOptions.waterbottle ||
               GameAssetOptions.cardboardbox || 
                 GameAssetOptions.plasticbag ||

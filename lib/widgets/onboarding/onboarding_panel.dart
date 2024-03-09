@@ -33,27 +33,99 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
     final nextLabel = isLastStep ? "Let's Go!" : "Next";
     final nextButtonColor = currentStepContent.titleColor;
 
-    final onboardingContentStack = getValueForScreenType(
+    final dialogPadding = getValueForScreenType(
       context: context, 
+      mobile: RecyclingVinStyles.largePadding,
+      tablet: RecyclingVinStyles.xLargePadding,
+    );
 
-      // mobile
-      mobile: Stack(
+    final dialogOrientation = getValueForScreenType(
+      context: context, 
+      mobile: Axis.vertical,
+      tablet: Axis.horizontal
+    );
+
+    final mainAlignment = getValueForScreenType(
+      context: context, 
+      mobile: MainAxisAlignment.start,
+      tablet: MainAxisAlignment.center,
+    );
+
+    double dialogBadgeHeight = getValueForScreenType(
+      context: context, 
+      mobile: 200,
+      tablet: 400,
+    );
+
+    final dialogMiddleGap = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.smallGap,
+      tablet: RecyclingVinStyles.xlargeGap,
+    );
+
+    final mainHeader = getValueForScreenType(
+      context: context,
+      mobile: RecyclingVinStyles.heading4,
+      tablet: RecyclingVinStyles.heading1,  
+    );
+
+    final mainContent = getValueForScreenType(
+      context: context,
+      mobile: RecyclingVinStyles.heading6,
+      tablet: RecyclingVinStyles.heading5,  
+    );
+
+    final dialogBgImg = getValueForScreenType(
+      context: context, 
+      mobile: SvgPicture.asset('./assets/imgs/dialogbg.svg',
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
+        fit: BoxFit.fill,
+      ),
+      tablet: SvgPicture.asset('./assets/imgs/dialogbg.svg'),
+    );
+
+    final dialogBtnAlignment = getValueForScreenType(
+      context: context,
+      mobile: Alignment.bottomCenter,
+      tablet: Alignment.bottomRight,
+    );
+
+    final dialogBtnMargin = getValueForScreenType(
+      context: context, 
+      mobile: const EdgeInsets.only(bottom: RecyclingVinStyles.xlargeSize * 1.5),
+      tablet: const EdgeInsets.only(bottom: RecyclingVinStyles.x2largeSize),
+    );
+
+    final dialogBtnPadding = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.mediumPadding,
+      tablet: RecyclingVinStyles.largePadding,
+    );
+
+    final dialogBtnLabel = getValueForScreenType(
+      context: context, 
+      mobile: RecyclingVinStyles.heading5,
+      tablet: RecyclingVinStyles.heading2
+    );
+    
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 300),
+        child: Stack(
         children: [
-          SvgPicture.asset('./assets/imgs/dialogbg.svg',
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height,
-            fit: BoxFit.fill,
-          ),
+          dialogBgImg,
           Center(
             child: Padding(
-              padding: RecyclingVinStyles.largePadding,
-              child: Column(
+              padding: dialogPadding,
+              child: Flex(
+                direction: dialogOrientation,
                 key: ValueKey(currentStep),
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: mainAlignment,
                 children: [
                   SizedBox(
-                    height: 200,
+                    height: dialogBadgeHeight,
                     child: OnboardingBadge(option: currentStepContent.badge)
                     .animate()
                     .scaleXY(
@@ -62,112 +134,19 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
                       duration: 0.25.seconds,
                     ),
                   ),
-                  RecyclingVinStyles.smallGap,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(currentStepContent.title,
-                        textAlign: TextAlign.center,
-                        style: RecyclingVinStyles.heading4.copyWith(
-                        color: currentStepContent.titleColor,
-                      )),
-                      Text(currentStepContent.content,
-                        textAlign: TextAlign.center,
-                        style: RecyclingVinStyles.heading6
-                      ),
-                    ].animate(
-                      interval: 100.ms,
-                    ).slideX(
-                      begin: 0.25, end: 0,
-                      curve: Curves.easeInOut,
-                      duration: 0.25.seconds,
-                    ).fadeIn(
-                      curve: Curves.easeInOut,
-                      duration: 0.25.seconds,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: RecyclingVinStyles.xlargeSize * 3),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: RecyclingVinStyles.mediumPadding,
-                  backgroundColor: nextButtonColor,
-                  foregroundColor: Colors.white,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    RecyclingVinStyles.smallGap,
-                    Text(nextLabel, style: RecyclingVinStyles.heading5),
-                    RecyclingVinStyles.smallGap,
-                    SvgPicture.asset('./assets/imgs/rightarrow.svg',
-                      width: 60, height: 30
-                    )
-                  ],
-                ),
-                onPressed: () {
-                  if (isLastStep) {
-                    controller.reverse().whenComplete(() {
-                      widget.onboardingComplete();
-                    });
-                  }
-                  else {
-                    ref.read(onboardStepIndex.notifier).state += 1;
-                  }
-                },
-              ).animate(
-                onComplete: (controller) {
-                  controller.repeat(reverse: true);
-                },
-              )
-              .scaleXY(
-                begin: 0.9, end: 1,
-                curve: Curves.easeInOut,
-                duration: 0.75.seconds,
-              ),
-            ),
-          )
-        ],
-      ),
-
-      // tablet
-      tablet: Stack(
-        children: [
-          SvgPicture.asset('./assets/imgs/dialogbg.svg'),
-          Center(
-            child: Padding(
-              padding: RecyclingVinStyles.xLargePadding,
-              child: Row(
-                key: ValueKey(currentStep),
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OnboardingBadge(option: currentStepContent.badge)
-                  .animate()
-                  .scaleXY(
-                    begin: 0.5, end: 1,
-                    curve: Curves.easeInOut,
-                    duration: 0.25.seconds,
-                  ),
-                  RecyclingVinStyles.xlargeGap,
+                  dialogMiddleGap,
                   Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: mainAlignment,
                       children: [
-                        Text(currentStepContent.title, style: RecyclingVinStyles.heading1.copyWith(
+                        Text(currentStepContent.title,
+                          textAlign: TextAlign.center,
+                          style: mainHeader.copyWith(
                           color: currentStepContent.titleColor,
                         )),
                         Text(currentStepContent.content,
-                          style: RecyclingVinStyles.heading5
+                          textAlign: TextAlign.center,
+                          style: mainContent
                         ),
                       ].animate(
                         interval: 100.ms,
@@ -186,20 +165,22 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: dialogBtnAlignment,
             child: Container(
-              margin: const EdgeInsets.only(bottom: RecyclingVinStyles.x2largeSize),
+              margin: dialogBtnMargin,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  padding: RecyclingVinStyles.largePadding,
+                  padding: dialogBtnPadding,
                   backgroundColor: nextButtonColor,
                   foregroundColor: Colors.white,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     RecyclingVinStyles.smallGap,
-                    Text(nextLabel, style: RecyclingVinStyles.heading2),
+                    Text(nextLabel, style: dialogBtnLabel),
                     RecyclingVinStyles.smallGap,
                     SvgPicture.asset('./assets/imgs/rightarrow.svg',
                       width: 60, height: 30
@@ -229,14 +210,7 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
             ),
           )
         ],
-      )
-    );
-    
-    return Material(
-      color: Colors.transparent,
-      child: Container(
-        constraints: const BoxConstraints(maxHeight: 300),
-        child: onboardingContentStack.animate(
+      ).animate(
           onInit: (ctrl) {
             controller = ctrl;
           },

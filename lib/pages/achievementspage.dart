@@ -1,13 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_google_wallet/flutter_google_wallet_plugin.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/achievements/achievements_header.dart';
 import 'package:recyclingvin_web/widgets/achievements/badgedisplay.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/splashbg.dart';
 import 'package:recyclingvin_web/widgets/controls/back_btn.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:uuid/uuid.dart';
 
 class AchievementsPage extends ConsumerStatefulWidget {
@@ -23,6 +27,7 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
 
   final flutterGoogleWalletPlugin = FlutterGoogleWalletPlugin();
   late bool _isWalletAvailable;
+  int pageIndex = 0;
 
   @override
   void initState() {
@@ -42,6 +47,52 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
   Widget build(BuildContext context) {
 
     final badges = ref.watch(badgesVMProvider);
+    final badgeList = [
+      for (var badge in badges)
+        BadgeDisplay(
+          badgeModel: badge,
+          onAddBadge: () {
+            var payload = badge.metadata.walletPayload();
+            debugPrint(payload);
+  
+            flutterGoogleWalletPlugin.savePasses(
+              jsonPass: payload,
+              addToGoogleWalletRequestCode: 2
+            );
+          }  
+        )
+    ];
+
+    final showBackButton = getValueForScreenType(
+      context: context, 
+      mobile: false,
+      tablet: true,
+    );
+
+    final showPageViewerBullets = getValueForScreenType(
+      context: context, 
+      mobile: true,
+      tablet: false,
+    );
+
+    final badgeContainer = getValueForScreenType(
+      context: context, 
+      mobile: Expanded(
+        child: PageView(
+          children: badgeList,
+          onPageChanged: (value) {
+            setState(() {
+              pageIndex = value;
+            });
+          },
+        ),
+      ),
+      tablet: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: badgeList,
+      )
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -53,47 +104,58 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AchievementsHeader(),
-                  RecyclingVinStyles.mediumGap,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      for (var badge in badges)
-                        BadgeDisplay(
-                          badgeModel: badge,
-                          onAddBadge: () {
-                            var payload = badge.metadata.walletPayload();
-                            debugPrint(payload);
-
-                            flutterGoogleWalletPlugin.savePasses(
-                              jsonPass: payload,
-                              addToGoogleWalletRequestCode: 2
-                            );
-                          }  
-                        )
-                    ]
+                  Padding(
+                    padding: const EdgeInsets.all(RecyclingVinStyles.largeSize)
+                      .copyWith(bottom: 0),
+                    child: const AchievementsHeader(),
                   ),
+                  RecyclingVinStyles.mediumGap,
+                  badgeContainer,
+                  RecyclingVinStyles.mediumGap,
+                  Visibility(
+                    visible: showPageViewerBullets,
+                    child: Container(
+                      padding: RecyclingVinStyles.largePadding,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(badgeList.length,
+                          (index) {
+                            return Container(
+                              width: 20, height: 20,
+                              margin: RecyclingVinStyles.smallPadding,
+                              decoration: BoxDecoration(
+                                color: RecyclingVinColors.vinBrown
+                                  .withOpacity(index == pageIndex ? 1 : 0.25),
+                                shape: BoxShape.circle,
+                              ),
+                            );
+                          }),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: RecyclingVinStyles.largePadding.copyWith(
-                  top: RecyclingVinStyles.largePadding.top / 2,
-                ),
-                child: GameBackButton(
-                  onBack: () {
-                    Navigator.of(context).pop();
-                  },
-                ).animate(
-                  onComplete: (controller) => controller.repeat(reverse: true),
-                )
-                .slideY(
-                  begin: 0.125, end: 0,
-                  curve: Curves.easeInOut,
-                  duration: 1.5.seconds,
+            Visibility(
+              visible: showBackButton,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: RecyclingVinStyles.largePadding.copyWith(
+                    top: RecyclingVinStyles.largePadding.top / 2,
+                  ),
+                  child: GameBackButton(
+                    onBack: () {
+                      Navigator.of(context).pop();
+                    },
+                  ).animate(
+                    onComplete: (controller) => controller.repeat(reverse: true),
+                  )
+                  .slideY(
+                    begin: 0.125, end: 0,
+                    curve: Curves.easeInOut,
+                    duration: 1.5.seconds,
+                  ),
                 ),
               ),
             )

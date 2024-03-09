@@ -13,4 +13,5 @@ class RecyclingVinColors {
   static Color laserLightColor = const Color(0xFFEFFF3B).withOpacity(0.75);
   static const Color topGreenGradient = Color(0xFF398F00);
   static const Color bottomGreenGradient= Color(0xFF193F00);
+  static const Color vinBrown = Color(0xFF83290C);
 }

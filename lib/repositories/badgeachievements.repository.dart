@@ -12,7 +12,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.bagBuster: BadgeAchievementMetadata(
         badgeColorHex: '#F9BC15',
         badgeOption: RecyclingBadgeOptions.bagBuster,
-        id: const Uuid().v4(),
+        id: 'bag-buster-badge', //const Uuid().v4(),
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'bag-buster-badge',
@@ -21,7 +21,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.canCrusher: BadgeAchievementMetadata(
         badgeColorHex: '#920000',
         badgeOption: RecyclingBadgeOptions.canCrusher,
-        id: const Uuid().v4(),
+        id: 'can-crusher-badge', //const Uuid().v4(),
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'can-crusher-badge',
@@ -30,7 +30,7 @@ class BadgeAchievementsRepository {
       RecyclingBadgeOptions.plasticPioneer: BadgeAchievementMetadata(
         badgeColorHex: '#015466',
         badgeOption: RecyclingBadgeOptions.plasticPioneer,
-        id: const Uuid().v4(),
+        id: 'plastic-pioneer-badge', // const Uuid().v4(),
         issuerId: BadgeAchievementsRepository._issuerId,
         issuerEmail: BadgeAchievementsRepository._issuerEmail,
         walletId: 'plastic-pioneer-badge',

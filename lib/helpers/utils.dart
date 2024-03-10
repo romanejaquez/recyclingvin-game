@@ -108,6 +108,18 @@ class Utils {
       });
     }
     else {
+      final dialogWidthFactor = getValueForScreenType(
+        context: context, 
+        mobile: 0.85,
+        tablet: 0.7,
+      );
+
+      final dialogHeightFactor = getValueForScreenType(
+        context: context, 
+        mobile: 0.65,
+        tablet: 0.8,
+      );
+
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -116,8 +128,8 @@ class Utils {
           return PopScope(
             canPop: false,
             child: FractionallySizedBox(
-              widthFactor: 0.7,
-              heightFactor: 0.8,
+              widthFactor: dialogWidthFactor,
+              heightFactor: dialogHeightFactor,
               child: child
             ),
           );

@@ -39,7 +39,7 @@ class _StartButtonState extends State<StartButton> {
     return GestureDetector(
       onTap: widget.onStart,
       child: SizedBox(
-        width: 200,
+        width: 300,
         height: 100,
         child: anim
       ),

@@ -38,7 +38,7 @@ class _SplashLogoState extends State<SplashLogo> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 450,
       child: anim
     );
   }

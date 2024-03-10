@@ -6,6 +6,7 @@ import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/widgets/controls/yesno_btn.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class PlayerWinDialog extends StatefulWidget {
@@ -43,6 +44,13 @@ class _PlayerWinDialogState extends State<PlayerWinDialog> {
 
   @override
   Widget build(BuildContext context) {
+
+    double playerWinBadgeSize = getValueForScreenType(
+      context: context, 
+      mobile: 300,
+      tablet: 400,
+    );
+
     return Material(
       color: Colors.transparent,
       child: Center(
@@ -50,8 +58,8 @@ class _PlayerWinDialogState extends State<PlayerWinDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 300,
-              height: 300,
+              width: playerWinBadgeSize,
+              height: playerWinBadgeSize,
               child: anim,
             ).animate(
               delay: 0.125.seconds

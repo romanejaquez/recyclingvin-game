@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class YesNoBtn extends StatefulWidget {
@@ -40,11 +41,18 @@ class _YesNoButtonState extends State<YesNoBtn> {
 
   @override
   Widget build(BuildContext context) {
+
+    double yesNoBtnHeight = getValueForScreenType(
+      context: context, 
+      mobile: 70,
+      tablet: 80,
+    );
+
     return GestureDetector(
       onTap: widget.onTap,
       child: SizedBox(
         width: 140,
-        height: 80,
+        height: yesNoBtnHeight,
         child: anim
       ),
     );

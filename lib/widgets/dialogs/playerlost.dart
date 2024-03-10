@@ -4,6 +4,7 @@ import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
 import 'package:recyclingvin_web/widgets/controls/yesno_btn.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
 class PlayerLostDialog extends StatefulWidget {
@@ -41,6 +42,13 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
 
   @override
   Widget build(BuildContext context) {
+
+    double playerLostBadgeSize = getValueForScreenType(
+      context: context, 
+      mobile: 300,
+      tablet: 400,
+    );
+
     return Material(
       color: Colors.transparent,
       child: Center(
@@ -48,8 +56,8 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 400,
-              height: 400,
+              width: playerLostBadgeSize,
+              height: playerLostBadgeSize,
               child: anim,
             ).animate(
               delay: 0.125.seconds

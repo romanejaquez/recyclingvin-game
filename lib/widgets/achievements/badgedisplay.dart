@@ -11,7 +11,10 @@ class BadgeDisplay extends ConsumerWidget {
 
   final BadgeDisplayModel badgeModel;
   final Function onAddBadge;
+  final bool isWalletAvailable;
+
   const BadgeDisplay({
+    required this.isWalletAvailable,
     required this.badgeModel,
     required this.onAddBadge,
     super.key
@@ -38,11 +41,11 @@ class BadgeDisplay extends ConsumerWidget {
               ),
               RecyclingVinStyles.smallGap,
               Opacity(
-                opacity: badgeModel.isLocked ? 0.0 : 1.0,
+                opacity: badgeModel.isLocked || !isWalletAvailable ? 0.0 : 1.0,
                 child: AddToGoogleWalletButton(
                   buttonType: GoogleWalletButtonType.primary,
                   locale: const Locale('en', 'US'),
-                  onPress: !badgeModel.isLocked ? () {
+                  onPress: !badgeModel.isLocked && isWalletAvailable ? () {
                     ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     onAddBadge();
                   } : null

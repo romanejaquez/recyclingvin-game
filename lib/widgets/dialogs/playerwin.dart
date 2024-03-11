@@ -49,8 +49,8 @@ class _PlayerWinDialogState extends ConsumerState<PlayerWinDialog> {
 
     double playerWinBadgeSize = getValueForScreenType(
       context: context, 
-      mobile: 300,
-      tablet: 400,
+      mobile: 200,
+      tablet: 300,
     );
 
     return Material(

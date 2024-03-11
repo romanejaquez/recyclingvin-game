@@ -24,7 +24,7 @@ class AchievementsPage extends ConsumerStatefulWidget {
 class _AchievementsPageState extends ConsumerState<AchievementsPage> {
 
   final flutterGoogleWalletPlugin = FlutterGoogleWalletPlugin();
-  late bool _isWalletAvailable;
+  late Future<bool> _isWalletAvailable;
   int pageIndex = 0;
 
   @override
@@ -35,7 +35,7 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
   }
 
   void checkForWalletAvailability() async {
-    _isWalletAvailable = await Future(() async {
+    _isWalletAvailable = Future(() async {
       await flutterGoogleWalletPlugin.initWalletClient();
       return flutterGoogleWalletPlugin.getWalletApiAvailabilityStatus();
     });
@@ -45,21 +45,6 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
   Widget build(BuildContext context) {
 
     final badges = ref.watch(badgesCollectedVMProvider);
-    final badgeList = [
-      for (var badge in badges)
-        BadgeDisplay(
-          badgeModel: badge,
-          onAddBadge: () {
-            var payload = badge.metadata.walletPayload();
-            debugPrint(payload);
-  
-            flutterGoogleWalletPlugin.savePasses(
-              jsonPass: payload,
-              addToGoogleWalletRequestCode: 2
-            );
-          }  
-        )
-    ];
 
     final showBackButton = getValueForScreenType(
       context: context, 
@@ -73,23 +58,28 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
       tablet: false,
     );
 
-    final badgeContainer = getValueForScreenType(
-      context: context, 
-      mobile: Expanded(
-        child: PageView(
-          children: badgeList,
-          onPageChanged: (value) {
-            setState(() {
-              pageIndex = value;
-            });
-          },
+    final backButtonWidget = Visibility(
+      visible: showBackButton,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Padding(
+          padding: RecyclingVinStyles.largePadding.copyWith(
+            top: RecyclingVinStyles.largePadding.top / 2,
+          ),
+          child: GameBackButton(
+            onBack: () {
+              Navigator.of(context).pop();
+            },
+          ).animate(
+            onComplete: (controller) => controller.repeat(reverse: true),
+          )
+          .slideY(
+            begin: 0.125, end: 0,
+            curve: Curves.easeInOut,
+            duration: 1.5.seconds,
+          ),
         ),
       ),
-      tablet: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: badgeList,
-      )
     );
 
     return Scaffold(
@@ -108,55 +98,87 @@ class _AchievementsPageState extends ConsumerState<AchievementsPage> {
                     child: const AchievementsHeader(),
                   ),
                   RecyclingVinStyles.mediumGap,
-                  badgeContainer,
+                  FutureBuilder(
+                    future: _isWalletAvailable,
+                    builder: (context, snapshot) {
+
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(RecyclingVinColors.vinBrown),
+                            )
+                          ),
+                        );
+                      }
+
+                      final badgeList = [
+                        for (var badge in badges)
+                          BadgeDisplay(
+                            isWalletAvailable: snapshot.data!,
+                            badgeModel: badge,
+                            onAddBadge: () {
+                              var payload = badge.metadata.walletPayload();
+                              flutterGoogleWalletPlugin.savePasses(
+                                jsonPass: payload,
+                                addToGoogleWalletRequestCode: 2
+                              );
+                            }  
+                          )
+                      ];
+
+                      final badgeContainer = getValueForScreenType(
+                        context: context, 
+                        mobile: Expanded(
+                          child: PageView(
+                            children: badgeList,
+                            onPageChanged: (value) {
+                              setState(() {
+                                pageIndex = value;
+                              });
+                            },
+                          ),
+                        ),
+                        tablet: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: badgeList,
+                        )
+                      );
+
+                      
+                      return badgeContainer;
+                            
+                    }
+                  ),
                   RecyclingVinStyles.mediumGap,
                   Visibility(
-                    visible: showPageViewerBullets,
-                    child: Container(
-                      padding: RecyclingVinStyles.largePadding,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(badgeList.length,
-                          (index) {
-                            return Container(
-                              width: 20, height: 20,
-                              margin: RecyclingVinStyles.smallPadding,
-                              decoration: BoxDecoration(
-                                color: RecyclingVinColors.vinBrown
-                                  .withOpacity(index == pageIndex ? 1 : 0.25),
-                                shape: BoxShape.circle,
-                              ),
-                            );
-                          }),
-                      ),
+                  visible: showPageViewerBullets,
+                  child: Container(
+                    padding: RecyclingVinStyles.largePadding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(badges.length,
+                        (index) {
+                          return Container(
+                            width: 20, height: 20,
+                            margin: RecyclingVinStyles.smallPadding,
+                            decoration: BoxDecoration(
+                              color: RecyclingVinColors.vinBrown
+                                .withOpacity(index == pageIndex ? 1 : 0.25),
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                        }),
                     ),
-                  )
+                  ),
+                )
                 ],
               ),
             ),
-            Visibility(
-              visible: showBackButton,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: RecyclingVinStyles.largePadding.copyWith(
-                    top: RecyclingVinStyles.largePadding.top / 2,
-                  ),
-                  child: GameBackButton(
-                    onBack: () {
-                      Navigator.of(context).pop();
-                    },
-                  ).animate(
-                    onComplete: (controller) => controller.repeat(reverse: true),
-                  )
-                  .slideY(
-                    begin: 0.125, end: 0,
-                    curve: Curves.easeInOut,
-                    duration: 1.5.seconds,
-                  ),
-                ),
-              ),
-            )
+            backButtonWidget
           ],
         ),
       ),

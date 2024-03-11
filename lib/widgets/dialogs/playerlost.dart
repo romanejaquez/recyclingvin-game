@@ -47,8 +47,8 @@ class _PlayerLostDialogState extends ConsumerState<PlayerLostDialog> {
 
     double playerLostBadgeSize = getValueForScreenType(
       context: context, 
-      mobile: 300,
-      tablet: 400,
+      mobile: 280,
+      tablet: 300,
     );
 
     return Material(

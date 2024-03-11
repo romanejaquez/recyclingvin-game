@@ -39,7 +39,7 @@ class GamePanelsState extends ConsumerState<GamePanels> {
 
     if (lives == 0) {
       ref.read(audioSoundProvider).stopBgSound();
-      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.babyCrying, loop: true);
+      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.babyCrying);
       ref.read(audioSoundProvider).playSound(RecyclingVinSounds.lose);
 
       Future.microtask(() => Utils.showUIModal(context,

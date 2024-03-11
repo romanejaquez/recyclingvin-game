@@ -48,6 +48,7 @@ class _LaserBtnState extends ConsumerState<LaserBtn> {
     final canShoot = ref.watch(shootingCapabilityProvider);
     if (!canShoot) {
       Future.microtask(() {
+        ref.read(audioSoundProvider).stopSound(RecyclingVinSounds.laser);
         ref.read(triggerLaserProvider.notifier).state = VinShootingOptions.none;
       });
     }

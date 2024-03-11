@@ -3,8 +3,6 @@ import 'package:recyclingvin_web/helpers/enums.dart';
 
 class AudioService {
 
-  List<AssetsAudioPlayer> audios = [];
-
   AssetsAudioPlayer babyCrying = AssetsAudioPlayer();
   AssetsAudioPlayer badgeUnlock = AssetsAudioPlayer();
   AssetsAudioPlayer cardboardRide = AssetsAudioPlayer();
@@ -14,6 +12,7 @@ class AudioService {
   AssetsAudioPlayer trash = AssetsAudioPlayer();
   AssetsAudioPlayer win = AssetsAudioPlayer();
   AssetsAudioPlayer enemyHit = AssetsAudioPlayer();
+  AssetsAudioPlayer enemyKill = AssetsAudioPlayer();
 
   AssetsAudioPlayer bgSound = AssetsAudioPlayer();
 
@@ -29,6 +28,7 @@ class AudioService {
     await trash.open(Audio('/assets/sounds/trash.mp3'), autoStart: false);
     await win.open(Audio('/assets/sounds/win.mp3'), autoStart: false);
     await enemyHit.open(Audio('/assets/sounds/enemyHit.mp3'), autoStart: false);
+    await enemyKill.open(Audio('/assets/sounds/enemyKill.mp3'), autoStart: false);
 
     sounds = {
       RecyclingVinSounds.babyCrying: babyCrying,
@@ -40,14 +40,13 @@ class AudioService {
       RecyclingVinSounds.trash : trash,
       RecyclingVinSounds.win : win,
       RecyclingVinSounds.enemyHit : enemyHit,
+      RecyclingVinSounds.enemyKill : enemyKill,
     };
   }
 
   Future<void> playSound(RecyclingVinSounds sound, { bool waitForSoundToFinish = false, bool loop = false,}) async {
-    sounds[sound]!.play();
-    if (loop) {
-      sounds[sound]!.setLoopMode(loop ? LoopMode.single : LoopMode.none);
-    }
+    await sounds[sound]!.play();
+    await sounds[sound]!.setLoopMode(loop ? LoopMode.single : LoopMode.none);
   }
 
   Future<void> playBgSound() async {
@@ -72,6 +71,5 @@ class AudioService {
 
   void reset() {
     stopAllSounds();
-    audios = [];
   }
 }

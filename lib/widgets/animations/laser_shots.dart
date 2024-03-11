@@ -35,7 +35,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
     final vinDim = Utils.getDimensionFromAsset(context, GameAssetOptions.vin)!;
 
-    final laserLeftOffset = getValueForScreenType(context: context, 
+    double laserLeftOffset = getValueForScreenType(context: context, 
       mobile: 60,
       tablet: 125.0,
     );
@@ -66,6 +66,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
         if (latest == VinShootingOptions.shoot) {
 
+          ref.read(audioSoundProvider).playSound(RecyclingVinSounds.laser);
           laserTimer.cancel();
           
           // reduce the lasershot energy level
@@ -78,48 +79,15 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
           var vinPosition = ref.read(vinPositionProvider);
           vinPosition = vinPosition ?? (MediaQuery.sizeOf(context).width / 2) - laserOffset;
-        
-          laserTimer.cancel();
-          var laserKey = GlobalKey();
 
           setState(() {
-            laserShotsWidget.add(
-              Positioned(
-                left: vinPosition! + laserLeftOffset,
-                child: Container(
-                  key: laserKey,
-                  width: laserDim.width,
-                  height: laserDim.height,
-                  margin: EdgeInsets.only(
-                    left: laserPoint.dx,
-                    top: laserPoint.dy, 
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: RecyclingVinColors.laserLightColor,
-                  ),
-                ).animate(
-                  onInit: (controller) {
-                    controller.addListener(() {
-                      Utils.checkForCollision(laserKey, Utils.enemy1, () {});
-                      Utils.checkForCollision(laserKey, Utils.enemy2, () {});
-                    });
-                  },
-                  onComplete: (controller) {
-                    laserShotsWidget.removeWhere((laser) => laser.key == laserKey);
-                  },
-                )
-                .slideY(
-                  begin: 0,
-                  end: 3,
-                  curve: Curves.linear,
-                  duration: 1.seconds,
-                ),
-              )
-            );
+            addLaser(laserDim, laserPoint, laserLeftOffset, vinPosition);
           });
         }
         else if (latest == VinShootingOptions.multishoot) {
+
+          ref.read(audioSoundProvider).playSound(RecyclingVinSounds.laser, loop: true);
+
           if (shootingTimer.isActive) {
             return;
           }
@@ -133,42 +101,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
               ref.read(laserEnergyLevelProvider.notifier).state - 0.01;
             
             setState(() {
-              var laserKey = GlobalKey();
-              laserShotsWidget.add(
-                Positioned(
-                  key: GlobalKey(),
-                  left: (vinPosition! + laserLeftOffset).toDouble(),
-                  child: Container(
-                    key: laserKey,
-                    width: laserDim.width,
-                    height: laserDim.height,
-                    margin: EdgeInsets.only(
-                      left: laserPoint.dx,
-                      top: laserPoint.dy,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: RecyclingVinColors.laserLightColor,
-                    ),
-                  ).animate(
-                    onInit: (controller) {
-                      controller.addListener(() {
-                        Utils.checkForCollision(laserKey, Utils.enemy1, () {});
-                        Utils.checkForCollision(laserKey, Utils.enemy2, () {});
-                      });
-                    },
-                    onComplete: (controller) {
-                      laserShotsWidget.removeWhere((laser) => laser.key == laserKey);
-                    },
-                  )
-                  .slideY(
-                    begin: 0,
-                    end: 3,
-                    curve: Curves.linear,
-                    duration: 1.seconds,
-                  ),
-                ),
-              );
+              addLaser(laserDim, laserPoint, laserLeftOffset, vinPosition);
             });
           });
         }
@@ -176,6 +109,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           laserTimer.cancel();
           shootingTimer.cancel();
           innerLaserTimer.cancel();
+          ref.read(audioSoundProvider).stopSound(RecyclingVinSounds.laser);
         }
     });
                 
@@ -185,6 +119,49 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
       child: Stack(
         clipBehavior: Clip.none,
         children: laserShotsWidget,
+      ),
+    );
+  }
+
+  void addLaser(Size laserDim, Offset laserPoint, double laserLeftOffset, double? vinPosition) {
+    var laserKey = GlobalKey();
+    laserShotsWidget.add(
+      Positioned(
+        key: GlobalKey(),
+        left: (vinPosition! + laserLeftOffset).toDouble(),
+        child: Container(
+          key: laserKey,
+          width: laserDim.width,
+          height: laserDim.height,
+          margin: EdgeInsets.only(
+            left: laserPoint.dx,
+            top: laserPoint.dy,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: RecyclingVinColors.laserLightColor,
+          ),
+        ).animate(
+          onInit: (controller) {
+            controller.addListener(() {
+              Utils.checkForCollision(laserKey, Utils.enemy1, () {
+                ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyKill);
+              });
+              Utils.checkForCollision(laserKey, Utils.enemy2, () {
+                ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyKill);
+              });
+            });
+          },
+          onComplete: (controller) {
+            laserShotsWidget.removeWhere((laser) => laser.key == laserKey);
+          },
+        )
+        .slideY(
+          begin: 0,
+          end: 3,
+          curve: Curves.linear,
+          duration: 1.seconds,
+        ),
       ),
     );
   }

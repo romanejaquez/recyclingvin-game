@@ -63,4 +63,5 @@ enum RecyclingVinSounds {
   click,
   babyCrying,
   enemyHit,
+  enemyKill,
 }

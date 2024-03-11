@@ -18,6 +18,7 @@ class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
           badge
     ];
 
+    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.badgeUnlock);
     ref.read(badgesCollectedVMProvider.notifier).unlockBadge(option);
   }
 

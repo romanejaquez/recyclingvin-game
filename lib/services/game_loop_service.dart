@@ -48,10 +48,12 @@ class GameLoopService {
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.enemy1, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyHit);
         decreaseLives();
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.enemy2, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyHit);
         decreaseLives();
       });
     });

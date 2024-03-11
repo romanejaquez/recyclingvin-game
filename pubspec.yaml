@@ -45,6 +45,7 @@ dependencies:
   icons_launcher: ^2.1.7
   responsive_builder: ^0.7.0
   shared_preferences: ^2.2.2
+  audiofileplayer: ^2.1.1
   assets_audio_player: ^3.1.1
 
 dev_dependencies:

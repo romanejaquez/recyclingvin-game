@@ -53,7 +53,7 @@ enum YesNoButtonOptions {
 }
 
 enum RecyclingVinSounds {
-  vinSound,
+  bgSound,
   laser,
   trash,
   win,
@@ -64,4 +64,5 @@ enum RecyclingVinSounds {
   babyCrying,
   enemyHit,
   enemyKill,
+  frackingstein,
 }

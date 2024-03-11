@@ -59,6 +59,7 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           shootingTimer.cancel();
           innerLaserTimer.cancel();
           laserShotsWidget.clear();
+          ref.read(audioSoundProvider).stopSound(RecyclingVinSounds.laser);
           return;
         }
 
@@ -66,7 +67,6 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
 
         if (latest == VinShootingOptions.shoot) {
 
-          ref.read(audioSoundProvider).playSound(RecyclingVinSounds.laser);
           laserTimer.cancel();
           
           // reduce the lasershot energy level
@@ -85,8 +85,6 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           });
         }
         else if (latest == VinShootingOptions.multishoot) {
-
-          ref.read(audioSoundProvider).playSound(RecyclingVinSounds.laser, loop: true);
 
           if (shootingTimer.isActive) {
             return;
@@ -143,16 +141,16 @@ class _LaserShotsState extends ConsumerState<LaserShots> {
           ),
         ).animate(
           onInit: (controller) {
+            ref.read(audioSoundProvider).playSound(RecyclingVinSounds.laser);
             controller.addListener(() {
               Utils.checkForCollision(laserKey, Utils.enemy1, () {
-                ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyKill);
               });
               Utils.checkForCollision(laserKey, Utils.enemy2, () {
-                ref.read(audioSoundProvider).playSound(RecyclingVinSounds.enemyKill);
               });
             });
           },
           onComplete: (controller) {
+            controller.dispose();
             laserShotsWidget.removeWhere((laser) => laser.key == laserKey);
           },
         )

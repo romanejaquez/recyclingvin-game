@@ -35,6 +35,12 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
   }
 
   @override
+  void dispose() {
+    ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final enemyDim = Utils.getDimensionFromAsset(context, GameAssetOptions.frackingstein)!;
@@ -88,8 +94,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
         )
         .slide(
           delay: 1.seconds,
-          begin: Offset(0.25, 0),
-          end: Offset(-0.25, 0),
+          begin: const Offset(0.25, 0),
+          end: const Offset(-0.25, 0),
           duration: 5.5.seconds,
           curve: Curves.easeInOut,
         ),
@@ -135,8 +141,8 @@ class _EnemyAnimationState extends State<EnemyAnimation> {
         )
         .slide(
           delay: 1.seconds,
-          begin: Offset(0.25, 0),
-          end: Offset(-0.25, 0),
+          begin: const Offset(0.25, 0),
+          end: const Offset(-0.25, 0),
           duration: 5.5.seconds,
           curve: Curves.easeInOut,
         ),

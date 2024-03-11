@@ -34,6 +34,10 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
     final nextLabel = isLastStep ? "Let's Go!" : "Next";
     final nextButtonColor = currentStepContent.titleColor;
 
+    if (currentStepContent.badge == OnboardingBadgeOptions.frackensteinbadge) {
+      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.frackingstein);
+    }
+
     final dialogPadding = getValueForScreenType(
       context: context, 
       mobile: RecyclingVinStyles.largePadding,

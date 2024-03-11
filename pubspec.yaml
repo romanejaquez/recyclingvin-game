@@ -41,10 +41,11 @@ dependencies:
   gap: ^3.0.1
   flutter_svg: ^2.0.9
   flutter_google_wallet: ^0.1.2
-  uuid: ^4.3.3
+  uuid: ^3.0.1
   icons_launcher: ^2.1.7
   responsive_builder: ^0.7.0
   shared_preferences: ^2.2.2
+  assets_audio_player: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
   assets:
     - assets/anims/
     - assets/imgs/
+    - assets/sounds/
     - packages/flutter_google_wallet/assets/svg/button/enUS_add_to_google_wallet_wallet-button.svg
 
 

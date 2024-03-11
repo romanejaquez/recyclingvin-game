@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recyclingvin_web/helpers/colors.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/controls/yesno_btn.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
-class PlayerWinDialog extends StatefulWidget {
+class PlayerWinDialog extends ConsumerStatefulWidget {
 
   final Function onSelection;
   const PlayerWinDialog({
@@ -18,10 +20,10 @@ class PlayerWinDialog extends StatefulWidget {
   });
 
   @override
-  State<PlayerWinDialog> createState() => _PlayerWinDialogState();
+  ConsumerState<PlayerWinDialog> createState() => _PlayerWinDialogState();
 }
 
-class _PlayerWinDialogState extends State<PlayerWinDialog> {
+class _PlayerWinDialogState extends ConsumerState<PlayerWinDialog> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -113,6 +115,7 @@ class _PlayerWinDialogState extends State<PlayerWinDialog> {
                 YesNoBtn(
                   buttonOption: YesNoButtonOptions.yesbtn, 
                   onTap: () {
+                    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     widget.onSelection(PlayerDialogSelection.yes);
                   }
                 ),
@@ -120,6 +123,7 @@ class _PlayerWinDialogState extends State<PlayerWinDialog> {
                 YesNoBtn(
                   buttonOption: YesNoButtonOptions.nobtn, 
                   onTap: () {
+                    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     widget.onSelection(PlayerDialogSelection.no);
                   }
                 ),

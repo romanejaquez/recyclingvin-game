@@ -25,20 +25,24 @@ class GameLoopService {
       }
 
       Utils.checkForCollision(Utils.vin1, Utils.cardboard, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.cardboardRide);
         increaseTrashCount(cardboardCount);
       }, repeat: false);
 
       Utils.checkForCollision(Utils.vin1, Utils.plasticbag, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.trash);
         increaseTrashCount(plasticBagCount);
         increaseLaserEnergyLevel(plasticBagCount);
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.waterBottle, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.trash);
         increaseTrashCount(waterBottleCount);
         increaseLaserEnergyLevel(waterBottleCount);
       });
 
       Utils.checkForCollision(Utils.vin1, Utils.sodaCan, () {
+        ref.read(audioSoundProvider).playSound(RecyclingVinSounds.trash);
         increaseTrashCount(sodaCanCount);
         increaseLaserEnergyLevel(sodaCanCount);
       });

@@ -38,10 +38,18 @@ class GamePanelsState extends ConsumerState<GamePanels> {
     final gameWon = ref.watch(gameWonProvider);
 
     if (lives == 0) {
+      ref.read(audioSoundProvider).stopBgSound();
+      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.babyCrying, loop: true);
+      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.lose);
+
       Future.microtask(() => Utils.showUIModal(context,
         dismissible: false,
         PlayerLostDialog(
           onSelection: (PlayerDialogSelection selection) {
+
+            ref.read(audioSoundProvider).playBgSound();
+            ref.read(audioSoundProvider).stopAllSounds();
+
             if (selection == PlayerDialogSelection.yes) {
               // restart game
               Navigator.of(context).pop();
@@ -59,10 +67,17 @@ class GamePanelsState extends ConsumerState<GamePanels> {
     }
 
     if (gameWon) {
+      ref.read(audioSoundProvider).stopBgSound();
+      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.win);
+
       Future.microtask(() => Utils.showUIModal(context,
         dismissible: false,
         PlayerWinDialog(
           onSelection: (PlayerDialogSelection selection) {
+
+            ref.read(audioSoundProvider).playBgSound();
+            ref.read(audioSoundProvider).stopAllSounds();
+
             if (selection == PlayerDialogSelection.yes) {
               // restart game
               Navigator.of(context).pop();

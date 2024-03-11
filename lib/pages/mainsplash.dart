@@ -42,6 +42,7 @@ class _MainSplashPageState extends ConsumerState<MainSplashPage> {
 
     final badgeStorage = ref.read(badgeStorageProvider);
     final storageInit = await badgeStorage.initLocalStorage();
+    await ref.read(audioSoundProvider).initSounds();
     
     if (storageInit) {
       splashPageTimer = Timer(2.seconds, () {

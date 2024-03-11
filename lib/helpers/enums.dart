@@ -51,3 +51,16 @@ enum YesNoButtonOptions {
   yesbtn,
   nobtn,
 }
+
+enum RecyclingVinSounds {
+  vinSound,
+  laser,
+  trash,
+  win,
+  lose,
+  cardboardRide,
+  badgeUnlock,
+  click,
+  babyCrying,
+  enemyHit,
+}

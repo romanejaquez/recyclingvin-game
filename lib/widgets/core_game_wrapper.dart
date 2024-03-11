@@ -20,6 +20,7 @@ class _CoreGameLogicState extends ConsumerState<CoreGameWrapper> {
   @override
   void initState() {
     super.initState();
+    ref.read(audioSoundProvider).playBgSound();
   }
 
   @override

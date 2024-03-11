@@ -5,11 +5,16 @@ import 'package:recyclingvin_web/models/badge_display.model.dart';
 import 'package:recyclingvin_web/repositories/badgeachievements.repository.dart';
 import 'package:recyclingvin_web/repositories/badges.repository.dart';
 import 'package:recyclingvin_web/repositories/onboardingsteps.repository.dart';
+import 'package:recyclingvin_web/services/audio_service.dart';
 import 'package:recyclingvin_web/services/badgepersistence_service.dart';
 import 'package:recyclingvin_web/services/game_loop_service.dart';
 import 'package:recyclingvin_web/viewmodels/badgedisplay.viewmodel.dart';
 import 'package:recyclingvin_web/viewmodels/badgescollected.viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final audioSoundProvider = Provider((ref) {
+  return AudioService();
+});
 
 final gameLoopProvider = Provider((ref) {
   return GameLoopService(ref);

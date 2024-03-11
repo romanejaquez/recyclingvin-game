@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/onboarding/onboarding_badge.dart';
@@ -188,6 +189,8 @@ class OnboardingPanelState extends ConsumerState<OnboardingPanel> {
                   ],
                 ),
                 onPressed: () {
+                  ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
+                  
                   if (isLastStep) {
                     controller.reverse().whenComplete(() {
                       widget.onboardingComplete();

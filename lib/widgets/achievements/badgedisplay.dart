@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_google_wallet/widget/add_to_google_wallet_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/models/badge_display.model.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 
-class BadgeDisplay extends StatelessWidget {
+class BadgeDisplay extends ConsumerWidget {
 
   final BadgeDisplayModel badgeModel;
   final Function onAddBadge;
@@ -15,7 +18,7 @@ class BadgeDisplay extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: RecyclingVinStyles.mediumPadding,
       child: SizedBox(
@@ -40,6 +43,7 @@ class BadgeDisplay extends StatelessWidget {
                   buttonType: GoogleWalletButtonType.primary,
                   locale: const Locale('en', 'US'),
                   onPress: !badgeModel.isLocked ? () {
+                    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     onAddBadge();
                   } : null
                 ),

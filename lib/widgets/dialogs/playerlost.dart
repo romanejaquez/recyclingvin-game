@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/helpers/utils.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/controls/yesno_btn.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rive/rive.dart';
 
-class PlayerLostDialog extends StatefulWidget {
+class PlayerLostDialog extends ConsumerStatefulWidget {
 
   final Function onSelection;
   const PlayerLostDialog({
@@ -16,10 +18,10 @@ class PlayerLostDialog extends StatefulWidget {
   });
 
   @override
-  State<PlayerLostDialog> createState() => _PlayerLostDialogState();
+  ConsumerState<PlayerLostDialog> createState() => _PlayerLostDialogState();
 }
 
-class _PlayerLostDialogState extends State<PlayerLostDialog> {
+class _PlayerLostDialogState extends ConsumerState<PlayerLostDialog> {
 
   late StateMachineController ctrl;
   late RiveAnimation anim;
@@ -85,6 +87,7 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
                 YesNoBtn(
                   buttonOption: YesNoButtonOptions.yesbtn, 
                   onTap: () {
+                    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     widget.onSelection(PlayerDialogSelection.yes);
                   }
                 ),
@@ -92,6 +95,7 @@ class _PlayerLostDialogState extends State<PlayerLostDialog> {
                 YesNoBtn(
                   buttonOption: YesNoButtonOptions.nobtn, 
                   onTap: () {
+                    ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                     widget.onSelection(PlayerDialogSelection.no);
                   }
                 ),

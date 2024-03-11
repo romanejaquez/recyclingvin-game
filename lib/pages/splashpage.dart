@@ -1,31 +1,36 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/pages/achievementspage.dart';
 import 'package:recyclingvin_web/pages/gamepage.dart';
+import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/backgrounds/splashbg.dart';
 import 'package:recyclingvin_web/widgets/achievements/achievements_btn.dart';
 import 'package:recyclingvin_web/widgets/controls/start_btn.dart';
 import 'package:recyclingvin_web/widgets/logos/splashlogo.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
 
   static const String route = '/splash';
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends ConsumerState<SplashPage> {
   
   Timer splashTimer = Timer(Duration.zero, () {});
 
   @override
   void initState() {
     super.initState();
+
+    ref.read(audioSoundProvider).playBgSound();
   }
 
   @override
@@ -55,6 +60,7 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                   StartButton(
                     onStart: () {
+                      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                       Navigator.of(context).pushNamed(GamePage.route);
                     },
                   ).animate(
@@ -69,6 +75,7 @@ class _SplashPageState extends State<SplashPage> {
       
                   AchievementsButton(
                     onStart: () {
+                      ref.read(audioSoundProvider).playSound(RecyclingVinSounds.click);
                       Navigator.of(context).pushNamed(AchievementsPage.route);
                     },
                   ).animate(

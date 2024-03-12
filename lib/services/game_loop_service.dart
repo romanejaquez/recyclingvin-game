@@ -107,6 +107,7 @@ class GameLoopService {
     ref.read(triggerLaserProvider.notifier).state = VinShootingOptions.none;
     ref.read(vinPositionProvider.notifier).state = null;
     ref.read(gameWonProvider.notifier).state = false;
+    ref.read(badgesInGameVMProvider.notifier).resetBadges();
   }
 
   void setGameAsWon() {

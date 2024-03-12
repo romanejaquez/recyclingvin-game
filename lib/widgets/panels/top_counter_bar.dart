@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:recyclingvin_web/helpers/enums.dart';
 import 'package:recyclingvin_web/helpers/styles.dart';
 import 'package:recyclingvin_web/providers/game_providers.dart';
 import 'package:recyclingvin_web/widgets/lists/badge_notification_list.dart';
@@ -69,6 +70,18 @@ class _TopCounterBarState extends State<TopCounterBar> {
       tablet: true,
     );
 
+    double unlockedBadgeSize = getValueForScreenType(
+      context: context, 
+      mobile: 24,
+      tablet: 40,
+    );
+
+    double unlockedBadgeOffset = getValueForScreenType(
+      context: context, 
+      mobile: -20,
+      tablet: -30,
+    );
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: trashColumnAlign,
@@ -93,8 +106,27 @@ class _TopCounterBarState extends State<TopCounterBar> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset('./assets/imgs/bar_waterbottle.svg',
-                      width: trashDim.width, height: trashDim.height, fit: BoxFit.contain,
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        SvgPicture.asset('./assets/imgs/bar_waterbottle.svg',
+                          width: trashDim.width, height: trashDim.height, fit: BoxFit.contain,
+                        ),
+                        Positioned(
+                          bottom: unlockedBadgeOffset,
+                          child: Consumer(
+                            builder: (context, ref, child) {
+                              return Visibility(
+                                visible: ref.watch(checkForUnlockedBadge(RecyclingBadgeOptions.plasticPioneer)),
+                                child: SvgPicture.asset('./assets/imgs/plasticPioneer.svg',
+                                  width: unlockedBadgeSize, height: unlockedBadgeSize, fit: BoxFit.contain,
+                                ),
+                              );
+                            }
+                          ),
+                        ),
+                      ],
                     ),
                     Consumer(
                       builder: (context, ref, child) {
@@ -105,8 +137,27 @@ class _TopCounterBarState extends State<TopCounterBar> {
                         );
                       }
                     ),
-                    SvgPicture.asset('./assets/imgs/bar_can.svg',
-                      width: trashDim.width, height: trashDim.height, fit: BoxFit.contain,
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        SvgPicture.asset('./assets/imgs/bar_can.svg',
+                          width: trashDim.width, height: trashDim.height, fit: BoxFit.contain,
+                        ),
+                        Positioned(
+                          bottom: unlockedBadgeOffset,
+                          child: Consumer(
+                            builder: (context, ref, child) {
+                              return Visibility(
+                                visible: ref.watch(checkForUnlockedBadge(RecyclingBadgeOptions.canCrusher)),
+                                child: SvgPicture.asset('./assets/imgs/canCrusher.svg',
+                                  width: unlockedBadgeSize, height: unlockedBadgeSize, fit: BoxFit.contain,
+                                ),
+                              );
+                            }
+                          ),
+                        ),
+                      ]
                     ),
                     Consumer(
                       builder: (context, ref, child) {
@@ -117,8 +168,27 @@ class _TopCounterBarState extends State<TopCounterBar> {
                         );
                       }
                     ),
-                    SvgPicture.asset('./assets/imgs/bar_bag.svg',
-                      width: trashDim.width, height: trashDim.height,  fit: BoxFit.contain,
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        SvgPicture.asset('./assets/imgs/bar_bag.svg',
+                          width: trashDim.width, height: trashDim.height,  fit: BoxFit.contain,
+                        ),
+                        Positioned(
+                          bottom: unlockedBadgeOffset,
+                          child: Consumer(
+                            builder: (context, ref, child) {
+                              return Visibility(
+                                visible: ref.watch(checkForUnlockedBadge(RecyclingBadgeOptions.bagBuster)),
+                                child: SvgPicture.asset('./assets/imgs/bagBuster.svg',
+                                  width: unlockedBadgeSize, height: unlockedBadgeSize, fit: BoxFit.contain,
+                                ),
+                              );
+                            }
+                          ),
+                        ),
+                      ]
                     ),
                     Consumer(
                       builder: (context, ref, child) {

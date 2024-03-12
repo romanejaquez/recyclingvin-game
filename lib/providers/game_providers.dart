@@ -60,6 +60,11 @@ final badgesInGameVMProvider = StateNotifierProvider<BadgeDisplayViewModel, List
   return BadgeDisplayViewModel(badges, ref);
 });
 
+final checkForUnlockedBadge = Provider.family((ref, RecyclingBadgeOptions option) {
+  var badges = ref.watch(badgesInGameVMProvider);
+  return badges.any((element) => !element.isLocked && element.badge == option);
+});
+
 final triggerLaserProvider = StateProvider.autoDispose<VinShootingOptions>((ref) => VinShootingOptions.none);
 
 final vinPositionProvider = StateProvider<double?>((ref) => null);

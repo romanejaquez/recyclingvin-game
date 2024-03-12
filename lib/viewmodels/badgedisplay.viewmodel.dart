@@ -22,6 +22,13 @@ class BadgeDisplayViewModel extends StateNotifier<List<BadgeDisplayModel>> {
     ref.read(badgesCollectedVMProvider.notifier).unlockBadge(option);
   }
 
+  void resetBadges() {
+    state = [
+      for(var badge in state)
+        badge.copyWith(isLocked: true)
+    ];
+  }
+
   void checkIfAllBadgesObtained() {
     if (state.every((element) => !element.isLocked)) {
       ref.read(gameLoopProvider).setGameAsWon();
